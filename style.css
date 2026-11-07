@@ -36,35 +36,8 @@ body {
     padding: 0 24px;
 }
 
-/* Üst Duyuru Şeridi */
 .top-announcement {
-    background: #064e3b;
-    color: #a7f3d0;
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 8px 0;
-}
-
-.announcement-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.announcement-link {
-    color: #ffffff;
-    text-decoration: underline;
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: 0.2s;
-}
-
-.announcement-link:hover {
-    color: #6ee7b7;
+    display: none !important;
 }
 
 /* Navbar */
@@ -141,7 +114,7 @@ body {
     background: var(--primary-dark);
 }
 
-/* 3 Çizgili Hamburger Butonu */
+/* Hamburger */
 .menu-toggle {
     display: flex;
     flex-direction: column;
@@ -163,7 +136,7 @@ body {
     transition: 0.3s;
 }
 
-/* Yan Menü (Açılır Çekmece) */
+/* Yan Menü */
 .mobile-menu-overlay {
     position: fixed;
     top: 0;
@@ -257,13 +230,12 @@ body {
     color: var(--primary-dark);
 }
 
-.drawer-btn-mail {
+.drawer-btn-apply {
     background: var(--primary);
     color: #fff !important;
-    margin-top: 10px;
 }
 
-.drawer-btn-mail i {
+.drawer-btn-apply i {
     color: #fff;
 }
 
@@ -320,6 +292,24 @@ body {
     flex-wrap: wrap;
 }
 
+.btn-primary {
+    background: #fff;
+    color: var(--primary-dark);
+    text-decoration: none;
+    padding: 13px 26px;
+    font-weight: 700;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    background: #f0f9ff;
+    transform: translateY(-2px);
+}
+
 .btn-whatsapp {
     background: var(--whatsapp);
     color: #ffffff;
@@ -330,28 +320,11 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-size: 1rem;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
     transition: 0.25s ease;
 }
 
 .btn-whatsapp:hover {
     background: var(--whatsapp-dark);
-    transform: translateY(-2px);
-}
-
-.btn-primary {
-    background: #fff;
-    color: var(--primary-dark);
-    text-decoration: none;
-    padding: 13px 26px;
-    font-weight: 700;
-    border-radius: 8px;
-    transition: 0.2s;
-}
-
-.btn-primary:hover {
-    background: #f0f9ff;
     transform: translateY(-2px);
 }
 
@@ -373,36 +346,76 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Stats */
-.stats-bar {
-    background: #fff;
-    border-bottom: 1px solid var(--border);
-    padding: 30px 0;
+/* Geri Sayım */
+.countdown-section {
+    margin-top: -35px;
+    position: relative;
+    z-index: 10;
 }
 
-.stats-grid {
+.countdown-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 25px 35px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     display: flex;
-    justify-content: space-around;
-    text-align: center;
+    justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
     gap: 20px;
 }
 
-.stat-item h3 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--primary);
+.badge-upcoming {
+    background: #fef3c7;
+    color: #b45309;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
 }
 
-.stat-item p {
+.countdown-info h3 {
+    margin: 8px 0 4px;
+    font-size: 1.15rem;
+}
+
+.countdown-info p {
     color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+}
+
+.timer-grid {
+    display: flex;
+    gap: 15px;
+}
+
+.timer-box {
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 65px;
+}
+
+.timer-box span {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: block;
+    line-height: 1;
+}
+
+.timer-box small {
+    font-size: 0.75rem;
+    color: var(--text-muted);
     font-weight: 600;
 }
 
 /* Bölümler */
 .section {
-    padding: 85px 24px;
+    padding: 80px 24px;
 }
 
 .bg-light {
@@ -436,24 +449,7 @@ body {
     margin-top: 6px;
 }
 
-.about-card {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 36px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-    max-width: 900px;
-    margin: 0 auto 45px;
-    text-align: center;
-}
-
-.about-card p {
-    font-size: 1.15rem;
-    color: #334155;
-    line-height: 1.8;
-}
-
-/* Faaliyet Kartları */
+/* Hızlı Gezinme */
 .feature-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -499,153 +495,140 @@ body {
     line-height: 1.6;
 }
 
-/* Etkinlik Kartları */
-.cards-grid {
+/* Kaynaklar */
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+.resource-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.resource-icon {
+    font-size: 2.5rem;
+    color: #ef4444;
+}
+
+.resource-details h4 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+.resource-details p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.btn-download:hover {
+    text-decoration: underline;
+}
+
+/* SSS Akordeon */
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faq-item {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 18px 24px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq-question i {
+    transition: transform 0.3s ease;
+    color: var(--primary);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 24px;
+    background: #fafafa;
+}
+
+.faq-answer p {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding-bottom: 18px;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    padding-top: 10px;
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+/* İletişim & Harita */
+.contact-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 30px;
 }
 
-.card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-    transition: transform 0.25s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-badge {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: #10b981;
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 20px;
-    z-index: 2;
-}
-
-.card-img-wrapper {
-    width: 100%;
-    height: 220px;
-    overflow: hidden;
-    background: #e2e8f0;
-}
-
-.card-img-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.card-body {
-    padding: 24px;
-}
-
-.card-date {
-    font-size: 0.85rem;
-    color: var(--primary);
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 10px;
-}
-
-.card-body h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    line-height: 1.4;
-    margin-bottom: 10px;
-}
-
-.card-body p {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-}
-
-/* Ekip */
-.team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-    gap: 25px;
-}
-
-.team-card {
+.contact-box {
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 30px 24px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    transition: transform 0.2s ease;
+    padding: 35px;
 }
 
-.team-card:hover {
-    transform: translateY(-4px);
+.contact-box h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
 }
 
-.team-card.primary-role {
-    border-top: 4px solid var(--primary);
-}
-
-.team-role-tag {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    background: var(--bg-light);
+.contact-box p {
     color: var(--text-muted);
-    padding: 3px 10px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
 }
 
-.team-avatar {
-    width: 68px;
-    height: 68px;
-    margin: 10px auto 16px;
-    background: var(--bg-light);
-    color: var(--primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    border: 1px dashed #cbd5e1;
-}
-
-.team-card h3 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin-bottom: 6px;
-}
-
-.team-name-placeholder {
-    display: inline-block;
-    color: var(--primary);
-    background: var(--primary-light);
-    padding: 3px 12px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-bottom: 14px;
-}
-
-.team-card p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    line-height: 1.5;
+.map-box {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 /* Footer */
