@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duyurular - DEÜ Özel Eğitim Topluluğu</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="./index.html" class="logo">
+                <img src="./logo.png" alt="Logo" class="nav-logo-img">
+                <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
+            </a>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggleNav"><i class="fa-solid fa-moon"></i></button>
+                <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header"><span class="drawer-title">MENÜ</span><button class="drawer-close" id="drawerClose">&times;</button></div>
+        <div class="drawer-links">
+            <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <a href="./duyurular.html" class="drawer-link highlight"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
+            <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
+            <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
+            <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
+            <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
+            <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
+            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
+        </div>
+    </div>
+
+    <section class="container section">
+        <div class="section-header">
+            <span class="section-subtitle">GÜNCEL BİLGİLENDİRMELER</span>
+            <h2>Topluluk Duyuruları</h2>
+            <p>Kulübümüzün resmi kararları, etkinlik çağrıları ve komisyon duyuruları.</p>
+        </div>
+
+        <div style="max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
+            <div class="feature-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span style="font-size:0.8rem; font-weight:700; color:var(--primary); background:var(--primary-light); padding:3px 10px; border-radius:12px;">YENİ</span>
+                    <span style="font-size:0.85rem; color:var(--text-muted);"><i class="fa-regular fa-clock"></i> 08 Kasım 2026</span>
+                </div>
+                <h3>Güz Dönemi Çalışma Komisyonları Başvuruları Başladı!</h3>
+                <p>Akademik Gelişim, Saha ve Sosyal Sorumluluk, Tanıtım & Medya komisyonlarımızda aktif rol almak isteyen tüm DEÜ öğrencilerinin başvuru formunu doldurmaları rica olunur.</p>
+            </div>
+
+            <div class="feature-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span style="font-size:0.8rem; font-weight:700; color:#10b981; background:rgba(16,185,129,0.15); padding:3px 10px; border-radius:12px;">ETKİNLİK</span>
+                    <span style="font-size:0.85rem; color:var(--text-muted);"><i class="fa-regular fa-clock"></i> 05 Kasım 2026</span>
+                </div>
+                <h3>20 Kasım Tanışma Toplantısı Salon Bilgisi</h3>
+                <p>Yeni dönem açılış buluşmamız Buca Eğitim Fakültesi Konferans Salonu'nda saat 14:00'te başlayacaktır. Katılım serbest ve ücretsizdir.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-bottom"><p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu.</p></div>
+    </footer>
+
+    <script>
+        const toggleBtn = document.getElementById('menuToggle');
+        const closeBtn = document.getElementById('drawerClose');
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+
+        toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
+        closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+        overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+
+        const themeBtn = document.getElementById('themeToggleNav');
+        if (localStorage.getItem('site_theme') === 'dark') {
+            document.documentElement.classList.add('dark-theme');
+            themeBtn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
+        }
+        themeBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark-theme');
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+            themeBtn.querySelector('i')?.classList.toggle('fa-sun', isDark);
+            themeBtn.querySelector('i')?.classList.toggle('fa-moon', !isDark);
+        });
+    </script>
+</body>
+</html>
