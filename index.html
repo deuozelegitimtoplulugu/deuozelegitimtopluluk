@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEÜ Özel Eğitim Öğrenci Topluluğu</title>
     
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#0284c7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DEÜ Özel Eğitim">
+
     <meta property="og:title" content="DEÜ Özel Eğitim Öğrenci Topluluğu">
     <meta property="og:description" content="Farkındalık Yaratıyor, Engelleri Birlikte Aşıyoruz. Dokuz Eylül Üniversitesi aktif öğrenci topluluğu.">
     <meta property="og:image" content="https://deuozelegitimtoplulugu.github.io/deuozelegitimtopluluk/logo.png">
@@ -31,16 +37,23 @@
                 <a href="./faaliyetler.html">Faaliyetlerimiz</a>
                 <a href="./etkinlikler.html">Etkinlikler</a>
                 <a href="./ekip.html">Ekibimiz</a>
+                <a href="./dokumanlar.html">Dökümanlar</a>
+                <a href="./sss.html">SSS</a>
                 <a href="#basvuru" class="btn-nav">
                     <i class="fa-solid fa-user-plus"></i> Aramıza Katıl
                 </a>
             </nav>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Karanlık Mod Değiştirici">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -80,8 +93,8 @@
                 <a href="#" target="_blank" class="btn-whatsapp">
                     <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı
                 </a>
-                <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Özel%20Eğitim%20Topluluğu%20İletişim" class="btn-secondary">
-                    <i class="fa-regular fa-envelope"></i> E-Posta
+                <a href="#mesaj" class="btn-secondary">
+                    <i class="fa-regular fa-envelope"></i> Mesaj Bırak
                 </a>
             </div>
         </div>
@@ -148,8 +161,8 @@
             <a href="./etkinlikler.html" style="text-decoration:none; color:inherit;">
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fa-solid fa-calendar-days"></i></div>
-                    <h3>Etkinlik Arşivi</h3>
-                    <p>Gerçekleştirdiğimiz saha atölyeleri, paneller ve etkinlik programlarımız.</p>
+                    <h3>Etkinlik Arşivi & Galeri</h3>
+                    <p>Kategori filtreli etkinliklerimiz ve fotoğraf arşivini inceleyin.</p>
                 </div>
             </a>
 
@@ -163,36 +176,74 @@
         </div>
     </section>
 
-    <!-- Başvuru & İletişim / Harita -->
-    <section id="basvuru" class="section bg-light">
+    <!-- Instagram Vitrini -->
+    <section class="section bg-light">
         <div class="container">
             <div class="section-header">
-                <span class="section-subtitle">BİZE ULAŞIN & BAŞVURUN</span>
-                <h2>Fakülte Konumu ve Katılım</h2>
-                <p>Form üzerinden başvurabilir veya Buca Eğitim Fakültesi'nde bizi ziyaret edebilirsiniz.</p>
+                <span class="section-subtitle">SOSYAL MEDYA</span>
+                <h2>Instagram'da Biz</h2>
+                <p>Topluluğumuzun son paylaşımları ve saha anları.</p>
             </div>
 
-            <div class="contact-grid">
-                <div class="contact-box">
-                    <h3>Aramıza Katılın</h3>
-                    <p>Yeni dönem projelerinde aktif rol almak ve gönüllü ağımıza dahil olmak için başvuru formunu doldurabilirsiniz.</p>
-                    <a href="https://forms.google.com" target="_blank" class="btn-primary" style="display:inline-block; margin-top:15px;">
-                        <i class="fa-solid fa-pen-to-square"></i> Başvuru Formunu Aç (Google Forms)
-                    </a>
+            <div class="insta-grid">
+                <a href="https://instagram.com" target="_blank" class="insta-item">
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600&q=80" alt="Instagram 1">
+                    <div class="insta-overlay"><i class="fa-brands fa-instagram"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="insta-item">
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80" alt="Instagram 2">
+                    <div class="insta-overlay"><i class="fa-brands fa-instagram"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="insta-item">
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80" alt="Instagram 3">
+                    <div class="insta-overlay"><i class="fa-brands fa-instagram"></i></div>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="insta-item">
+                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80" alt="Instagram 4">
+                    <div class="insta-overlay"><i class="fa-brands fa-instagram"></i></div>
+                </a>
+            </div>
+        </div>
+    </section>
 
-                    <div style="margin-top: 30px;">
-                        <h4>İletişim Bilgileri</h4>
-                        <p><i class="fa-solid fa-location-dot" style="color:var(--primary); margin-right:8px;"></i> DEÜ Buca Eğitim Fakültesi, Uğur Mumcu Cad. Buca / İzmir</p>
-                        <p><i class="fa-regular fa-envelope" style="color:var(--primary); margin-right:8px;"></i> ozelegitimtoplulukdeu@gmail.com</p>
-                    </div>
-                </div>
+    <!-- Başvuru, Sayfa İçi Mesaj Formu ve Harita -->
+    <section id="basvuru" class="container section">
+        <div class="section-header">
+            <span class="section-subtitle">İLETİŞİM & KATILIM</span>
+            <h2>Bize Ulaşın</h2>
+            <p>Gönüllü başvurusunda bulunun, doğrudan mesaj gönderin veya yerimizi haritada görün.</p>
+        </div>
+
+        <div class="contact-grid">
+            <!-- Sayfa İçi Mesaj Formu -->
+            <div class="contact-box" id="mesaj">
+                <h3>Doğrudan Mesaj Gönderin</h3>
+                <p>Sorularınız ve iş birliği talepleriniz doğrudan topluluk e-posta adresimize ulaşır.</p>
+                <form id="contactForm" style="margin-top: 20px; display: flex; flex-direction: column; gap: 14px;">
+                    <input type="text" id="senderName" placeholder="Adınız Soyadınız" required class="form-input">
+                    <input type="email" id="senderEmail" placeholder="E-Posta Adresiniz" required class="form-input">
+                    <textarea id="senderMsg" rows="4" placeholder="Mesajınız..." required class="form-input"></textarea>
+                    <button type="submit" class="btn-primary" style="justify-content: center; background: var(--primary); color: #fff; border: none; cursor: pointer;">
+                        <i class="fa-solid fa-paper-plane"></i> Mesajı İlet
+                    </button>
+                    <div id="formStatus" style="font-size: 0.9rem; font-weight: 600; display: none;"></div>
+                </form>
+            </div>
+
+            <!-- Konum & Google Form Başvuru -->
+            <div class="contact-box">
+                <h3>Resmi Üyelik & Başvuru</h3>
+                <p>Dönem içi komisyonlarda aktif rol almak için Google Forms başvuru belgemizi doldurun.</p>
+                <a href="https://forms.google.com" target="_blank" class="btn-primary" style="display:inline-flex; margin: 15px 0 25px; background: var(--primary); color: #fff;">
+                    <i class="fa-solid fa-pen-to-square"></i> Başvuru Formunu Aç (Google Forms)
+                </a>
 
                 <div class="map-box">
                     <iframe 
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3126.335345638127!2d27.17290197654763!3d38.39906667702849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bbd89ab577cf1d%3A0xe541ea150c1f5407!2sDokuz%20Eyl%C3%BCl%20%C3%9cniversitesi%20Buca%20E%C4%9Fitim%20Fak%C3%BCltesi!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str" 
                         width="100%" 
-                        height="320" 
-                        style="border:0; border-radius:12px;" 
+                        height="200" 
+                        style="border:0;" 
                         allowfullscreen="" 
                         loading="lazy">
                     </iframe>
@@ -201,6 +252,7 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer id="iletisim" class="footer">
         <div class="container footer-content">
             <div class="footer-info">
@@ -233,6 +285,7 @@
     </footer>
 
     <script>
+        // Hamburger Menü
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
         const drawer = document.getElementById('mobileDrawer');
@@ -241,6 +294,26 @@
         toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+
+        // Karanlık Mod (Dark Mode) Yönetimi
+        const themeBtn = document.getElementById('themeToggle');
+        const themeIcon = themeBtn.querySelector('i');
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            if (isDark) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
 
         // Dijital Saat Geri Sayımı
         const targetDate = new Date("Nov 20, 2026 14:00:00").getTime();
@@ -260,6 +333,26 @@
                 document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
             }
         }, 1000);
+
+        // Sayfa İçi Hızlı Mesaj Gönderimi
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('senderName').value;
+            const email = document.getElementById('senderEmail').value;
+            const msg = document.getElementById('senderMsg').value;
+            const status = document.getElementById('formStatus');
+
+            status.style.display = 'block';
+            status.style.color = '#10b981';
+            status.innerText = 'Mesajınız hazırlanıyor...';
+
+            window.location.href = `mailto:ozelegitimtoplulukdeu@gmail.com?subject=İletişim Formu: ${encodeURIComponent(name)}&body=Gönderen: ${encodeURIComponent(name)} (%0D%0AE-Posta: ${encodeURIComponent(email)})%0D%0A%0D%0AMesaj:%0D%0A${encodeURIComponent(msg)}`;
+            
+            setTimeout(() => {
+                status.innerText = 'Mesaj istemcinize aktarıldı!';
+                document.getElementById('contactForm').reset();
+            }, 1000);
+        });
     </script>
 </body>
 </html>
