@@ -300,7 +300,7 @@
         </div>
     </footer>
 
-    <!-- SAĞ ALT: DANS EDEN & EL SALLAYAN 3D "FEHİM" WIDGET -->
+    <!-- SAĞ ALT: DANS EDEN, GÖVDELİ VE KIVRIK BIYIKLI 3D "FEHİM" WIDGET -->
     <div class="chat-widget-wrapper">
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
@@ -340,33 +340,40 @@
 
         <!-- Dans Eden, Gövdeli ve El Sallayan Fehim Butonu -->
         <button class="robot-trigger-btn" id="chatBubbleBtn" aria-label="Fehim Asistanı Aç">
-            <div class="robot-shadow"></div>
+            <div class="fehim-shadow"></div>
             
-            <div class="fehim-full-figure">
-                <div class="robot-antenna">
-                    <div class="robot-antenna-light"></div>
+            <div class="fehim-character-stage">
+                <!-- Baş & Anten -->
+                <div class="fehim-antenna">
+                    <div class="fehim-antenna-light"></div>
                 </div>
                 
                 <div class="fehim-head">
-                    <div class="fehim-visor">
-                        <div class="fehim-eyes">
-                            <div class="fehim-eye"></div>
-                            <div class="fehim-eye"></div>
-                        </div>
-                        <div class="fehim-mustache">
-                            <div class="mustache-l"></div>
-                            <div class="mustache-r"></div>
-                        </div>
+                    <!-- Gözler Üstte -->
+                    <div class="fehim-eye-visor">
+                        <div class="fehim-eye-dot"></div>
+                        <div class="fehim-eye-dot"></div>
+                    </div>
+                    <!-- Bıyık Altta (Gözlerden Bağımsız) -->
+                    <div class="fehim-mustache-zone">
+                        <div class="m-wing-left"></div>
+                        <div class="m-wing-right"></div>
                     </div>
                 </div>
 
-                <div class="fehim-torso-wrapper">
-                    <div class="fehim-arm-left"></div>
-                    <div class="fehim-body">
-                        <span class="fehim-badge">FEHİM</span>
-                        <i class="fa-solid fa-heart fehim-heart-core"></i>
+                <!-- Gövde, Kollar ve Bacaklar -->
+                <div class="fehim-torso-assembly">
+                    <div class="fehim-arm-l"></div>
+                    <div class="fehim-chest-body">
+                        <span class="fehim-name-tag">FEHİM</span>
+                        <i class="fa-solid fa-heart fehim-chest-heart"></i>
                     </div>
-                    <div class="fehim-arm-right"></div>
+                    <div class="fehim-arm-r"></div>
+                    
+                    <div class="fehim-legs-row">
+                        <div class="fehim-leg"></div>
+                        <div class="fehim-leg"></div>
+                    </div>
                 </div>
             </div>
 
