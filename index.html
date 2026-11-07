@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEÜ Özel Eğitim Öğrenci Topluluğu</title>
+    
+    <meta property="og:title" content="DEÜ Özel Eğitim Öğrenci Topluluğu">
+    <meta property="og:description" content="Farkındalık Yaratıyor, Engelleri Birlikte Aşıyoruz. Dokuz Eylül Üniversitesi aktif öğrenci topluluğu.">
+    <meta property="og:image" content="https://deuozelegitimtoplulugu.github.io/deuozelegitimtopluluk/logo.png">
+    <meta property="og:url" content="https://deuozelegitimtoplulugu.github.io/deuozelegitimtopluluk/">
+    <meta property="og:type" content="website">
+
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +19,6 @@
 </head>
 <body>
 
-    <!-- Navigasyon Çubuğu -->
     <header class="navbar">
         <div class="container nav-content">
             <a href="./index.html" class="logo">
@@ -25,8 +31,10 @@
                 <a href="./faaliyetler.html">Faaliyetlerimiz</a>
                 <a href="./etkinlikler.html">Etkinlikler</a>
                 <a href="./ekip.html">Ekibimiz</a>
-                <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Özel%20Eğitim%20Topluluğu%20Başvuru%20ve%20Bilgi" class="btn-nav">
-                    <i class="fa-regular fa-envelope"></i> Bize Ulaşın
+                <a href="#kaynaklar">Kaynaklar</a>
+                <a href="#sss">SSS</a>
+                <a href="#basvuru" class="btn-nav">
+                    <i class="fa-solid fa-user-plus"></i> Aramıza Katıl
                 </a>
             </nav>
 
@@ -38,7 +46,6 @@
         </div>
     </header>
 
-    <!-- Yan Menü Çekmecesi -->
     <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-header">
@@ -51,8 +58,10 @@
             <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
             <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
             <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
-            <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Topluluk%20İletişim" class="drawer-link drawer-btn-mail">
-                <i class="fa-regular fa-envelope"></i> Bize Ulaşın
+            <a href="#kaynaklar" class="drawer-link"><i class="fa-solid fa-book"></i> Kaynaklar</a>
+            <a href="#sss" class="drawer-link"><i class="fa-solid fa-circle-question"></i> SSS</a>
+            <a href="#basvuru" class="drawer-link drawer-btn-apply">
+                <i class="fa-solid fa-user-plus"></i> Aramıza Katıl
             </a>
             <a href="#" target="_blank" class="drawer-link drawer-btn-wa">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı
@@ -60,7 +69,6 @@
         </div>
     </div>
 
-    <!-- Hero / Giriş Karşılama Alanı -->
     <section class="hero">
         <div class="container">
             <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Dokuz Eylül Üniversitesi • 1982</span>
@@ -68,10 +76,12 @@
             <p>Özel eğitim alanında bilimsel, sosyal ve gönüllülük temelli projeler üreten DEÜ'nün aktif öğrenci topluluğu platformu.</p>
             
             <div class="hero-actions">
-                <a href="#" target="_blank" class="btn-whatsapp">
-                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalına Katıl
+                <a href="#basvuru" class="btn-primary">
+                    <i class="fa-solid fa-paper-plane"></i> Gönüllü Başvurusu
                 </a>
-                <a href="./hakkimizda.html" class="btn-primary">Topluluğu Tanıyın</a>
+                <a href="#" target="_blank" class="btn-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı
+                </a>
                 <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Özel%20Eğitim%20Topluluğu%20İletişim" class="btn-secondary">
                     <i class="fa-regular fa-envelope"></i> E-Posta
                 </a>
@@ -79,12 +89,43 @@
         </div>
     </section>
 
-    <!-- Hızlı Yönlendirme Kartları -->
+    <!-- Geri Sayım Sayacı -->
+    <section class="countdown-section">
+        <div class="container">
+            <div class="countdown-card">
+                <div class="countdown-info">
+                    <span class="badge-upcoming"><i class="fa-regular fa-bell"></i> YAKLAŞAN ETKİNLİK</span>
+                    <h3>Güz Dönemi Tanışma & Çalışma Komisyonları Buluşması</h3>
+                    <p><i class="fa-regular fa-calendar"></i> Tarih: 20 Kasım 2026 | Buca Eğitim Fakültesi Konferans Salonu</p>
+                </div>
+                <div class="timer-grid">
+                    <div class="timer-box">
+                        <span id="days">00</span>
+                        <small>Gün</small>
+                    </div>
+                    <div class="timer-box">
+                        <span id="hours">00</span>
+                        <small>Saat</small>
+                    </div>
+                    <div class="timer-box">
+                        <span id="minutes">00</span>
+                        <small>Dakika</small>
+                    </div>
+                    <div class="timer-box">
+                        <span id="seconds">00</span>
+                        <small>Saniye</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hızlı Gezinme Kartları -->
     <section class="container section">
         <div class="section-header">
             <span class="section-subtitle">HIZLI ERİŞİM</span>
             <h2>Topluluğumuzu Keşfedin</h2>
-            <p>Aşağıdaki başlıklara tıklayarak ilgili detay sayfalarına doğrudan geçebilirsiniz.</p>
+            <p>Aşağıdaki başlıklara tıklayarak ilgili detay sayfalarına geçebilirsiniz.</p>
         </div>
 
         <div class="feature-grid">
@@ -122,7 +163,127 @@
         </div>
     </section>
 
-    <!-- Alt Bilgi (Footer) -->
+    <!-- Kaynaklar & Materyaller -->
+    <section id="kaynaklar" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">DÖKÜMAN VE YAYINLAR</span>
+                <h2>Özel Eğitim Kaynakları & Bültenler</h2>
+                <p>Topluluğumuz tarafından derlenen bilgilendirici materyalleri inceleyebilirsiniz.</p>
+            </div>
+
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon"><i class="fa-regular fa-file-pdf"></i></div>
+                    <div class="resource-details">
+                        <h4>Kapsayıcı Eğitim Terminoloji Rehberi</h4>
+                        <p>Özel eğitimde doğru dil kullanımı ve kapsayıcı kavramlar rehberi.</p>
+                        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> İndir (.PDF)</a>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon"><i class="fa-regular fa-newspaper"></i></div>
+                    <div class="resource-details">
+                        <h4>Topluluk Dönem Bülteni - Sayı 1</h4>
+                        <p>Dönem içi röportajlar, makale özetleri ve saha atölyesi izlenimleri.</p>
+                        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> İndir (.PDF)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sıkça Sorulan Sorular (SSS) -->
+    <section id="sss" class="container section">
+        <div class="section-header">
+            <span class="section-subtitle">MERAK EDİLENLER</span>
+            <h2>Sıkça Sorulan Sorular</h2>
+            <p>Topluluk ve etkinliklerimiz hakkında en çok gelen sorular.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Yalnızca Özel Eğitim Bölümü öğrencileri mi üye olabilir?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Hayır. Dokuz Eylül Üniversitesi bünyesindeki tüm fakülte ve bölümlerden gönüllülük esasına dayalı olarak katılım sağlayan her öğrenciye açığız.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Etkinlik ve atölyeler ücretli mi?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Topluluğumuzun gerçekleştirdiği tüm panel, atölye, seminer ve saha buluşmaları tamamen ücretsizdir.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Komisyonlarda ve yönetimde nasıl aktif görev alabilirim?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Başvuru formumuzu doldurarak ilgi duyduğunuz komisyonu (Akademik, Saha, Medya vb.) seçebilir ve dönem başı tanışma toplantılarımızda çalışma ekiplerine doğrudan dahil olabilirsiniz.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Etkinlikler ders saatleriyle çakışıyor mu?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Etkinlik takvimimiz fakülte ders programları göz önüne alınarak genellikle ders çıkış saatlerine veya hafta sonlarına planlanır.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Başvuru & İletişim / Harita -->
+    <section id="basvuru" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">BİZE ULAŞIN & BAŞVURUN</span>
+                <h2>Fakülte Konumu ve Katılım</h2>
+                <p>Form üzerinden başvurabilir veya Buca Eğitim Fakültesi'nde bizi ziyaret edebilirsiniz.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-box">
+                    <h3>Aramıza Katılın</h3>
+                    <p>Yeni dönem projelerinde aktif rol almak ve gönüllü ağımıza katılmak için başvuru formumuzu doldurun.</p>
+                    <a href="https://forms.google.com" target="_blank" class="btn-primary" style="display:inline-block; margin-top:15px;">
+                        <i class="fa-solid fa-pen-to-square"></i> Başvuru Formunu Aç (Google Forms)
+                    </a>
+
+                    <div style="margin-top: 30px;">
+                        <h4>İletişim Bilgileri</h4>
+                        <p><i class="fa-solid fa-location-dot" style="color:var(--primary); margin-right:8px;"></i> DEÜ Buca Eğitim Fakültesi, Uğur Mumcu Cad. Buca / İzmir</p>
+                        <p><i class="fa-regular fa-envelope" style="color:var(--primary); margin-right:8px;"></i> ozelegitimtoplulukdeu@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="map-box">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3126.335345638127!2d27.17290197654763!3d38.39906667702849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bbd89ab577cf1d%3A0xe541ea150c1f5407!2sDokuz%20Eyl%C3%BCl%20%C3%9cniversitesi%20Buca%20E%C4%9Fitim%20Fak%C3%BCltesi!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str" 
+                        width="100%" 
+                        height="320" 
+                        style="border:0; border-radius:12px;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer id="iletisim" class="footer">
         <div class="container footer-content">
             <div class="footer-info">
@@ -133,13 +294,16 @@
                 <p>Dokuz Eylül Üniversitesi, Buca Eğitim Fakültesi / İzmir</p>
                 <p style="margin-top: 8px;">
                     <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Topluluk%20İletişim" style="color: #38bdf8; text-decoration: none; font-weight: 600;">
-                        <i class="fa-regular fa-envelope"></i> ozelegitimtoplulukdeu@gmail.com[cite: 1]
+                        <i class="fa-regular fa-envelope"></i> ozelegitimtoplulukdeu@gmail.com
                     </a>
                 </p>
             </div>
             <div class="social-links">
                 <a href="#" target="_blank" title="WhatsApp Kanalı" style="background: #25D366; color: #fff;">
                     <i class="fa-brands fa-whatsapp"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" title="Instagram Hesabı" style="background: #E1306C; color: #fff;">
+                    <i class="fa-brands fa-instagram"></i>
                 </a>
                 <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Topluluk%20İletişim" title="Doğrudan E-Posta Gönder">
                     <i class="fa-solid fa-envelope"></i>
@@ -160,6 +324,34 @@
         toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+
+        // SSS Akordeon Fonksiyonu
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Geri Sayım Sayacı (20 Kasım 2026 Hedefi)
+        const eventDate = new Date("Nov 20, 2026 14:00:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if(distance > 0) {
+                document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+                document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+                document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+            }
+        }, 1000);
     </script>
 </body>
 </html>
