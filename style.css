@@ -52,14 +52,17 @@ body {
     color: var(--text-main);
 }
 
+/* Yuvarlak maske ve dış beyazlıkları kesen yakınlaştırma ayarı */
 .nav-logo-img {
     height: 48px;
     width: 48px;
     min-width: 48px;
     object-fit: cover;
+    object-position: center;
     border-radius: 50%;
     display: block;
-    overflow: hidden;
+    transform: scale(1.45);
+    clip-path: circle(50%);
 }
 
 .logo-text {
