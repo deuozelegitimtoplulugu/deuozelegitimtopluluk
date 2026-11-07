@@ -6,61 +6,96 @@
     <title>DEÜ Özel Eğitim Topluluğu</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
     <header class="navbar">
         <div class="container nav-content">
-            <a href="#" class="logo">DEÜ Özel Eğitim Topluluğu</a>
-            <nav>
+            <a href="#" class="logo">
+                <span class="logo-badge">DEÜ</span> Özel Eğitim Topluluğu
+            </a>
+            <nav class="nav-links">
                 <a href="#etkinlikler">Etkinlikler</a>
                 <a href="#hakkimizda">Hakkımızda</a>
-                <a href="#iletisim" class="btn-nav">Bize Katıl</a>
+                <a href="https://wa.me/" target="_blank" class="btn-nav">
+                    <i class="fa-brands fa-whatsapp"></i> Bize Katıl
+                </a>
             </nav>
         </div>
     </header>
 
     <section class="hero">
         <div class="container">
-            <h1>Birlikte Öğreniyor, Farkındalıkla Büyüyoruz</h1>
-            <p>Dokuz Eylül Üniversitesi bünyesinde özel eğitim alanında farkındalık oluşturan, saha çalışmaları ve etkinlikler yürüten öğrenci topluluğu.</p>
-            <a href="#etkinlikler" class="btn-primary">Son Etkinlikleri Gör</a>
+            <span class="hero-tag">Dokuz Eylül Üniversitesi Resmi Öğrenci Topluluğu</span>
+            <h1>Farkındalık Yaratıyor, Engelleri Birlikte Aşıyoruz</h1>
+            <p>Özel eğitim alanında bilimsel, sosyal ve gönüllülük temelli projeler üreten DEÜ'nün en aktif topluluk platformu.</p>
+            <div class="hero-actions">
+                <a href="#etkinlikler" class="btn-primary">Son Etkinlikleri İncele</a>
+                <a href="https://instagram.com" target="_blank" class="btn-secondary">
+                    <i class="fa-brands fa-instagram"></i> Instagram'da Takip Et
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-bar">
+        <div class="container stats-grid">
+            <div class="stat-item">
+                <h3>500+</h3>
+                <p>Aktif Gönüllü</p>
+            </div>
+            <div class="stat-item">
+                <h3>40+</h3>
+                <p>Tamamlanan Etkinlik</p>
+            </div>
+            <div class="stat-item">
+                <h3>15+</h3>
+                <p>Kurumsal İş Birliği</p>
+            </div>
         </div>
     </section>
 
     <section id="etkinlikler" class="container section">
         <div class="section-header">
-            <h2>Bu Hafta Neler Yaptık?</h2>
-            <p>Topluluk olarak gerçekleştirdiğimiz en güncel atölye, seminer ve saha buluşmaları.</p>
+            <span class="section-subtitle">GÜNCEL ARŞİV</span>
+            <h2>Bu Hafta ve Son Dönemde Neler Yaptık?</h2>
+            <p>Gerçekleştirdiğimiz atölyeler, panel konuşmaları ve saha ziyaretlerimiz.</p>
         </div>
 
         <div class="cards-grid">
             <article class="card">
                 <div class="card-badge">Bu Hafta</div>
-                <div class="card-img-placeholder">Etkinlik Fotoğrafı</div>
+                <div class="card-img-wrapper">
+                    <img src="etkinlik1.jpg" alt="Etkinlik 1" onerror="this.src='https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80'">
+                </div>
                 <div class="card-body">
-                    <span class="card-date">07 Kasım 2026</span>
-                    <h3>Özel Gereksinimli Bireylerle Sanat Atölyesi</h3>
-                    <p>Hafta sonu İzmir yerel merkezinde çocuklarla birlikte duyusal gelişim ve resim atölyesi düzenledik.</p>
+                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 07 Kasım 2026</span>
+                    <h3>Özel Bireylerle Duyusal Sanat Atölyesi</h3>
+                    <p>İzmir yerel uygulama merkezinde çocuklarla duyusal bütünleme ve serbest boyama atölyesi gerçekleştirdik.</p>
                 </div>
             </article>
 
             <article class="card">
-                <div class="card-img-placeholder">Etkinlik Fotoğrafı</div>
+                <div class="card-img-wrapper">
+                    <img src="etkinlik2.jpg" alt="Etkinlik 2" onerror="this.src='https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80'">
+                </div>
                 <div class="card-body">
-                    <span class="card-date">31 Ekim 2026</span>
-                    <h3>Kapsayıcı Eğitim Semineri</h3>
-                    <p>Alanında uzman akademisyenlerin katılımıyla kapsayıcı eğitim modellerini ele aldığımız panelimizi tamamladık.</p>
+                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 31 Ekim 2026</span>
+                    <h3>Kapsayıcı Eğitimde Yeni Yaklaşımlar Paneli</h3>
+                    <p>Fakültemiz öğretim üyelerinin ve uzman konuklarımızın katkılarıyla kapsayıcı sınıf yönetimini tartıştık.</p>
                 </div>
             </article>
 
             <article class="card">
-                <div class="card-img-placeholder">Etkinlik Fotoğrafı</div>
+                <div class="card-img-wrapper">
+                    <img src="etkinlik3.jpg" alt="Etkinlik 3" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80'">
+                </div>
                 <div class="card-body">
-                    <span class="card-date">24 Ekim 2026</span>
-                    <h3>Dönem Başı Tanışma Toplantısı</h3>
-                    <p>Yeni katılan gönüllü arkadaşlarımızla dönem planımızı çıkardık ve komisyonlarımızı oluşturduk.</p>
+                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 24 Ekim 2026</span>
+                    <h3>Yeni Dönem Tanışma ve Görev Dağılımı</h3>
+                    <p>Yeni katılan 80'den fazla üyemizle komisyonlarımızı belirledik ve yıllık faaliyet planımızı çizdik.</p>
                 </div>
             </article>
         </div>
@@ -68,12 +103,18 @@
 
     <footer id="iletisim" class="footer">
         <div class="container footer-content">
-            <p>© 2026 DEÜ Özel Eğitim Topluluğu. Tüm hakları saklıdır.</p>
-            <div class="social-links">
-                <a href="#">Instagram</a>
-                <a href="#">LinkedIn</a>
-                <a href="#">İletişim</a>
+            <div class="footer-info">
+                <h4>DEÜ Özel Eğitim Topluluğu</h4>
+                <p>Buca Eğitim Fakültesi, Buca / İzmir</p>
             </div>
+            <div class="social-links">
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://wa.me/" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>© 2026 Dokuz Eylül Üniversitesi Özel Eğitim Topluluğu. Tüm hakları saklıdır.</p>
         </div>
     </footer>
 
