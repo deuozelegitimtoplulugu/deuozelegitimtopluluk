@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkinlikler - DEÜ Özel Eğitim Topluluğu</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="Logo" class="nav-logo-img">
+                <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
+            </a>
+            <nav class="nav-links">
+                <a href="hakkimizda.html">Hakkımızda</a>
+                <a href="faaliyetler.html">Faaliyetlerimiz</a>
+                <a href="etkinlikler.html" style="color:var(--primary);">Etkinlikler</a>
+                <a href="ekip.html">Ekibimiz</a>
+            </nav>
+            <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header"><span class="drawer-title">MENÜ</span><button class="drawer-close" id="drawerClose">&times;</button></div>
+        <div class="drawer-links">
+            <a href="index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <a href="hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
+            <a href="faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
+            <a href="etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
+            <a href="ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
+        </div>
+    </div>
+
+    <section class="container section">
+        <div class="section-header">
+            <span class="section-subtitle">ARŞİV VE PROGRAMLAR</span>
+            <h2>Etkinliklerimiz</h2>
+        </div>
+        <div class="cards-grid">
+            <article class="card">
+                <div class="card-badge">Bu Hafta</div>
+                <div class="card-img-wrapper"><img src="etkinlik1.jpg" alt="Etkinlik 1" onerror="this.src='https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80'"></div>
+                <div class="card-body">
+                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 07 Kasım 2026</span>
+                    <h3>Özel Bireylerle Duyusal Sanat Atölyesi</h3>
+                    <p>İzmir yerel uygulama merkezinde çocuklarla duyusal bütünleme ve serbest boyama atölyesi gerçekleştirdik.</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-img-wrapper"><img src="etkinlik2.jpg" alt="Etkinlik 2" onerror="this.src='https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80'"></div>
+                <div class="card-body">
+                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 31 Ekim 2026</span>
+                    <h3>Kapsayıcı Eğitimde Yeni Yaklaşımlar Paneli</h3>
+                    <p>Fakültemiz öğretim üyelerinin ve konuklarımızın katkılarıyla kapsayıcı sınıf yönetimini tartıştık.</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-img-wrapper"><img src="etkinlik3.jpg" alt="Etkinlik 3" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80'"></div>
+                <div class="card-body">
+                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 24 Ekim 2026</span>
+                    <h3>Yeni Dönem Tanışma ve Görev Dağılımı</h3>
+                    <p>Topluluk üyelerimizle dönem planımızı çıkardık ve yeni çalışma komisyonlarımızı oluşturduk.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-bottom"><p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu.</p></div>
+    </footer>
+    <script>
+        const toggleBtn = document.getElementById('menuToggle');
+        const closeBtn = document.getElementById('drawerClose');
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+        toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
+        closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+        overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+    </script>
+</body>
+</html>
