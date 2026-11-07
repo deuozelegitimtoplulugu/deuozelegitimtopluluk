@@ -25,15 +25,14 @@
 </head>
 <body>
 
-    <!-- 1. GİRİŞ AÇILIŞ ANİMASYONU (PRELOADER) -->
+    <!-- 1. SİNEMATİK GİRİŞ AÇILIŞ EKRANI -->
     <div id="preloader">
-        <div class="preloader-logo-wrap">
-            <div class="preloader-ring"></div>
-            <img src="./logo.png" alt="DEÜ Logo" class="preloader-logo">
+        <div class="intro-stage">
+            <div class="intro-ring"></div>
+            <img src="./logo.png" alt="DEÜ Logo" class="intro-logo">
         </div>
-        <div class="preloader-text">DEÜ Özel Eğitim Topluluğu</div>
-        <div class="preloader-subtext">Farkındalık Yaratıyor, Birlikte Aşıyoruz...</div>
-        <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+        <div class="intro-text">DEÜ Özel Eğitim Topluluğu</div>
+        <div class="intro-subtext">Farkındalık Yaratıyor, Birlikte Aşıyoruz...</div>
     </div>
 
     <!-- ÜST NAVBAR -->
@@ -342,13 +341,13 @@
 
     <!-- JAVASCRIPT BETİKLERİ -->
     <script>
-        // Preloader Giriş Animasyonu Kapatma
+        // Sinematik Giriş Animasyonu Kapatma
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             setTimeout(() => {
                 preloader.classList.add('fade-out');
-                setTimeout(() => preloader.style.display = 'none', 600);
-            }, 800);
+                setTimeout(() => preloader.style.display = 'none', 700);
+            }, 2100);
         });
 
         // Hamburger Menü
@@ -369,12 +368,24 @@
             if (isDark) {
                 rootElement.classList.add('dark-theme');
                 themeToggles.forEach(btn => {
-                    if (btn) btn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
+                    if (btn) {
+                        const icon = btn.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-moon');
+                            icon.classList.add('fa-sun');
+                        }
+                    }
                 });
             } else {
                 rootElement.classList.remove('dark-theme');
                 themeToggles.forEach(btn => {
-                    if (btn) btn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
+                    if (btn) {
+                        const icon = btn.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-sun');
+                            icon.classList.add('fa-moon');
+                        }
+                    }
                 });
             }
         }
@@ -385,7 +396,8 @@
         themeToggles.forEach(btn => {
             if (btn) {
                 btn.addEventListener('click', () => {
-                    const nextDark = !rootElement.classList.contains('dark-theme');
+                    const currentlyDark = rootElement.classList.contains('dark-theme');
+                    const nextDark = !currentlyDark;
                     applyTheme(nextDark);
                     localStorage.setItem('site_theme', nextDark ? 'dark' : 'light');
                 });
