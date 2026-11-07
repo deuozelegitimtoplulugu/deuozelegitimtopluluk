@@ -45,7 +45,7 @@
             </nav>
 
             <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle" aria-label="Karanlık Mod Değiştirici">
+                <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod Değiştirici">
                     <i class="fa-solid fa-moon"></i>
                 </button>
                 <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç">
@@ -61,7 +61,12 @@
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-header">
             <span class="drawer-title">MENÜ</span>
-            <button class="drawer-close" id="drawerClose">&times;</button>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="theme-toggle" id="themeToggleDrawer" style="width: 34px; height: 34px; font-size: 1rem;">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="drawer-close" id="drawerClose">&times;</button>
+            </div>
         </div>
         <div class="drawer-links">
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
@@ -215,7 +220,6 @@
         </div>
 
         <div class="contact-grid">
-            <!-- Sayfa İçi Mesaj Formu -->
             <div class="contact-box" id="mesaj">
                 <h3>Doğrudan Mesaj Gönderin</h3>
                 <p>Sorularınız ve iş birliği talepleriniz doğrudan topluluk e-posta adresimize ulaşır.</p>
@@ -230,7 +234,6 @@
                 </form>
             </div>
 
-            <!-- Konum & Google Form Başvuru -->
             <div class="contact-box">
                 <h3>Resmi Üyelik & Başvuru</h3>
                 <p>Dönem içi komisyonlarda aktif rol almak için Google Forms başvuru belgemizi doldurun.</p>
@@ -295,23 +298,53 @@
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
 
-        // Karanlık Mod (Dark Mode) Yönetimi
-        const themeBtn = document.getElementById('themeToggle');
-        const themeIcon = themeBtn.querySelector('i');
+        // Kesin Çalışan Karanlık Mod Betiği
+        const rootElement = document.documentElement;
+        const themeToggles = [document.getElementById('themeToggleNav'), document.getElementById('themeToggleDrawer')];
 
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-theme');
-            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        function applyTheme(isDark) {
+            if (isDark) {
+                rootElement.classList.add('dark-theme');
+                themeToggles.forEach(btn => {
+                    if (btn) {
+                        const icon = btn.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-moon');
+                            icon.classList.add('fa-sun');
+                        }
+                    }
+                });
+            } else {
+                rootElement.classList.remove('dark-theme');
+                themeToggles.forEach(btn => {
+                    if (btn) {
+                        const icon = btn.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-sun');
+                            icon.classList.add('fa-moon');
+                        }
+                    }
+                });
+            }
         }
 
-        themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-theme');
-            const isDark = document.body.classList.contains('dark-theme');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            if (isDark) {
-                themeIcon.classList.replace('fa-moon', 'fa-sun');
-            } else {
-                themeIcon.classList.replace('fa-sun', 'fa-moon');
+        // Sayfa açıldığında hafızadaki temayı yükle
+        const savedTheme = localStorage.getItem('site_theme');
+        if (savedTheme === 'dark') {
+            applyTheme(true);
+        } else {
+            applyTheme(false);
+        }
+
+        // Tıklama olaylarını bağla
+        themeToggles.forEach(btn => {
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    const currentlyDark = rootElement.classList.contains('dark-theme');
+                    const nextDark = !currentlyDark;
+                    applyTheme(nextDark);
+                    localStorage.setItem('site_theme', nextDark ? 'dark' : 'light');
+                });
             }
         });
 
@@ -327,32 +360,40 @@
                 const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-                document.getElementById("days").innerText = d < 10 ? "0" + d : d;
-                document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
-                document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
-                document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
+                const elD = document.getElementById("days");
+                const elH = document.getElementById("hours");
+                const elM = document.getElementById("minutes");
+                const elS = document.getElementById("seconds");
+
+                if (elD) elD.innerText = d < 10 ? "0" + d : d;
+                if (elH) elH.innerText = h < 10 ? "0" + h : h;
+                if (elM) elM.innerText = m < 10 ? "0" + m : m;
+                if (elS) elS.innerText = s < 10 ? "0" + s : s;
             }
         }, 1000);
 
         // Sayfa İçi Hızlı Mesaj Gönderimi
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('senderName').value;
-            const email = document.getElementById('senderEmail').value;
-            const msg = document.getElementById('senderMsg').value;
-            const status = document.getElementById('formStatus');
+        const cForm = document.getElementById('contactForm');
+        if (cForm) {
+            cForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('senderName').value;
+                const email = document.getElementById('senderEmail').value;
+                const msg = document.getElementById('senderMsg').value;
+                const status = document.getElementById('formStatus');
 
-            status.style.display = 'block';
-            status.style.color = '#10b981';
-            status.innerText = 'Mesajınız hazırlanıyor...';
+                status.style.display = 'block';
+                status.style.color = '#10b981';
+                status.innerText = 'Mesajınız hazırlanıyor...';
 
-            window.location.href = `mailto:ozelegitimtoplulukdeu@gmail.com?subject=İletişim Formu: ${encodeURIComponent(name)}&body=Gönderen: ${encodeURIComponent(name)} (%0D%0AE-Posta: ${encodeURIComponent(email)})%0D%0A%0D%0AMesaj:%0D%0A${encodeURIComponent(msg)}`;
-            
-            setTimeout(() => {
-                status.innerText = 'Mesaj istemcinize aktarıldı!';
-                document.getElementById('contactForm').reset();
-            }, 1000);
-        });
+                window.location.href = `mailto:ozelegitimtoplulukdeu@gmail.com?subject=İletişim Formu: ${encodeURIComponent(name)}&body=Gönderen: ${encodeURIComponent(name)} (%0D%0AE-Posta: ${encodeURIComponent(email)})%0D%0A%0D%0AMesaj:%0D%0A${encodeURIComponent(msg)}`;
+                
+                setTimeout(() => {
+                    status.innerText = 'Mesaj istemcinize aktarıldı!';
+                    cForm.reset();
+                }, 1000);
+            });
+        }
     </script>
 </body>
 </html>
