@@ -13,6 +13,15 @@
     --border: #e2e8f0;
 }
 
+body.dark-theme {
+    --bg-main: #0b0f19;
+    --bg-light: #111827;
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #334155;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -22,6 +31,7 @@ html {
     padding: 0;
     box-sizing: border-box;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 body {
@@ -42,8 +52,7 @@ body {
 
 /* Navbar */
 .navbar {
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(10px);
+    background: var(--card-bg);
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
@@ -92,7 +101,6 @@ body {
     color: var(--text-muted);
     font-weight: 600;
     font-size: 0.95rem;
-    transition: 0.2s;
 }
 
 .nav-links a:hover {
@@ -107,11 +115,26 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: 0.2s;
 }
 
-.btn-nav:hover {
-    background: var(--primary-dark);
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.theme-toggle {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
 }
 
 /* Hamburger */
@@ -133,7 +156,6 @@ body {
     height: 3px;
     background-color: var(--text-main);
     border-radius: 3px;
-    transition: 0.3s;
 }
 
 /* Yan Menü (Drawer) */
@@ -162,7 +184,7 @@ body {
     right: -320px;
     width: 300px;
     height: 100%;
-    background: #ffffff;
+    background: var(--card-bg);
     z-index: 1100;
     box-shadow: -4px 0 25px rgba(0, 0, 0, 0.15);
     padding: 30px 24px;
@@ -188,7 +210,6 @@ body {
     font-size: 1.1rem;
     font-weight: 800;
     color: var(--primary);
-    letter-spacing: 0.05em;
 }
 
 .drawer-close {
@@ -216,18 +237,12 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: 0.2s;
     background: var(--bg-main);
 }
 
 .drawer-link i {
     width: 22px;
     color: var(--primary);
-}
-
-.drawer-link:hover {
-    background: var(--primary-light);
-    color: var(--primary-dark);
 }
 
 .drawer-btn-apply {
@@ -302,11 +317,9 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: 0.2s;
 }
 
 .btn-primary:hover {
-    background: #f0f9ff;
     transform: translateY(-2px);
 }
 
@@ -320,7 +333,6 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    transition: 0.25s ease;
 }
 
 .btn-whatsapp:hover {
@@ -339,14 +351,9 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: 0.2s;
 }
 
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-/* Tam Ortalanmış Dijital Saat Kartı */
+/* Dijital Saat Kartı */
 .countdown-center-section {
     margin-top: -50px;
     position: relative;
@@ -435,12 +442,6 @@ body {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 25px;
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.2; }
 }
 
 /* Bölümler */
@@ -479,6 +480,32 @@ body {
     margin-top: 6px;
 }
 
+/* Filtre Butonları */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-filter {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.btn-filter.active, .btn-filter:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
 /* Hızlı Gezinme */
 .feature-grid {
     display: grid;
@@ -487,12 +514,11 @@ body {
 }
 
 .feature-card {
-    background: #fff;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 30px 24px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-    transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .feature-card:hover {
@@ -513,6 +539,11 @@ body {
     margin-bottom: 20px;
 }
 
+body.dark-theme .feature-icon {
+    background: #1e3a8a;
+    color: #60a5fa;
+}
+
 .feature-card h3 {
     font-size: 1.2rem;
     font-weight: 700;
@@ -525,7 +556,153 @@ body {
     line-height: 1.6;
 }
 
-/* İletişim & Harita */
+/* Kartlar & Galeri */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+.card-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #10b981;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    z-index: 2;
+}
+
+.card-img-wrapper {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: #e2e8f0;
+    cursor: zoom-in;
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.card-img-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+.card-body {
+    padding: 24px;
+}
+
+.card-date {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.card-body h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.card-body p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* Lightbox Modal */
+.lightbox-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 85%;
+    border-radius: 8px;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Instagram Vitrini */
+.insta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.insta-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 220px;
+    display: block;
+}
+
+.insta-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.insta-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(225, 48, 108, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 2.2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.insta-item:hover .insta-overlay {
+    opacity: 1;
+}
+
+/* İletişim & Form */
 .contact-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -533,7 +710,7 @@ body {
 }
 
 .contact-box {
-    background: #fff;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 35px;
@@ -548,10 +725,25 @@ body {
     color: var(--text-muted);
 }
 
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: var(--primary);
+}
+
 .map-box {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     border-radius: 12px;
     overflow: hidden;
+    border: 1px solid var(--border);
 }
 
 /* Footer */
@@ -594,7 +786,6 @@ body {
     justify-content: center;
     font-size: 1.2rem;
     text-decoration: none;
-    transition: 0.2s;
 }
 
 .social-links a:hover {
