@@ -68,7 +68,7 @@
         </div>
     </header>
 
-    <!-- MOBİL ÇEKMECE -->
+    <!-- MOBİL VE 3 ÇİZGİ ÇEKMECESİ (DUYURULAR BÖLÜMÜ EKLENDİ) -->
     <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-header">
@@ -82,6 +82,7 @@
         </div>
         <div class="drawer-links">
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <a href="./duyurular.html" class="drawer-link highlight"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
             <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
             <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
             <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
@@ -300,7 +301,7 @@
         </div>
     </footer>
 
-    <!-- SAĞ ALT: DANS EDEN, GÖVDELİ VE KIVRIK BIYIKLI 3D "FEHİM" WIDGET -->
+    <!-- SAĞ ALT: KAŞLI, AYRIK BIYIKLI, EL SALLAYAN VE DANS EDEN 3D "FEHİM" WIDGET -->
     <div class="chat-widget-wrapper">
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
@@ -338,23 +339,29 @@
             </div>
         </div>
 
-        <!-- Dans Eden, Gövdeli ve El Sallayan Fehim Butonu -->
+        <!-- Kaşlı, Bıyıklı, Gövdeli, Dans Eden ve El Sallayan Fehim Butonu -->
         <button class="robot-trigger-btn" id="chatBubbleBtn" aria-label="Fehim Asistanı Aç">
             <div class="fehim-shadow"></div>
             
             <div class="fehim-character-stage">
-                <!-- Baş & Anten -->
+                <!-- Anten -->
                 <div class="fehim-antenna">
                     <div class="fehim-antenna-light"></div>
                 </div>
                 
+                <!-- Baş -->
                 <div class="fehim-head">
-                    <!-- Gözler Üstte -->
+                    <!-- Kaşlar -->
+                    <div class="fehim-eyebrows-row">
+                        <div class="eyebrow-l"></div>
+                        <div class="eyebrow-r"></div>
+                    </div>
+                    <!-- Gözler Vizörü -->
                     <div class="fehim-eye-visor">
                         <div class="fehim-eye-dot"></div>
                         <div class="fehim-eye-dot"></div>
                     </div>
-                    <!-- Bıyık Altta (Gözlerden Bağımsız) -->
+                    <!-- Ayrık Pala Bıyık (Gözlerin Tam Altında) -->
                     <div class="fehim-mustache-zone">
                         <div class="m-wing-left"></div>
                         <div class="m-wing-right"></div>
@@ -531,8 +538,8 @@
                 return 'Duyuruları ve sohbetleri kaçırmamak için menüdeki "WhatsApp Kanalı" linkinden resmi grubumuza dahil olabilirsiniz.';
             } else if (q.includes('iletişim') || q.includes('mail') || q.includes('nerede') || q.includes('yer')) {
                 return 'Bize her zaman <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresinden e-posta atabilir ya da Buca Eğitim Fakültesi yerleşkesinde bizi ziyaret edebilirsiniz!';
-            } else if (q.includes('fehim') || q.includes('bıyık') || q.includes('kimsin') || q.includes('adın')) {
-                return 'Ben <strong>Fehim</strong>! DEÜ Özel Eğitim Topluluğu\'nun bilgili, anlayışlı ve bıyıklı asistanıyım. Size rehberlik etmek için buradayım!';
+            } else if (q.includes('fehim') || q.includes('bıyık') || q.includes('kaş') || q.includes('kimsin') || q.includes('adın')) {
+                return 'Ben <strong>Fehim</strong>! DEÜ Özel Eğitim Topluluğu\'nun kaşlı, bıyıklı, dans eden neşeli asistanıyım. Size rehberlik etmek için buradayım!';
             } else if (q.includes('merhaba') || q.includes('selam')) {
                 return 'Selamlar! Aklınızdaki soruları bana yazabilir ya da yukarıdaki hazır butonlardan birini seçebilirsiniz.';
             } else {
