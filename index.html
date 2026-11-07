@@ -195,39 +195,45 @@
         </div>
     </section>
 
-    <!-- INSTAGRAM VİTRİNİ (YENİ FOTOĞRAFLAR EKLENDİ) -->
+    <!-- ETKİNLİK FOTOĞRAF GALERİSİ (BÜYÜTÜLEBİLİR NORMAL FOTOĞRAFLAR) -->
     <section class="section bg-light">
         <div class="container">
             <div class="section-header">
-                <span class="section-subtitle">SOSYAL MEDYA</span>
-                <h2>Instagram'da Biz</h2>
-                <p>Topluluğumuzun son paylaşımları ve saha anları.</p>
+                <span class="section-subtitle">FOTOĞRAF GALERİSİ</span>
+                <h2>Etkinliklerimizden Kareler</h2>
+                <p>Topluluğumuzun düzenlediği konferans, panel ve saha buluşmalarından anlar. (Fotoğraflara tıklayarak büyütebilirsiniz)</p>
             </div>
 
             <div class="insta-grid">
                 <!-- 1. Afiş Görseli -->
-                <a href="https://instagram.com" target="_blank" class="insta-item">
-                    <img src="./insta1.jpg" alt="DEHB Dostu Okullar Konferansı">
-                    <div class="insta-overlay"><i class="fa-brands fa-instagram"></i></div>
-                </a>
+                <div class="insta-item">
+                    <img src="./insta1.jpg" alt="DEHB Dostu Okullar Konferans Afişi" class="zoomable-img">
+                    <div class="insta-overlay zoomable-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
                 <!-- 2. DEÜ Tişörtlü Fotoğraf -->
-                <a href="https://instagram.com" target="_blank" class="insta-item">
-                    <img src="./insta2.jpg" alt="DEÜ Özel Eğitim Saha Anı">
-                    <div class="insta-overlay"><i class="fa-brands fa-instagram"></i></div>
-                </a>
+                <div class="insta-item">
+                    <img src="./insta2.jpg" alt="DEÜ Özel Eğitim Buluşması" class="zoomable-img">
+                    <div class="insta-overlay zoomable-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
                 <!-- 3. Konferans Salonu Hatıra Fotoğrafı -->
-                <a href="https://instagram.com" target="_blank" class="insta-item">
-                    <img src="./insta3.jpg" alt="Konferans Hatırası">
-                    <div class="insta-overlay"><i class="fa-brands fa-instagram"></i></div>
-                </a>
-                <!-- 4. Topluluk Görseli -->
-                <a href="https://instagram.com" target="_blank" class="insta-item">
-                    <img src="./logo.png" alt="DEÜ Özel Eğitim Amblemi" style="background:#0f172a; padding: 25px; object-fit: contain;">
-                    <div class="insta-overlay"><i class="fa-brands fa-instagram"></i></div>
-                </a>
+                <div class="insta-item">
+                    <img src="./insta3.jpg" alt="Reşat Postacıoğlu Salonu Konferans Hatırası" class="zoomable-img">
+                    <div class="insta-overlay zoomable-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
+                <!-- 4. Topluluk Amblem Görseli -->
+                <div class="insta-item">
+                    <img src="./logo.png" alt="DEÜ Özel Eğitim Topluluğu Logosu" class="zoomable-img" style="background:#0f172a; padding: 25px; object-fit: contain;">
+                    <div class="insta-overlay zoomable-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- FOTOĞRAF BÜYÜTME (LIGHTBOX) MODAL PENCERESİ -->
+    <div id="imageModal" style="display:none; position:fixed; z-index:999999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); align-items:center; justify-content:center; backdrop-filter:blur(5px);">
+        <span id="closeModal" style="position:absolute; top:20px; right:30px; color:#fff; font-size:2.5rem; font-weight:bold; cursor:pointer;">&times;</span>
+        <img id="modalImg" style="max-width:90%; max-height:85%; border-radius:12px; box-shadow:0 0 30px rgba(0,0,0,0.7); object-fit:contain;">
+    </div>
 
     <!-- İLETİŞİM, MESAJ FORMU VE HARİTA -->
     <section id="basvuru" class="container section">
@@ -343,36 +349,29 @@
             </div>
         </div>
 
-        <!-- Kaşlı, Bıyıklı, Gövdeli, Dans Eden ve El Sallayan Fehim Butonu -->
         <button class="robot-trigger-btn" id="chatBubbleBtn" aria-label="Fehim Asistanı Aç">
             <div class="fehim-shadow"></div>
             
             <div class="fehim-character-stage">
-                <!-- Anten -->
                 <div class="fehim-antenna">
                     <div class="fehim-antenna-light"></div>
                 </div>
                 
-                <!-- Baş -->
                 <div class="fehim-head">
-                    <!-- Kaşlar -->
                     <div class="fehim-eyebrows-row">
                         <div class="eyebrow-l"></div>
                         <div class="eyebrow-r"></div>
                     </div>
-                    <!-- Gözler Vizörü -->
                     <div class="fehim-eye-visor">
                         <div class="fehim-eye-dot"></div>
                         <div class="fehim-eye-dot"></div>
                     </div>
-                    <!-- Ayrık Pala Bıyık (Gözlerin Tam Altında) -->
                     <div class="fehim-mustache-zone">
                         <div class="m-wing-left"></div>
                         <div class="m-wing-right"></div>
                     </div>
                 </div>
 
-                <!-- Gövde, Kollar ve Bacaklar -->
                 <div class="fehim-torso-assembly">
                     <div class="fehim-arm-l"></div>
                     <div class="fehim-chest-body">
@@ -394,7 +393,7 @@
 
     <!-- JAVASCRIPT BETİKLERİ -->
     <script>
-        // Sinematik Giriş Animasyonu Kapatma
+        // Sinematik Giriş Animasyonu
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             setTimeout(() => {
@@ -480,6 +479,28 @@
                 if (elS) elS.innerText = s < 10 ? "0" + s : s;
             }
         }, 1000);
+
+        // Sayfa İçi Fotoğraf Büyütme (Lightbox) Mantığı
+        const imgModal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const closeModal = document.getElementById('closeModal');
+        const zoomItems = document.querySelectorAll('.insta-item');
+
+        zoomItems.forEach(item => {
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', () => {
+                const img = item.querySelector('img');
+                if (img) {
+                    modalImg.src = img.src;
+                    imgModal.style.display = 'flex';
+                }
+            });
+        });
+
+        closeModal.addEventListener('click', () => { imgModal.style.display = 'none'; });
+        imgModal.addEventListener('click', (e) => {
+            if (e.target === imgModal) imgModal.style.display = 'none';
+        });
 
         // Sayfa İçi Hızlı Mesaj
         const cForm = document.getElementById('contactForm');
