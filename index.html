@@ -14,7 +14,7 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -31,8 +31,6 @@
                 <a href="./faaliyetler.html">Faaliyetlerimiz</a>
                 <a href="./etkinlikler.html">Etkinlikler</a>
                 <a href="./ekip.html">Ekibimiz</a>
-                <a href="#kaynaklar">Kaynaklar</a>
-                <a href="#sss">SSS</a>
                 <a href="#basvuru" class="btn-nav">
                     <i class="fa-solid fa-user-plus"></i> Aramıza Katıl
                 </a>
@@ -58,8 +56,8 @@
             <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
             <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
             <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
-            <a href="#kaynaklar" class="drawer-link"><i class="fa-solid fa-book"></i> Kaynaklar</a>
-            <a href="#sss" class="drawer-link"><i class="fa-solid fa-circle-question"></i> SSS</a>
+            <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
+            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
             <a href="#basvuru" class="drawer-link drawer-btn-apply">
                 <i class="fa-solid fa-user-plus"></i> Aramıza Katıl
             </a>
@@ -89,31 +87,33 @@
         </div>
     </section>
 
-    <!-- Geri Sayım Sayacı -->
-    <section class="countdown-section">
+    <!-- Tam Ortalanmış Dijital LED Saat Formatındaki Yaklaşan Etkinlik -->
+    <section class="countdown-center-section">
         <div class="container">
-            <div class="countdown-card">
-                <div class="countdown-info">
-                    <span class="badge-upcoming"><i class="fa-regular fa-bell"></i> YAKLAŞAN ETKİNLİK</span>
-                    <h3>Güz Dönemi Tanışma & Çalışma Komisyonları Buluşması</h3>
-                    <p><i class="fa-regular fa-calendar"></i> Tarih: 20 Kasım 2026 | Buca Eğitim Fakültesi Konferans Salonu</p>
-                </div>
-                <div class="timer-grid">
-                    <div class="timer-box">
-                        <span id="days">00</span>
-                        <small>Gün</small>
+            <div class="digital-event-card">
+                <span class="badge-digital"><i class="fa-solid fa-satellite-dish fa-fade"></i> YAKLAŞAN ETKİNLİK</span>
+                <h2>Güz Dönemi Tanışma & Çalışma Komisyonları Buluşması</h2>
+                <p class="event-meta"><i class="fa-regular fa-calendar-days"></i> 20 Kasım 2026 | Buca Eğitim Fakültesi Konferans Salonu</p>
+                
+                <div class="digital-clock">
+                    <div class="clock-segment">
+                        <div class="clock-screen" id="days">00</div>
+                        <span>GÜN</span>
                     </div>
-                    <div class="timer-box">
-                        <span id="hours">00</span>
-                        <small>Saat</small>
+                    <div class="clock-divider">:</div>
+                    <div class="clock-segment">
+                        <div class="clock-screen" id="hours">00</div>
+                        <span>SAAT</span>
                     </div>
-                    <div class="timer-box">
-                        <span id="minutes">00</span>
-                        <small>Dakika</small>
+                    <div class="clock-divider">:</div>
+                    <div class="clock-segment">
+                        <div class="clock-screen" id="minutes">00</div>
+                        <span>DAKİKA</span>
                     </div>
-                    <div class="timer-box">
-                        <span id="seconds">00</span>
-                        <small>Saniye</small>
+                    <div class="clock-divider">:</div>
+                    <div class="clock-segment">
+                        <div class="clock-screen" id="seconds">00</div>
+                        <span>SANİYE</span>
                     </div>
                 </div>
             </div>
@@ -125,7 +125,7 @@
         <div class="section-header">
             <span class="section-subtitle">HIZLI ERİŞİM</span>
             <h2>Topluluğumuzu Keşfedin</h2>
-            <p>Aşağıdaki başlıklara tıklayarak ilgili detay sayfalarına geçebilirsiniz.</p>
+            <p>Aşağıdaki başlıklara tıklayarak ilgili detay sayfalarına doğrudan geçebilirsiniz.</p>
         </div>
 
         <div class="feature-grid">
@@ -133,7 +133,7 @@
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fa-solid fa-circle-info"></i></div>
                     <h3>Hakkımızda & Misyon</h3>
-                    <p>Kuruluş amacımız, vizyonumuz ve toplumsal kapsayıcılık hedeflerimiz hakkında detaylı bilgi alın.</p>
+                    <p>Kuruluş amacımız, vizyonumuz ve toplumsal kapsayıcılık hedeflerimiz hakkında bilgi alın.</p>
                 </div>
             </a>
 
@@ -149,7 +149,7 @@
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fa-solid fa-calendar-days"></i></div>
                     <h3>Etkinlik Arşivi</h3>
-                    <p>Gerçekleştirdiğimiz saha atölyeleri, paneller ve yaklaşan etkinlik takvimimiz.</p>
+                    <p>Gerçekleştirdiğimiz saha atölyeleri, paneller ve etkinlik programlarımız.</p>
                 </div>
             </a>
 
@@ -160,88 +160,6 @@
                     <p>Yönetim kurulumuz, komisyon koordinatörlükleri ve çalışma ekiplerimiz.</p>
                 </div>
             </a>
-        </div>
-    </section>
-
-    <!-- Kaynaklar & Materyaller -->
-    <section id="kaynaklar" class="section bg-light">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">DÖKÜMAN VE YAYINLAR</span>
-                <h2>Özel Eğitim Kaynakları & Bültenler</h2>
-                <p>Topluluğumuz tarafından derlenen bilgilendirici materyalleri inceleyebilirsiniz.</p>
-            </div>
-
-            <div class="resources-grid">
-                <div class="resource-card">
-                    <div class="resource-icon"><i class="fa-regular fa-file-pdf"></i></div>
-                    <div class="resource-details">
-                        <h4>Kapsayıcı Eğitim Terminoloji Rehberi</h4>
-                        <p>Özel eğitimde doğru dil kullanımı ve kapsayıcı kavramlar rehberi.</p>
-                        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> İndir (.PDF)</a>
-                    </div>
-                </div>
-
-                <div class="resource-card">
-                    <div class="resource-icon"><i class="fa-regular fa-newspaper"></i></div>
-                    <div class="resource-details">
-                        <h4>Topluluk Dönem Bülteni - Sayı 1</h4>
-                        <p>Dönem içi röportajlar, makale özetleri ve saha atölyesi izlenimleri.</p>
-                        <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> İndir (.PDF)</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sıkça Sorulan Sorular (SSS) -->
-    <section id="sss" class="container section">
-        <div class="section-header">
-            <span class="section-subtitle">MERAK EDİLENLER</span>
-            <h2>Sıkça Sorulan Sorular</h2>
-            <p>Topluluk ve etkinliklerimiz hakkında en çok gelen sorular.</p>
-        </div>
-
-        <div class="faq-container">
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>Yalnızca Özel Eğitim Bölümü öğrencileri mi üye olabilir?</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer">
-                    <p>Hayır. Dokuz Eylül Üniversitesi bünyesindeki tüm fakülte ve bölümlerden gönüllülük esasına dayalı olarak katılım sağlayan her öğrenciye açığız.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>Etkinlik ve atölyeler ücretli mi?</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer">
-                    <p>Topluluğumuzun gerçekleştirdiği tüm panel, atölye, seminer ve saha buluşmaları tamamen ücretsizdir.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>Komisyonlarda ve yönetimde nasıl aktif görev alabilirim?</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer">
-                    <p>Başvuru formumuzu doldurarak ilgi duyduğunuz komisyonu (Akademik, Saha, Medya vb.) seçebilir ve dönem başı tanışma toplantılarımızda çalışma ekiplerine doğrudan dahil olabilirsiniz.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question">
-                    <span>Etkinlikler ders saatleriyle çakışıyor mu?</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer">
-                    <p>Etkinlik takvimimiz fakülte ders programları göz önüne alınarak genellikle ders çıkış saatlerine veya hafta sonlarına planlanır.</p>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -257,7 +175,7 @@
             <div class="contact-grid">
                 <div class="contact-box">
                     <h3>Aramıza Katılın</h3>
-                    <p>Yeni dönem projelerinde aktif rol almak ve gönüllü ağımıza katılmak için başvuru formumuzu doldurun.</p>
+                    <p>Yeni dönem projelerinde aktif rol almak ve gönüllü ağımıza dahil olmak için başvuru formunu doldurabilirsiniz.</p>
                     <a href="https://forms.google.com" target="_blank" class="btn-primary" style="display:inline-block; margin-top:15px;">
                         <i class="fa-solid fa-pen-to-square"></i> Başvuru Formunu Aç (Google Forms)
                     </a>
@@ -283,7 +201,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer id="iletisim" class="footer">
         <div class="container footer-content">
             <div class="footer-info">
@@ -325,31 +242,22 @@
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
 
-        // SSS Akordeon Fonksiyonu
-        const faqQuestions = document.querySelectorAll('.faq-question');
-        faqQuestions.forEach(q => {
-            q.addEventListener('click', () => {
-                const item = q.parentElement;
-                item.classList.toggle('active');
-            });
-        });
-
-        // Geri Sayım Sayacı (20 Kasım 2026 Hedefi)
-        const eventDate = new Date("Nov 20, 2026 14:00:00").getTime();
+        // Dijital Saat Geri Sayımı
+        const targetDate = new Date("Nov 20, 2026 14:00:00").getTime();
         setInterval(function() {
             const now = new Date().getTime();
-            const distance = eventDate - now;
+            const diff = targetDate - now;
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            if (diff > 0) {
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-            if(distance > 0) {
-                document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-                document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-                document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-                document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+                document.getElementById("days").innerText = d < 10 ? "0" + d : d;
+                document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
+                document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
+                document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
             }
         }, 1000);
     </script>
