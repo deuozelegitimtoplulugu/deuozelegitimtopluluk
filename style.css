@@ -771,17 +771,18 @@ html.dark-theme .feature-icon {
     color: #64748b;
 }
 
-/* 2. DANS EDEN, EL SALLAYAN VE NET AYRILMIŞ BIYIKLI FEHİM */
+/* 2. DANS EDEN, EL SALLAYAN VE TAM GÖVDELİ 3D "FEHİM" */
 .chat-widget-wrapper {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: 20px;
+    right: 20px;
     z-index: 9999;
 }
 
+/* Fehim'in Ana Taşıyıcı Butonu */
 .robot-trigger-btn {
-    width: 95px;
-    height: 110px;
+    width: 100px;
+    height: 125px;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -791,133 +792,126 @@ html.dark-theme .feature-icon {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    overflow: visible;
 }
 
-/* Ritmik Dans ve Yaylanma */
-.fehim-full-figure {
+/* Ritmik Dans ve Kalçadan Sallanma Animasyonu */
+.fehim-character-stage {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    animation: fehimDance 2.6s ease-in-out infinite;
+    animation: fehimDance 2.4s ease-in-out infinite;
     transform-origin: bottom center;
 }
 
 @keyframes fehimDance {
     0%, 100% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(0px) rotate(0deg);
     }
     25% {
-        transform: translateY(-8px) rotate(-4deg);
+        transform: translateY(-10px) rotate(-6deg);
     }
     50% {
-        transform: translateY(-2px) rotate(0deg);
+        transform: translateY(-3px) rotate(0deg);
     }
     75% {
-        transform: translateY(-8px) rotate(4deg);
+        transform: translateY(-10px) rotate(6deg);
     }
 }
 
-.robot-shadow {
+/* Taban Süzülme Gölgesi */
+.fehim-shadow {
     position: absolute;
     bottom: 0px;
-    width: 48px;
-    height: 8px;
-    background: rgba(0, 0, 0, 0.3);
+    width: 50px;
+    height: 9px;
+    background: rgba(0, 0, 0, 0.35);
     border-radius: 50%;
     filter: blur(2px);
-    animation: shadowPulse 2.6s ease-in-out infinite;
+    animation: shadowScale 2.4s ease-in-out infinite;
 }
 
-@keyframes shadowPulse {
-    0%, 50%, 100% { transform: scale(1); opacity: 0.35; }
-    25%, 75% { transform: scale(0.7); opacity: 0.15; }
+@keyframes shadowScale {
+    0%, 50%, 100% { transform: scale(1); opacity: 0.4; }
+    25%, 75% { transform: scale(0.65); opacity: 0.15; }
 }
 
 /* Anten */
-.robot-antenna {
+.fehim-antenna {
     width: 4px;
-    height: 10px;
+    height: 11px;
     background: #94a3b8;
     position: relative;
     margin-bottom: -1px;
 }
 
-.robot-antenna-light {
+.fehim-antenna-light {
     position: absolute;
-    top: -7px;
+    top: -8px;
     left: -4px;
     width: 12px;
     height: 12px;
     border-radius: 50%;
     background: #38bdf8;
     box-shadow: 0 0 10px #38bdf8, 0 0 18px #0284c7;
-    animation: beacon 1.4s infinite alternate;
+    animation: antennaGlow 1.3s infinite alternate;
 }
 
-@keyframes beacon {
-    from { opacity: 0.5; transform: scale(0.85); }
+@keyframes antennaGlow {
+    from { opacity: 0.4; transform: scale(0.85); }
     to { opacity: 1; transform: scale(1.15); }
 }
 
-/* Kafa */
+/* Kafa (Göz ve Bıyığı Birbirinden Tamamen Ayıran Mimari) */
 .fehim-head {
-    width: 62px;
+    width: 64px;
     height: 52px;
     background: linear-gradient(145deg, #ffffff 0%, #cbd5e1 100%);
     border-radius: 20px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), inset -2px -2px 5px rgba(0, 0, 0, 0.1), inset 2px 2px 5px rgba(255, 255, 255, 0.95);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22), inset -2px -2px 5px rgba(0, 0, 0, 0.1), inset 2px 2px 5px rgba(255, 255, 255, 0.95);
     border: 2px solid #0284c7;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     position: relative;
-    z-index: 3;
+    padding-top: 5px;
+    z-index: 4;
 }
 
+/* Yan Kulaklıklar */
 .fehim-head::before, .fehim-head::after {
     content: '';
     position: absolute;
-    top: 15px;
-    width: 5px;
-    height: 15px;
+    top: 14px;
+    width: 6px;
+    height: 16px;
     background: #0284c7;
     border-radius: 3px;
 }
-.fehim-head::before { left: -6px; }
-.fehim-head::after { right: -6px; }
+.fehim-head::before { left: -7px; }
+.fehim-head::after { right: -7px; }
 
-/* Genişletilmiş ve Ayrılmış Vizör */
-.fehim-visor {
+/* Gözlerin Bulunduğu Üst Vizör Alanı */
+.fehim-eye-visor {
     width: 48px;
-    height: 38px;
+    height: 24px;
     background: #090d16;
-    border-radius: 12px;
+    border-radius: 10px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 6px 4px 4px;
-    border: 1px solid rgba(56, 189, 248, 0.5);
-    box-shadow: inset 0 0 8px rgba(2, 132, 199, 0.9);
-    position: relative;
-    overflow: hidden;
-}
-
-/* Gözler En Üstte */
-.fehim-eyes {
-    display: flex;
+    justify-content: center;
     gap: 10px;
-    margin-top: 1px;
+    border: 1px solid rgba(56, 189, 248, 0.6);
+    box-shadow: inset 0 0 8px rgba(2, 132, 199, 0.9);
 }
 
-.fehim-eye {
-    width: 7px;
-    height: 9px;
+.fehim-eye-dot {
+    width: 8px;
+    height: 10px;
     background: #38bdf8;
-    border-radius: 50%;
-    box-shadow: 0 0 7px #38bdf8;
+    border-radius: 4px;
+    box-shadow: 0 0 8px #38bdf8;
     animation: eyeBlink 3.8s infinite ease-in-out;
 }
 
@@ -926,113 +920,133 @@ html.dark-theme .feature-icon {
     96% { transform: scaleY(0.1); }
 }
 
-/* Bıyık En Altta ve Gözden Bağımsız */
-.fehim-mustache {
+/* Gözlerden Tamamen Bağımsız, Alt Çene Bölgesindeki Kıvrık Bıyık */
+.fehim-mustache-zone {
     display: flex;
-    gap: 2px;
-    margin-bottom: 2px;
-}
-
-.mustache-l, .mustache-r {
-    width: 12px;
-    height: 5px;
-    background: #38bdf8;
-    box-shadow: 0 0 5px #38bdf8;
-}
-
-.mustache-l {
-    border-radius: 10px 2px 8px 0;
-    transform: rotate(8deg);
-}
-
-.mustache-r {
-    border-radius: 2px 10px 0 8px;
-    transform: rotate(-8deg);
-}
-
-/* Gövde ve Kollar */
-.fehim-torso-wrapper {
-    position: relative;
-    width: 66px;
-    display: flex;
+    align-items: center;
     justify-content: center;
+    gap: 2px;
+    margin-top: 3px;
+}
+
+.m-wing-left, .m-wing-right {
+    width: 14px;
+    height: 6px;
+    background: #0284c7;
+    box-shadow: 0 0 5px rgba(2, 132, 199, 0.8);
+}
+
+.m-wing-left {
+    border-radius: 12px 2px 10px 0;
+    transform: rotate(12deg);
+}
+
+.m-wing-right {
+    border-radius: 2px 12px 0 10px;
+    transform: rotate(-12deg);
+}
+
+/* Gövde, Kollar ve Bacaklar */
+.fehim-torso-assembly {
+    position: relative;
+    width: 74px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: -3px;
     z-index: 2;
 }
 
-.fehim-body {
-    width: 38px;
-    height: 29px;
-    background: linear-gradient(145deg, #f8fafc 0%, #cbd5e1 100%);
+.fehim-chest-body {
+    width: 42px;
+    height: 32px;
+    background: linear-gradient(145deg, #ffffff 0%, #cbd5e1 100%);
     border: 2px solid #0284c7;
-    border-radius: 10px 10px 16px 16px;
+    border-radius: 8px 8px 16px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 3px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    position: relative;
 }
 
-.fehim-badge {
-    font-size: 0.48rem;
+.fehim-name-tag {
+    font-size: 0.52rem;
     font-weight: 800;
     color: #ffffff;
     background: #0284c7;
-    padding: 1px 4px;
+    padding: 1px 5px;
     border-radius: 4px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     line-height: 1.1;
 }
 
-.fehim-heart-core {
-    font-size: 0.52rem;
+.fehim-chest-heart {
+    font-size: 0.6rem;
     color: #ef4444;
     margin-top: 2px;
-    animation: corePulse 1.2s infinite ease-in-out;
+    animation: heartBeat 1.2s infinite ease-in-out;
 }
 
-@keyframes corePulse {
+@keyframes heartBeat {
     0%, 100% { transform: scale(0.9); }
-    50% { transform: scale(1.2); }
+    50% { transform: scale(1.25); }
 }
 
 /* Sol Kol */
-.fehim-arm-left {
+.fehim-arm-l {
     position: absolute;
     left: 4px;
-    top: 4px;
-    width: 8px;
-    height: 18px;
+    top: 3px;
+    width: 9px;
+    height: 20px;
     background: #94a3b8;
-    border-radius: 6px;
-    transform: rotate(18deg);
+    border: 1px solid #64748b;
+    border-radius: 5px;
+    transform: rotate(20deg);
 }
 
-/* Sağ Kol (El Sallama) */
-.fehim-arm-right {
+/* Sağ Kol (EL SALLAMA ANİMASYONU) */
+.fehim-arm-r {
     position: absolute;
     right: 3px;
     top: 2px;
-    width: 8px;
-    height: 20px;
+    width: 9px;
+    height: 22px;
     background: #0284c7;
-    border-radius: 6px;
+    border: 1px solid #0369a1;
+    border-radius: 5px;
     transform-origin: top center;
-    animation: waveArm 1.8s ease-in-out infinite;
+    animation: waveHandAction 1.6s ease-in-out infinite;
 }
 
-@keyframes waveArm {
-    0%, 100% { transform: rotate(-25deg); }
-    20% { transform: rotate(-120deg); }
+@keyframes waveHandAction {
+    0%, 100% { transform: rotate(-20deg); }
+    20% { transform: rotate(-125deg); }
     35% { transform: rotate(-85deg); }
-    50% { transform: rotate(-120deg); }
+    50% { transform: rotate(-125deg); }
     65% { transform: rotate(-85deg); }
-    80% { transform: rotate(-120deg); }
+    80% { transform: rotate(-125deg); }
+}
+
+/* Alt Bacaklar / Süzülme İtici Tabanı */
+.fehim-legs-row {
+    display: flex;
+    gap: 8px;
+    margin-top: -2px;
+}
+
+.fehim-leg {
+    width: 7px;
+    height: 10px;
+    background: #0284c7;
+    border-radius: 0 0 4px 4px;
 }
 
 .chat-badge {
     position: absolute;
-    top: 0px;
+    top: 2px;
     right: 4px;
     background: #ef4444;
     color: #fff;
@@ -1048,7 +1062,7 @@ html.dark-theme .feature-icon {
 /* Sohbet Penceresi */
 .chat-window {
     position: absolute;
-    bottom: 115px;
+    bottom: 130px;
     right: 0;
     width: 360px;
     height: 520px;
@@ -1115,7 +1129,7 @@ html.dark-theme .feature-icon {
 .chat-avatar-mustache {
     display: flex;
     gap: 1px;
-    margin-top: 2px;
+    margin-top: 3px;
 }
 
 .chat-avatar-mustache span {
