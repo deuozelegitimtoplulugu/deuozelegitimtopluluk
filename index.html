@@ -25,6 +25,18 @@
 </head>
 <body>
 
+    <!-- 1. GİRİŞ AÇILIŞ ANİMASYONU (PRELOADER) -->
+    <div id="preloader">
+        <div class="preloader-logo-wrap">
+            <div class="preloader-ring"></div>
+            <img src="./logo.png" alt="DEÜ Logo" class="preloader-logo">
+        </div>
+        <div class="preloader-text">DEÜ Özel Eğitim Topluluğu</div>
+        <div class="preloader-subtext">Farkındalık Yaratıyor, Birlikte Aşıyoruz...</div>
+        <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+    </div>
+
+    <!-- ÜST NAVBAR -->
     <header class="navbar">
         <div class="container nav-content">
             <a href="./index.html" class="logo">
@@ -57,6 +69,7 @@
         </div>
     </header>
 
+    <!-- MOBİL ÇEKMECE -->
     <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-header">
@@ -85,6 +98,7 @@
         </div>
     </div>
 
+    <!-- HERO KARŞILAMA -->
     <section class="hero">
         <div class="container">
             <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Dokuz Eylül Üniversitesi • 1982</span>
@@ -105,7 +119,7 @@
         </div>
     </section>
 
-    <!-- Tam Ortalanmış Dijital LED Saat Formatındaki Yaklaşan Etkinlik -->
+    <!-- ORTALANMIŞ DİJİTAL SAAT -->
     <section class="countdown-center-section">
         <div class="container">
             <div class="digital-event-card">
@@ -138,7 +152,7 @@
         </div>
     </section>
 
-    <!-- Hızlı Gezinme Kartları -->
+    <!-- HIZLI GEZİNME -->
     <section class="container section">
         <div class="section-header">
             <span class="section-subtitle">HIZLI ERİŞİM</span>
@@ -181,7 +195,7 @@
         </div>
     </section>
 
-    <!-- Instagram Vitrini -->
+    <!-- INSTAGRAM VİTRİNİ -->
     <section class="section bg-light">
         <div class="container">
             <div class="section-header">
@@ -211,7 +225,7 @@
         </div>
     </section>
 
-    <!-- Başvuru, Sayfa İçi Mesaj Formu ve Harita -->
+    <!-- İLETİŞİM, MESAJ FORMU VE HARİTA -->
     <section id="basvuru" class="container section">
         <div class="section-header">
             <span class="section-subtitle">İLETİŞİM & KATILIM</span>
@@ -255,7 +269,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer id="iletisim" class="footer">
         <div class="container footer-content">
             <div class="footer-info">
@@ -287,7 +301,56 @@
         </div>
     </footer>
 
+    <!-- 2. SAĞ ALT ÖZEL EĞİTİM ASİSTANI BOTU -->
+    <div class="chat-widget-wrapper">
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar">
+                        <i class="fa-solid fa-robot"></i>
+                        <div class="chat-online-dot"></div>
+                    </div>
+                    <div>
+                        <h4>Özel Eğitim Asistanı</h4>
+                        <span>Çevrimiçi • Yanıt vermeye hazır</span>
+                    </div>
+                </div>
+                <button class="chat-close-btn" id="chatCloseBtn">&times;</button>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="chat-msg bot">
+                    Merhaba! DEÜ Özel Eğitim Öğrenci Topluluğu'na hoş geldin. Sana nasıl yardımcı olabilirim?
+                    <div class="chat-quick-replies">
+                        <button class="quick-btn" onclick="sendQuickReply('Topluluğa nasıl katılırım?')">Nasıl Katılırım?</button>
+                        <button class="quick-btn" onclick="sendQuickReply('Sıradaki etkinlik ne zaman?')">Etkinlik Ne Zaman?</button>
+                        <button class="quick-btn" onclick="sendQuickReply('Başka bölümden katılabilir miyim?')">Farklı Bölüm</button>
+                        <button class="quick-btn" onclick="sendQuickReply('WhatsApp grubuna nasıl girerim?')">WhatsApp Linki</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Bir soru yazın...">
+                <button id="chatSendBtn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <button class="chat-bubble-btn" id="chatBubbleBtn" aria-label="Asistanı Aç">
+            <i class="fa-solid fa-comments"></i>
+            <span class="chat-badge">1</span>
+        </button>
+    </div>
+
+    <!-- JAVASCRIPT BETİKLERİ -->
     <script>
+        // Preloader Giriş Animasyonu Kapatma
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('fade-out');
+                setTimeout(() => preloader.style.display = 'none', 600);
+            }, 800);
+        });
+
         // Hamburger Menü
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
@@ -298,7 +361,7 @@
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
 
-        // Kesin Çalışan Karanlık Mod Betiği
+        // Karanlık Mod
         const rootElement = document.documentElement;
         const themeToggles = [document.getElementById('themeToggleNav'), document.getElementById('themeToggleDrawer')];
 
@@ -306,42 +369,23 @@
             if (isDark) {
                 rootElement.classList.add('dark-theme');
                 themeToggles.forEach(btn => {
-                    if (btn) {
-                        const icon = btn.querySelector('i');
-                        if (icon) {
-                            icon.classList.remove('fa-moon');
-                            icon.classList.add('fa-sun');
-                        }
-                    }
+                    if (btn) btn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
                 });
             } else {
                 rootElement.classList.remove('dark-theme');
                 themeToggles.forEach(btn => {
-                    if (btn) {
-                        const icon = btn.querySelector('i');
-                        if (icon) {
-                            icon.classList.remove('fa-sun');
-                            icon.classList.add('fa-moon');
-                        }
-                    }
+                    if (btn) btn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
                 });
             }
         }
 
-        // Sayfa açıldığında hafızadaki temayı yükle
         const savedTheme = localStorage.getItem('site_theme');
-        if (savedTheme === 'dark') {
-            applyTheme(true);
-        } else {
-            applyTheme(false);
-        }
+        applyTheme(savedTheme === 'dark');
 
-        // Tıklama olaylarını bağla
         themeToggles.forEach(btn => {
             if (btn) {
                 btn.addEventListener('click', () => {
-                    const currentlyDark = rootElement.classList.contains('dark-theme');
-                    const nextDark = !currentlyDark;
+                    const nextDark = !rootElement.classList.contains('dark-theme');
                     applyTheme(nextDark);
                     localStorage.setItem('site_theme', nextDark ? 'dark' : 'light');
                 });
@@ -372,7 +416,7 @@
             }
         }, 1000);
 
-        // Sayfa İçi Hızlı Mesaj Gönderimi
+        // Sayfa İçi Hızlı Mesaj
         const cForm = document.getElementById('contactForm');
         if (cForm) {
             cForm.addEventListener('submit', function(e) {
@@ -394,6 +438,76 @@
                 }, 1000);
             });
         }
+
+        // ASİSTAN BOTU MANTIĞI
+        const chatBubbleBtn = document.getElementById('chatBubbleBtn');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatCloseBtn = document.getElementById('chatCloseBtn');
+        const chatBody = document.getElementById('chatBody');
+        const chatInput = document.getElementById('chatInput');
+        const chatSendBtn = document.getElementById('chatSendBtn');
+
+        chatBubbleBtn.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+            const badge = chatBubbleBtn.querySelector('.chat-badge');
+            if (badge) badge.style.display = 'none';
+        });
+
+        chatCloseBtn.addEventListener('click', () => {
+            chatWindow.classList.remove('open');
+        });
+
+        function appendMessage(sender, text) {
+            const div = document.createElement('div');
+            div.className = `chat-msg ${sender}`;
+            div.innerHTML = text;
+            chatBody.appendChild(div);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function getBotResponse(input) {
+            const q = input.toLowerCase();
+            if (q.includes('katıl') || q.includes('başvuru') || q.includes('üye')) {
+                return 'Topluluğumuza katılmak için ana sayfamızdaki "Aramıza Katıl" butonuna tıklayarak veya <a href="https://forms.google.com" target="_blank" style="color:var(--primary); font-weight:700;">Google Form Başvuru Formu</a> üzerinden kaydını oluşturabilirsin!';
+            } else if (q.includes('etkinlik') || q.includes('ne zaman') || q.includes('tarih')) {
+                return 'Bir sonraki büyük buluşmamız: <strong>20 Kasım 2026</strong> tarihinde Buca Eğitim Fakültesi Konferans Salonu\'nda gerçekleşecek Tanışma & Komisyon Toplantısıdır!';
+            } else if (q.includes('farklı') || q.includes('bölüm') || q.includes('özel eğitim değilim')) {
+                return 'Kesinlikle evet! Dokuz Eylül Üniversitesi bünyesindeki tüm fakülte ve bölümlerden gönüllü öğrencilere açığız.';
+            } else if (q.includes('whatsapp') || q.includes('grup') || q.includes('kanal')) {
+                return 'Güncel duyurular ve anlık paylaşımlar için üst menüdeki veya sağdaki menüden WhatsApp linkimize tıklayarak aramıza katılabilirsin!';
+            } else if (q.includes('iletişim') || q.includes('mail') || q.includes('nerede')) {
+                return 'Bize her zaman <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresinden yazabilir ya da Buca Eğitim Fakültesi yerleşkesinde bizi bulabilirsin.';
+            } else if (q.includes('merhaba') || q.includes('selam')) {
+                return 'Merhaba! Sorunu yazabilir veya yukarıdaki butonlardan birine basarak hemen yanıt alabilirsin.';
+            } else {
+                return 'Bu konuda detaylı bilgi almak için iletişim formumuzdan bize yazabilir ya da doğrudan <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresine e-posta atabilirsin!';
+            }
+        }
+
+        function handleSend() {
+            const val = chatInput.value.trim();
+            if (!val) return;
+            appendMessage('user', val);
+            chatInput.value = '';
+
+            setTimeout(() => {
+                const response = getBotResponse(val);
+                appendMessage('bot', response);
+            }, 500);
+        }
+
+        chatSendBtn.addEventListener('click', handleSend);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+
+        window.sendQuickReply = function(text) {
+            appendMessage('user', text);
+            setTimeout(() => {
+                const response = getBotResponse(text);
+                appendMessage('bot', response);
+            }, 500);
+        };
     </script>
 </body>
 </html>
