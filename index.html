@@ -25,7 +25,7 @@
 </head>
 <body>
 
-    <!-- 1. SİNEMATİK GİRİŞ AÇILIŞ EKRANI -->
+    <!-- SİNEMATİK GİRİŞ AÇILIŞ EKRANI -->
     <div id="preloader">
         <div class="intro-stage">
             <div class="intro-ring"></div>
@@ -300,25 +300,30 @@
         </div>
     </footer>
 
-    <!-- 2. SAĞ ALT ÖZEL EĞİTİM ASİSTANI BOTU -->
+    <!-- SAĞ ALT: BIYIKLI 3D ROBOT "FEHİM" WIDGET -->
     <div class="chat-widget-wrapper">
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
                 <div class="chat-header-info">
-                    <div class="chat-avatar">
-                        <i class="fa-solid fa-robot"></i>
+                    <div class="chat-avatar-mini">
+                        <div class="chat-avatar-eyes">
+                            <span></span><span></span>
+                        </div>
+                        <div class="chat-avatar-mustache">
+                            <span></span><span></span>
+                        </div>
                         <div class="chat-online-dot"></div>
                     </div>
                     <div>
-                        <h4>Özel Eğitim Asistanı</h4>
-                        <span>Çevrimiçi • Yanıt vermeye hazır</span>
+                        <h4>Fehim</h4>
+                        <span>Özel Eğitim Asistanı • Çevrimiçi</span>
                     </div>
                 </div>
                 <button class="chat-close-btn" id="chatCloseBtn">&times;</button>
             </div>
             <div class="chat-body" id="chatBody">
                 <div class="chat-msg bot">
-                    Merhaba! DEÜ Özel Eğitim Öğrenci Topluluğu'na hoş geldin. Sana nasıl yardımcı olabilirim?
+                    👋 Merhaba! Ben <strong>Fehim</strong>. DEÜ Özel Eğitim Topluluğu hakkında merak ettiğin her şeyi bana sorabilirsin. Sana nasıl yardımcı olayım?[cite: 1]
                     <div class="chat-quick-replies">
                         <button class="quick-btn" onclick="sendQuickReply('Topluluğa nasıl katılırım?')">Nasıl Katılırım?</button>
                         <button class="quick-btn" onclick="sendQuickReply('Sıradaki etkinlik ne zaman?')">Etkinlik Ne Zaman?</button>
@@ -328,13 +333,32 @@
                 </div>
             </div>
             <div class="chat-footer">
-                <input type="text" id="chatInput" class="chat-input" placeholder="Bir soru yazın...">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Fehim'e bir soru sor...">
                 <button id="chatSendBtn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
 
-        <button class="chat-bubble-btn" id="chatBubbleBtn" aria-label="Asistanı Aç">
-            <i class="fa-solid fa-comments"></i>
+        <!-- 3D Havada Süzülen Bıyıklı Fehim Düğmesi -->
+        <button class="robot-trigger-btn" id="chatBubbleBtn" aria-label="Fehim Asistanı Aç">
+            <div class="robot-shadow"></div>
+            <div class="robot-body-3d">
+                <div class="robot-antenna">
+                    <div class="robot-antenna-light"></div>
+                </div>
+                <div class="robot-head">
+                    <div class="robot-visor">
+                        <div class="robot-eyes-row">
+                            <div class="robot-eye"></div>
+                            <div class="robot-eye"></div>
+                        </div>
+                        <!-- Bıyık Katmanı -->
+                        <div class="robot-mustache">
+                            <div class="mustache-left"></div>
+                            <div class="mustache-right"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <span class="chat-badge">1</span>
         </button>
     </div>
@@ -451,7 +475,7 @@
             });
         }
 
-        // ASİSTAN BOTU MANTIĞI
+        // FEHİM ROBOT ASİSTAN MANTIĞI
         const chatBubbleBtn = document.getElementById('chatBubbleBtn');
         const chatWindow = document.getElementById('chatWindow');
         const chatCloseBtn = document.getElementById('chatCloseBtn');
@@ -480,19 +504,21 @@
         function getBotResponse(input) {
             const q = input.toLowerCase();
             if (q.includes('katıl') || q.includes('başvuru') || q.includes('üye')) {
-                return 'Topluluğumuza katılmak için ana sayfamızdaki "Aramıza Katıl" butonuna tıklayarak veya <a href="https://forms.google.com" target="_blank" style="color:var(--primary); font-weight:700;">Google Form Başvuru Formu</a> üzerinden kaydını oluşturabilirsin!';
+                return 'Topluluğumuza katılmak çok kolay! Sayfamızdaki "Aramıza Katıl" butonuna tıklayabilir veya <a href="https://forms.google.com" target="_blank" style="color:var(--primary); font-weight:700;">Google Form Başvuru Formu</a> üzerinden kaydını bırakabilirsin.';
             } else if (q.includes('etkinlik') || q.includes('ne zaman') || q.includes('tarih')) {
-                return 'Bir sonraki büyük buluşmamız: <strong>20 Kasım 2026</strong> tarihinde Buca Eğitim Fakültesi Konferans Salonu\'nda gerçekleşecek Tanışma & Komisyon Toplantısıdır!';
+                return 'Yaklaşan büyük buluşmamız: <strong>20 Kasım 2026</strong> tarihinde Buca Eğitim Fakültesi Konferans Salonu\'ndaki Tanışma & Çalışma Komisyonları Buluşmasıdır!';
             } else if (q.includes('farklı') || q.includes('bölüm') || q.includes('özel eğitim değilim')) {
-                return 'Kesinlikle evet! Dokuz Eylül Üniversitesi bünyesindeki tüm fakülte ve bölümlerden gönüllü öğrencilere açığız.';
+                return 'Elbette katılabilirsin! Dokuz Eylül Üniversitesi bünyesindeki tüm fakülte ve bölümlerden gönüllü arkadaşlara kapımız sonuna kadar açık.';
             } else if (q.includes('whatsapp') || q.includes('grup') || q.includes('kanal')) {
-                return 'Güncel duyurular ve anlık paylaşımlar için üst menüdeki veya sağdaki menüden WhatsApp linkimize tıklayarak aramıza katılabilirsin!';
-            } else if (q.includes('iletişim') || q.includes('mail') || q.includes('nerede')) {
-                return 'Bize her zaman <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresinden yazabilir ya da Buca Eğitim Fakültesi yerleşkesinde bizi bulabilirsin.';
+                return 'Duyuruları ve sohbetleri kaçırmamak için menüdeki "WhatsApp Kanalı" linkinden resmi grubumuza dahil olabilirsin.';
+            } else if (q.includes('iletişim') || q.includes('mail') || q.includes('nerede') || q.includes('yer')) {
+                return 'Bize her zaman <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresinden e-posta atabilir ya da Buca Eğitim Fakültesi yerleşkesinde bizi ziyaret edebilirsin!';
+            } else if (q.includes('fehim') || q.includes('bıyık') || q.includes('kimsin') || q.includes('adın')) {
+                return 'Ben <strong>Fehim</strong>![cite: 1] DEÜ Özel Eğitim Topluluğu\'nun bilgili, anlayışlı ve bıyıklı asistanıyım. Sana rehberlik etmek için buradayım!';
             } else if (q.includes('merhaba') || q.includes('selam')) {
-                return 'Merhaba! Sorunu yazabilir veya yukarıdaki butonlardan birine basarak hemen yanıt alabilirsin.';
+                return 'Selamlar! Aklındaki soruları bana yazabilir ya da yukarıdaki hazır butonlardan birini seçebilirsin.';
             } else {
-                return 'Bu konuda detaylı bilgi almak için iletişim formumuzdan bize yazabilir ya da doğrudan <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresine e-posta atabilirsin!';
+                return 'Bu konuda detaylı bilgi almak istersen ana sayfadaki mesaj formundan yazabilir veya <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresimize iletebilirsin!';
             }
         }
 
@@ -505,7 +531,7 @@
             setTimeout(() => {
                 const response = getBotResponse(val);
                 appendMessage('bot', response);
-            }, 500);
+            }, 450);
         }
 
         chatSendBtn.addEventListener('click', handleSend);
@@ -518,7 +544,7 @@
             setTimeout(() => {
                 const response = getBotResponse(text);
                 appendMessage('bot', response);
-            }, 500);
+            }, 450);
         };
     </script>
 </body>
