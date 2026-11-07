@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEÜ Özel Eğitim Öğrenci Topluluğu</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230284c7'/><text y='65' x='50' text-anchor='middle' font-size='38' fill='white' font-family='sans-serif' font-weight='bold'>DEÜ</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,6 +12,15 @@
 </head>
 <body>
 
+    <!-- Üst WhatsApp Bilgilendirme Şeridi -->
+    <div class="top-announcement">
+        <div class="container announcement-content">
+            <span><i class="fa-brands fa-whatsapp"></i> Güncel duyurular ve etkinlikler için WhatsApp kanalımıza katılın!</span>
+            <a href="#" target="_blank" class="announcement-link">Kanala Katıl <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <!-- Navigasyon Çubuğu -->
     <header class="navbar">
         <div class="container nav-content">
             <a href="#" class="logo">
@@ -19,8 +28,10 @@
                 <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
             </a>
             <nav class="nav-links">
-                <a href="#etkinlikler">Etkinlikler</a>
                 <a href="#hakkimizda">Hakkımızda</a>
+                <a href="#faaliyetler">Faaliyetlerimiz</a>
+                <a href="#etkinlikler">Etkinlikler</a>
+                <a href="#ekip">Ekibimiz</a>
                 <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Özel%20Eğitim%20Topluluğu%20Başvuru%20ve%20Bilgi&body=Merhaba,%0D%0A%0D%0ATopluluğunuza%20katılmak%20ve%20etkinlikleriniz%20hakkında%20bilgi%20almak%20istiyorum.%0D%0A%0D%0AAd-Soyad:%0D%0ABölüm:%0D%0ATelefon:" class="btn-nav">
                     <i class="fa-regular fa-envelope"></i> Bize Ulaşın
                 </a>
@@ -28,20 +39,26 @@
         </div>
     </header>
 
+    <!-- Hero / Giriş Karşılama Alanı -->
     <section class="hero">
         <div class="container">
-            <span class="hero-tag">Dokuz Eylül Üniversitesi • 1982</span>
+            <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Dokuz Eylül Üniversitesi • 1982</span>
             <h1>Farkındalık Yaratıyor, Engelleri Birlikte Aşıyoruz</h1>
-            <p>Özel eğitim alanında bilimsel, sosyal ve gönüllülük temelli projeler üreten DEÜ'nün aktif topluluk platformu.</p>
+            <p>Özel eğitim alanında bilimsel, sosyal ve gönüllülük temelli projeler üreten DEÜ'nün aktif öğrenci topluluğu platformu.</p>
+            
             <div class="hero-actions">
-                <a href="#etkinlikler" class="btn-primary">Son Etkinlikleri İncele</a>
+                <a href="#" target="_blank" class="btn-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalına Katıl
+                </a>
+                <a href="#hakkimizda" class="btn-primary">Amacımızı Keşfet</a>
                 <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Özel%20Eğitim%20Topluluğu%20İletişim&body=Merhaba,%0D%0A%0D%0ABir%20sorum%20veya%20iş%20birliği%20talebi%20için%20yazıyorum.%0D%0A%0D%0A" class="btn-secondary">
-                    <i class="fa-regular fa-envelope"></i> E-Posta Gönder
+                    <i class="fa-regular fa-envelope"></i> E-Posta
                 </a>
             </div>
         </div>
     </section>
 
+    <!-- İstatistik Şeridi -->
     <section class="stats-bar">
         <div class="container stats-grid">
             <div class="stat-item">
@@ -56,53 +73,171 @@
                 <h3>İzmir</h3>
                 <p>Saha Çalışmaları</p>
             </div>
+            <div class="stat-item">
+                <h3>RAM & STK</h3>
+                <p>Kurumsal İş Birlikleri</p>
+            </div>
         </div>
     </section>
 
-    <section id="etkinlikler" class="container section">
+    <!-- Hakkımızda / Topluluğun Amacı Bölümü -->
+    <section id="hakkimizda" class="container section">
         <div class="section-header">
-            <span class="section-subtitle">GÜNCEL ARŞİV</span>
-            <h2>Bu Hafta ve Son Dönemde Neler Yaptık?</h2>
-            <p>Gerçekleştirdiğimiz atölyeler, panel konuşmaları ve saha ziyaretlerimiz.</p>
+            <span class="section-subtitle">MİSYONUMUZ</span>
+            <h2>Topluluğumuzun Amacı</h2>
+            <p>Kapsayıcı, eşitlikçi ve bilimsel bir geleceği birlikte inşa ediyoruz.</p>
         </div>
 
-        <div class="cards-grid">
-            <article class="card">
-                <div class="card-badge">Bu Hafta</div>
-                <div class="card-img-wrapper">
-                    <img src="etkinlik1.jpg" alt="Etkinlik 1" onerror="this.src='https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80'">
-                </div>
-                <div class="card-body">
-                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 07 Kasım 2026</span>
-                    <h3>Özel Bireylerle Duyusal Sanat Atölyesi</h3>
-                    <p>İzmir yerel uygulama merkezinde çocuklarla duyusal bütünleme ve serbest boyama atölyesi gerçekleştirdik.</p>
-                </div>
-            </article>
+        <div class="about-card" style="background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); max-width: 900px; margin: 0 auto 50px; text-align: center;">
+            <p style="font-size: 1.18rem; color: #334155; line-height: 1.8; font-weight: 500;">
+                Özel eğitim alanında öğrenim gören geleceğin eğitimcilerini bir araya getirerek <strong>mesleki bilgi ve uygulama becerilerini geliştirmeyi</strong> hedefliyoruz. Bireysel farklılıklara yönelik toplumsal bilinci güçlendirmek, <strong>özel gereksinimli bireyler ve ailelerine doğrudan dokunan sosyal sorumluluk projeleri</strong> üretmek ve üniversitemizde <strong>kapsayıcı ve eşitlikçi bir kampüs kültürünün</strong> yaygınlaşmasına öncülük ediyoruz.
+            </p>
+        </div>
 
-            <article class="card">
-                <div class="card-img-wrapper">
-                    <img src="etkinlik2.jpg" alt="Etkinlik 2" onerror="this.src='https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80'">
-                </div>
-                <div class="card-body">
-                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 31 Ekim 2026</span>
-                    <h3>Kapsayıcı Eğitimde Yeni Yaklaşımlar Paneli</h3>
-                    <p>Fakültemiz öğretim üyelerinin ve uzman konuklarımızın katkılarıyla kapsayıcı sınıf yönetimini tartıştık.</p>
-                </div>
-            </article>
-
-            <article class="card">
-                <div class="card-img-wrapper">
-                    <img src="etkinlik3.jpg" alt="Etkinlik 3" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80'">
-                </div>
-                <div class="card-body">
-                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 24 Ekim 2026</span>
-                    <h3>Yeni Dönem Tanışma ve Görev Dağılımı</h3>
-                    <p>Topluluk üyelerimizle dönem planımızı çıkardık ve yeni çalışma komisyonlarımızı oluşturduk.</p>
-                </div>
-            </article>
+        <!-- Faaliyetler (4 Ana Başlık) -->
+        <div id="faaliyetler" class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                <h3>Farkındalık & Kampanya</h3>
+                <p>Toplumsal bilinci artırmak adına kampüs genelinde kampanyalar, farkındalık buluşmaları ve tematik söyleşiler düzenliyoruz.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                <h3>Mesleki Gelişim</h3>
+                <p>Öğrencilerimizin alandaki yetkinliğini artırmak için interaktif atölyeler, uygulamalı eğitimler ve uzman seminerleri organize ediyoruz.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                <h3>RAM, STK & Saha</h3>
+                <p>Rehberlik Araştırma Merkezleri (RAM), özel eğitim kurumları ve sivil toplum kuruluşlarıyla sahada gönüllülük projeleri yürütüyoruz.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+                <h3>Akademi & Kongre</h3>
+                <p>Alanında yetkin akademisyenlerle buluşmalar organize ediyor, ulusal kongre ve panel katılımlarıyla bilimsel vizyonumuzu genişletiyoruz.</p>
+            </div>
         </div>
     </section>
 
+    <!-- Etkinlikler Bölümü -->
+    <section id="etkinlikler" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">GÜNCEL ARŞİV</span>
+                <h2>Bu Hafta ve Son Dönemde Neler Yaptık?</h2>
+                <p>Gerçekleştirdiğimiz atölyeler, panel konuşmaları ve saha ziyaretlerimiz.</p>
+            </div>
+
+            <div class="cards-grid">
+                <article class="card">
+                    <div class="card-badge">Bu Hafta</div>
+                    <div class="card-img-wrapper">
+                        <img src="etkinlik1.jpg" alt="Etkinlik 1" onerror="this.src='https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <div class="card-body">
+                        <span class="card-date"><i class="fa-regular fa-calendar"></i> 07 Kasım 2026</span>
+                        <h3>Özel Bireylerle Duyusal Sanat Atölyesi</h3>
+                        <p>İzmir yerel uygulama merkezinde çocuklarla duyusal bütünleme ve serbest boyama atölyesi gerçekleştirdik.</p>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-img-wrapper">
+                        <img src="etkinlik2.jpg" alt="Etkinlik 2" onerror="this.src='https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <div class="card-body">
+                        <span class="card-date"><i class="fa-regular fa-calendar"></i> 31 Ekim 2026</span>
+                        <h3>Kapsayıcı Eğitimde Yeni Yaklaşımlar Paneli</h3>
+                        <p>Fakültemiz öğretim üyelerinin ve uzman konuklarımızın katkılarıyla kapsayıcı sınıf yönetimini tartıştık.</p>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-img-wrapper">
+                        <img src="etkinlik3.jpg" alt="Etkinlik 3" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80'">
+                    </div>
+                    <div class="card-body">
+                        <span class="card-date"><i class="fa-regular fa-calendar"></i> 24 Ekim 2026</span>
+                        <h3>Yeni Dönem Tanışma ve Görev Dağılımı</h3>
+                        <p>Topluluk üyelerimizle dönem planımızı çıkardık ve yeni çalışma komisyonlarımızı oluşturduk.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ekip ve İş Bölümleri -->
+    <section id="ekip" class="container section">
+        <div class="section-header">
+            <span class="section-subtitle">YÖNETİM VE ÇALIŞMA KOORDİNASYONU</span>
+            <h2>Topluluk Ekibi & İş Bölümleri</h2>
+            <p>2026 - 2027 Dönemi yönetim kurulu ve komisyon koordinatörlükleri.</p>
+        </div>
+
+        <div class="team-grid">
+            <div class="team-card primary-role">
+                <div class="team-role-tag">Genel Yönetim</div>
+                <div class="team-avatar">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <h3>Topluluk Başkanı</h3>
+                <div class="team-name-placeholder">— Belirleniyor —</div>
+                <p>Topluluğun genel işleyişi, üniversite yönetimi ile ilişkiler ve resmi koordinasyon.</p>
+            </div>
+
+            <div class="team-card">
+                <div class="team-role-tag">Yönetim Kurulu</div>
+                <div class="team-avatar">
+                    <i class="fa-solid fa-user-check"></i>
+                </div>
+                <h3>Başkan Yardımcısı</h3>
+                <div class="team-name-placeholder">— Belirleniyor —</div>
+                <p>İç operasyonlar, komisyonlar arası iletişim ve etkinlik takvim takibi.</p>
+            </div>
+
+            <div class="team-card">
+                <div class="team-role-tag">Komisyon</div>
+                <div class="team-avatar">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                </div>
+                <h3>Akademik Faaliyetler Sorumlusu</h3>
+                <div class="team-name-placeholder">— Belirleniyor —</div>
+                <p>Seminerler, paneller, bilimsel makale incelemeleri ve eğitim içerikleri organizasyonu.</p>
+            </div>
+
+            <div class="team-card">
+                <div class="team-role-tag">Komisyon</div>
+                <div class="team-avatar">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                </div>
+                <h3>Saha & Gönüllülük Sorumlusu</h3>
+                <div class="team-name-placeholder">— Belirleniyor —</div>
+                <p>Rehabilitasyon merkezleri, uygulama okulları ve saha atölyeleri planlaması.</p>
+            </div>
+
+            <div class="team-card">
+                <div class="team-role-tag">Komisyon</div>
+                <div class="team-avatar">
+                    <i class="fa-solid fa-photo-film"></i>
+                </div>
+                <h3>Medya & İletişim Sorumlusu</h3>
+                <div class="team-name-placeholder">— Belirleniyor —</div>
+                <p>Sosyal medya içerikleri, afiş ve tanıtım materyalleri tasarımı ile basılı işler.</p>
+            </div>
+
+            <div class="team-card">
+                <div class="team-role-tag">Yönetim</div>
+                <div class="team-avatar">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </div>
+                <h3>Genel Sekreter / Üye İşleri</h3>
+                <div class="team-name-placeholder">— Belirleniyor —</div>
+                <p>Üye kayıtları, yoklama, WhatsApp kanalı yönetimi ve toplantı tutanakları.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alt Bilgi (Footer) -->
     <footer id="iletisim" class="footer">
         <div class="container footer-content">
             <div class="footer-info">
@@ -113,11 +248,14 @@
                 <p>Dokuz Eylül Üniversitesi, Buca Eğitim Fakültesi / İzmir</p>
                 <p style="margin-top: 8px;">
                     <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Topluluk%20İletişim" style="color: #38bdf8; text-decoration: none; font-weight: 600;">
-                        <i class="fa-regular fa-envelope"></i> ozelegitimtoplulukdeu@gmail.com
+                        <i class="fa-regular fa-envelope"></i> ozelegitimtoplulukdeu@gmail.com[cite: 1]
                     </a>
                 </p>
             </div>
             <div class="social-links">
+                <a href="#" target="_blank" title="WhatsApp Kanalı" style="background: #25D366; color: #fff;">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
                 <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Topluluk%20İletişim" title="Doğrudan E-Posta Gönder">
                     <i class="fa-solid fa-envelope"></i>
                 </a>
