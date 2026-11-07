@@ -300,7 +300,7 @@
         </div>
     </footer>
 
-    <!-- SAĞ ALT: BIYIKLI 3D ROBOT "FEHİM" WIDGET -->
+    <!-- SAĞ ALT: DANS EDEN & EL SALLAYAN 3D "FEHİM" WIDGET -->
     <div class="chat-widget-wrapper">
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
@@ -323,7 +323,7 @@
             </div>
             <div class="chat-body" id="chatBody">
                 <div class="chat-msg bot">
-                    👋 Merhaba! Ben <strong>Fehim</strong>. DEÜ Özel Eğitim Topluluğu hakkında merak ettiğin her şeyi bana sorabilirsin. Sana nasıl yardımcı olayım?[cite: 1]
+                    Merhaba! Ben <strong>Fehim</strong>. DEÜ Özel Eğitim Topluluğu hakkında merak ettiğin her şeyi bana sorabilirsin. Sana nasıl yardımcı olabilirim?[cite: 1]
                     <div class="chat-quick-replies">
                         <button class="quick-btn" onclick="sendQuickReply('Topluluğa nasıl katılırım?')">Nasıl Katılırım?</button>
                         <button class="quick-btn" onclick="sendQuickReply('Sıradaki etkinlik ne zaman?')">Etkinlik Ne Zaman?</button>
@@ -338,27 +338,38 @@
             </div>
         </div>
 
-        <!-- 3D Havada Süzülen Bıyıklı Fehim Düğmesi -->
+        <!-- Dans Eden, Gövdeli ve El Sallayan Fehim Butonu -->
         <button class="robot-trigger-btn" id="chatBubbleBtn" aria-label="Fehim Asistanı Aç">
             <div class="robot-shadow"></div>
-            <div class="robot-body-3d">
+            
+            <div class="fehim-full-figure">
                 <div class="robot-antenna">
                     <div class="robot-antenna-light"></div>
                 </div>
-                <div class="robot-head">
-                    <div class="robot-visor">
-                        <div class="robot-eyes-row">
-                            <div class="robot-eye"></div>
-                            <div class="robot-eye"></div>
+                
+                <div class="fehim-head">
+                    <div class="fehim-visor">
+                        <div class="fehim-eyes">
+                            <div class="fehim-eye"></div>
+                            <div class="fehim-eye"></div>
                         </div>
-                        <!-- Bıyık Katmanı -->
-                        <div class="robot-mustache">
-                            <div class="mustache-left"></div>
-                            <div class="mustache-right"></div>
+                        <div class="fehim-mustache">
+                            <div class="mustache-l"></div>
+                            <div class="mustache-r"></div>
                         </div>
                     </div>
                 </div>
+
+                <div class="fehim-torso-wrapper">
+                    <div class="fehim-arm-left"></div>
+                    <div class="fehim-body">
+                        <span class="fehim-badge">FEHİM</span>
+                        <i class="fa-solid fa-heart fehim-heart-core"></i>
+                    </div>
+                    <div class="fehim-arm-right"></div>
+                </div>
             </div>
+
             <span class="chat-badge">1</span>
         </button>
     </div>
@@ -504,21 +515,21 @@
         function getBotResponse(input) {
             const q = input.toLowerCase();
             if (q.includes('katıl') || q.includes('başvuru') || q.includes('üye')) {
-                return 'Topluluğumuza katılmak çok kolay! Sayfamızdaki "Aramıza Katıl" butonuna tıklayabilir veya <a href="https://forms.google.com" target="_blank" style="color:var(--primary); font-weight:700;">Google Form Başvuru Formu</a> üzerinden kaydını bırakabilirsin.';
+                return 'Topluluğumuza katılmak çok kolay! Sayfamızdaki "Aramıza Katıl" butonuna tıklayabilir veya <a href="https://forms.google.com" target="_blank" style="color:var(--primary); font-weight:700;">Google Form Başvuru Formu</a> üzerinden kaydınızı bırakabilirsiniz.';
             } else if (q.includes('etkinlik') || q.includes('ne zaman') || q.includes('tarih')) {
                 return 'Yaklaşan büyük buluşmamız: <strong>20 Kasım 2026</strong> tarihinde Buca Eğitim Fakültesi Konferans Salonu\'ndaki Tanışma & Çalışma Komisyonları Buluşmasıdır!';
             } else if (q.includes('farklı') || q.includes('bölüm') || q.includes('özel eğitim değilim')) {
-                return 'Elbette katılabilirsin! Dokuz Eylül Üniversitesi bünyesindeki tüm fakülte ve bölümlerden gönüllü arkadaşlara kapımız sonuna kadar açık.';
+                return 'Elbette katılabilirsiniz! Dokuz Eylül Üniversitesi bünyesindeki tüm fakülte ve bölümlerden gönüllü arkadaşlara kapımız sonuna kadar açık.';
             } else if (q.includes('whatsapp') || q.includes('grup') || q.includes('kanal')) {
-                return 'Duyuruları ve sohbetleri kaçırmamak için menüdeki "WhatsApp Kanalı" linkinden resmi grubumuza dahil olabilirsin.';
+                return 'Duyuruları ve sohbetleri kaçırmamak için menüdeki "WhatsApp Kanalı" linkinden resmi grubumuza dahil olabilirsiniz.';
             } else if (q.includes('iletişim') || q.includes('mail') || q.includes('nerede') || q.includes('yer')) {
-                return 'Bize her zaman <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresinden e-posta atabilir ya da Buca Eğitim Fakültesi yerleşkesinde bizi ziyaret edebilirsin!';
+                return 'Bize her zaman <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresinden e-posta atabilir ya da Buca Eğitim Fakültesi yerleşkesinde bizi ziyaret edebilirsiniz!';
             } else if (q.includes('fehim') || q.includes('bıyık') || q.includes('kimsin') || q.includes('adın')) {
-                return 'Ben <strong>Fehim</strong>![cite: 1] DEÜ Özel Eğitim Topluluğu\'nun bilgili, anlayışlı ve bıyıklı asistanıyım. Sana rehberlik etmek için buradayım!';
+                return 'Ben <strong>Fehim</strong>! DEÜ Özel Eğitim Topluluğu\'nun bilgili, anlayışlı ve bıyıklı asistanıyım. Size rehberlik etmek için buradayım!';
             } else if (q.includes('merhaba') || q.includes('selam')) {
-                return 'Selamlar! Aklındaki soruları bana yazabilir ya da yukarıdaki hazır butonlardan birini seçebilirsin.';
+                return 'Selamlar! Aklınızdaki soruları bana yazabilir ya da yukarıdaki hazır butonlardan birini seçebilirsiniz.';
             } else {
-                return 'Bu konuda detaylı bilgi almak istersen ana sayfadaki mesaj formundan yazabilir veya <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresimize iletebilirsin!';
+                return 'Bu konuda detaylı bilgi almak isterseniz ana sayfadaki mesaj formundan yazabilir veya <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresimize iletebilirsiniz!';
             }
         }
 
