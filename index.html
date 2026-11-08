@@ -44,24 +44,21 @@
             </a>
 
             <div class="nav-actions">
-                <!-- 1. Giriş Yapılmadığında Gözüken Düğme: Tıklanınca Ayrı Sekmede Açar -->
-                <a href="./giris.html" target="_blank" class="nav-auth-btn" id="navAuthBtn">
+                <!-- target="_blank" kaldırıldı; aynı sekmede açılır -->
+                <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     <span>Giriş / Üye Ol</span>
                 </a>
 
-                <!-- 2. Giriş Yapıldığında Gözüken Yuvarlak Kişi/Fotoğraf Alanı -->
+                <!-- Giriş Yapılınca Beliren Yuvarlak Profil Butonu -->
                 <button class="user-avatar-btn" id="userAvatarBtn" onclick="openProfileSettings()" title="Profil Ayarları">
                     <i class="fa-solid fa-user" id="navAvatarIcon"></i>
                     <img id="navAvatarImg" style="display:none;" alt="Profil">
                 </button>
 
-                <!-- Ay/Güneş Modu -->
                 <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod Değiştirici">
                     <i class="fa-solid fa-moon"></i>
                 </button>
-
-                <!-- Belirgin ve Çerçeveli 3 Çizgi Menü Butonu -->
                 <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç">
                     <span></span>
                     <span></span>
@@ -71,7 +68,7 @@
         </div>
     </header>
 
-    <!-- SAĞDAKİ 3 ÇİZGİ ÇEKMECESİ -->
+    <!-- SAĞDAKİ 3 ÇİZGİ MENÜSÜ -->
     <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-header">
@@ -79,10 +76,10 @@
             <button class="drawer-close" id="drawerClose">&times;</button>
         </div>
 
-        <!-- 3 Çizgi Menüsü İçindeki Profil Kartı -->
+        <!-- 3 Çizgi Menüsü İçindeki Kişisel Profil Kartı -->
         <div class="drawer-profile-card" id="drawerProfileBox" style="display:none;">
             <div class="drawer-profile-top">
-                <div class="drawer-profile-avatar" onclick="openProfileSettings()" title="Fotoğraf Değiştir">
+                <div class="drawer-profile-avatar" onclick="openProfileSettings()" title="Fotoğraf Yükle/Değiştir">
                     <i class="fa-solid fa-user" id="drawerAvatarIcon"></i>
                     <img id="drawerAvatarImg" style="display:none;" alt="Profil">
                 </div>
@@ -96,12 +93,11 @@
                 <span id="drawerUserPoints">0</span> Topluluk Puanı
             </div>
             <div class="drawer-profile-actions">
-                <button class="profile-action-btn" onclick="openProfileSettings()"><i class="fa-solid fa-gear"></i> Profil Ayarları</button>
+                <button class="profile-action-btn" onclick="openProfileSettings()"><i class="fa-solid fa-gear"></i> Ayarlar</button>
                 <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
             </div>
         </div>
 
-        <!-- Menü Linkleri -->
         <div class="drawer-links">
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
             <a href="./duyurular.html" class="drawer-link highlight"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
@@ -399,9 +395,8 @@
         </button>
     </div>
 
-    <!-- JAVASCRIPT: YÜKLENEBİLİR PROFİL FOTOĞRAFI & KULLANICI YÖNETİMİ -->
     <script>
-        // Giriş Animasyonu
+        // Preloader
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             setTimeout(() => {
@@ -420,7 +415,7 @@
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
 
-        // Karanlık Mod
+        // Tema
         const rootElement = document.documentElement;
         const themeBtn = document.getElementById('themeToggleNav');
         function applyTheme(isDark) {
@@ -441,7 +436,7 @@
             });
         }
 
-        // DİNAMİK PROFİL VE GİRİŞ KONTROLÜ
+        // Kullanıcı Oturum Kontrolü
         function checkUserAuth() {
             const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
             const navAuthBtn = document.getElementById('navAuthBtn');
@@ -450,13 +445,11 @@
             const drawerRegisterLink = document.getElementById('drawerRegisterLink');
 
             if (!session) {
-                // Giriş Yapılmamış: Giriş butonu görünür, yuvarlak avatar gizlenir
                 navAuthBtn.style.display = 'inline-flex';
                 userAvatarBtn.style.display = 'none';
                 drawerProfileBox.style.display = 'none';
                 if (drawerRegisterLink) drawerRegisterLink.style.display = 'flex';
             } else {
-                // Giriş Yapılmış: Giriş butonu gizlenir, yuvarlak avatar devreye girer
                 navAuthBtn.style.display = 'none';
                 userAvatarBtn.style.display = 'flex';
                 drawerProfileBox.style.display = 'flex';
@@ -475,7 +468,6 @@
                         document.getElementById('drawerScoreContainer').style.display = 'inline-flex';
                         document.getElementById('drawerUserPoints').innerText = me.points || 0;
 
-                        // Fotoğraf Yüklüyse Göster, Değilse Varsayılan İkon
                         if (me.avatar) {
                             applyAvatarImage(me.avatar);
                         } else {
@@ -518,15 +510,14 @@
             });
         }
 
-        // Profil Ayarları Penceresi
         window.openProfileSettings = function() {
             const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
             if (!session) {
-                window.open('./giris.html', '_blank');
+                window.location.href = './giris.html';
                 return;
             }
             if (session.role === 'admin') {
-                alert('Yönetici bilgileri sabittir.');
+                window.location.href = './giris.html';
                 return;
             }
 
@@ -546,7 +537,7 @@
             document.getElementById('settingsModal').style.display = 'none';
         };
 
-        // Kullanıcının Bilgisayarından Fotoğraf Seçip Kaydetmesi
+        // Fotoğraf Yükleme
         const avatarInput = document.getElementById('avatarFileInput');
         avatarInput.addEventListener('change', function() {
             const file = this.files[0];
@@ -569,7 +560,7 @@
             reader.readAsDataURL(file);
         });
 
-        // Profil Güncelleme Formu
+        // Profil Güncelleme
         document.getElementById('profileUpdateForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
@@ -585,21 +576,17 @@
                     me.pass = newPass;
                 }
                 localStorage.setItem('deu_members', JSON.stringify(users));
-                alert('Profil bilgileriniz başarıyla güncellendi!');
+                alert('Profil bilgileriniz güncellendi!');
                 closeProfileSettings();
                 checkUserAuth();
             }
         });
 
-        // Çıkış Fonksiyonu
         window.userLogout = function() {
             sessionStorage.removeItem('active_session');
             window.location.reload();
         };
 
-        // Sekmeler Arası Oturum Senkronizasyonu (Yeni sekmede giriş yapılınca ana sayfa otomatik algılar)
-        window.addEventListener('storage', checkUserAuth);
-        window.addEventListener('focus', checkUserAuth);
         checkUserAuth();
 
         // Geri Sayım
@@ -650,7 +637,7 @@
                 const status = document.getElementById('formStatus');
                 status.style.display = 'block';
                 status.style.color = '#10b981';
-                status.innerText = 'Mesajınız hazırlanıyor...';
+                status.innerText = 'Mesajınız iletiliyor...';
                 window.location.href = `mailto:ozelegitimtoplulukdeu@gmail.com?subject=İletişim Formu: ${encodeURIComponent(name)}&body=Gönderen: ${encodeURIComponent(name)} (%0D%0AE-Posta: ${encodeURIComponent(email)})%0D%0A%0D%0AMesaj:%0D%0A${encodeURIComponent(msg)}`;
                 setTimeout(() => { status.innerText = 'Mesaj istemcinize aktarıldı!'; cForm.reset(); }, 1000);
             });
@@ -682,11 +669,11 @@
         function getBotResponse(input) {
             const q = input.toLowerCase();
             if (q.includes('katıl') || q.includes('üye') || q.includes('giriş')) {
-                return 'Üst bardaki "Giriş / Üye Ol" butonuna tıklayarak yeni sekmede hemen aramıza katılabilirsin!';
+                return 'Üst bardaki "Giriş / Üye Ol" butonuna tıklayarak aramıza hemen katılabilirsin!';
             } else if (q.includes('etkinlik') || q.includes('ne zaman')) {
-                return '20 Kasım 2026\'da Buca Eğitim Fakültesi Konferans Salonu\'nda buluşuyoruz!';
+                return '20 Kasım 2026\'da Buca Eğitim Fakültesi Konferans Salonu\'ndayız!';
             } else {
-                return 'Ben Fehim! DEÜ Özel Eğitim Topluluğu hakkında merak ettiğin her şeyi bana sorabilirsin.';
+                return 'Ben Fehim! Topluluğumuzla ilgili her şeyi bana sorabilirsin.';
             }
         }
 
