@@ -35,7 +35,7 @@
         <div class="intro-subtext">Farkındalık Yaratıyor, Birlikte Aşıyoruz...</div>
     </div>
 
-    <!-- ÜST NAVBAR: GİRİŞ BUTONU 3 ÇİZGİNİN HEMEN YANINDA -->
+    <!-- ÜST NAVBAR -->
     <header class="navbar">
         <div class="container nav-content">
             <a href="./index.html" class="logo">
@@ -44,15 +44,24 @@
             </a>
 
             <div class="nav-actions">
-                <!-- Dinamik Giriş/Profil Butonu (Giriş yapılınca kullanıcı adına dönüşür) -->
-                <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
-                    <i class="fa-solid fa-user-circle"></i>
-                    <span id="navAuthText">Giriş / Üye Ol</span>
+                <!-- 1. Giriş Yapılmadığında Gözüken Düğme: Tıklanınca Ayrı Sekmede Açar -->
+                <a href="./giris.html" target="_blank" class="nav-auth-btn" id="navAuthBtn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span>Giriş / Üye Ol</span>
                 </a>
 
+                <!-- 2. Giriş Yapıldığında Gözüken Yuvarlak Kişi/Fotoğraf Alanı -->
+                <button class="user-avatar-btn" id="userAvatarBtn" onclick="openProfileSettings()" title="Profil Ayarları">
+                    <i class="fa-solid fa-user" id="navAvatarIcon"></i>
+                    <img id="navAvatarImg" style="display:none;" alt="Profil">
+                </button>
+
+                <!-- Ay/Güneş Modu -->
                 <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod Değiştirici">
                     <i class="fa-solid fa-moon"></i>
                 </button>
+
+                <!-- Belirgin ve Çerçeveli 3 Çizgi Menü Butonu -->
                 <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç">
                     <span></span>
                     <span></span>
@@ -62,7 +71,7 @@
         </div>
     </header>
 
-    <!-- SAĞDAKİ 3 ÇİZGİ MENÜSÜ -->
+    <!-- SAĞDAKİ 3 ÇİZGİ ÇEKMECESİ -->
     <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-header">
@@ -70,13 +79,16 @@
             <button class="drawer-close" id="drawerClose">&times;</button>
         </div>
 
-        <!-- 3 ÇİZGİ MENÜSÜNÜN EN TEPESİNDEKİ KİŞİSEL PROFİL ALANI -->
+        <!-- 3 Çizgi Menüsü İçindeki Profil Kartı -->
         <div class="drawer-profile-card" id="drawerProfileBox" style="display:none;">
             <div class="drawer-profile-top">
-                <div class="drawer-profile-avatar" id="drawerAvatarChar">A</div>
+                <div class="drawer-profile-avatar" onclick="openProfileSettings()" title="Fotoğraf Değiştir">
+                    <i class="fa-solid fa-user" id="drawerAvatarIcon"></i>
+                    <img id="drawerAvatarImg" style="display:none;" alt="Profil">
+                </div>
                 <div class="drawer-profile-info">
                     <h4 id="drawerUserName">Kullanıcı Adı</h4>
-                    <span id="drawerUserDept">Bölüm Bilgisi</span>
+                    <span id="drawerUserDept">Bölüm</span>
                 </div>
             </div>
             <div class="drawer-score-badge" id="drawerScoreContainer">
@@ -84,7 +96,7 @@
                 <span id="drawerUserPoints">0</span> Topluluk Puanı
             </div>
             <div class="drawer-profile-actions">
-                <button class="profile-action-btn" onclick="openProfileSettings()"><i class="fa-solid fa-gear"></i> Ayarlar</button>
+                <button class="profile-action-btn" onclick="openProfileSettings()"><i class="fa-solid fa-gear"></i> Profil Ayarları</button>
                 <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
             </div>
         </div>
@@ -109,12 +121,24 @@
         </div>
     </div>
 
-    <!-- PROFİL AYARLARI MODAL PENCERESİ -->
+    <!-- PROFİL AYARLARI VE FOTOĞRAF YÜKLEME MODALI -->
     <div class="profile-modal" id="settingsModal">
         <div class="profile-modal-content">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                 <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-main);"><i class="fa-solid fa-user-gear"></i> Profil Ayarları</h3>
                 <button onclick="closeProfileSettings()" style="background:transparent; border:none; font-size:1.4rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+            </div>
+
+            <!-- Kullanıcının Kendi Fotoğrafını Yükleyeceği Alan -->
+            <div class="avatar-upload-wrapper">
+                <div class="avatar-preview-box">
+                    <i class="fa-solid fa-user" id="previewIcon"></i>
+                    <img id="previewImg" style="display:none;" alt="Önizleme">
+                </div>
+                <label for="avatarFileInput" class="file-select-btn">
+                    <i class="fa-solid fa-camera"></i> Fotoğraf Yükle
+                </label>
+                <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
             </div>
 
             <form id="profileUpdateForm" style="display:flex; flex-direction:column; gap:12px;">
@@ -158,7 +182,7 @@
         </div>
     </section>
 
-    <!-- ORTALANMIŞ DİJİTAL SAAT -->
+    <!-- DİJİTAL SAAT -->
     <section class="countdown-center-section">
         <div class="container">
             <div class="digital-event-card">
@@ -167,25 +191,13 @@
                 <p class="event-meta"><i class="fa-regular fa-calendar-days"></i> 20 Kasım 2026 | Buca Eğitim Fakültesi Konferans Salonu</p>
                 
                 <div class="digital-clock">
-                    <div class="clock-segment">
-                        <div class="clock-screen" id="days">00</div>
-                        <span>GÜN</span>
-                    </div>
+                    <div class="clock-segment"><div class="clock-screen" id="days">00</div><span>GÜN</span></div>
                     <div class="clock-divider">:</div>
-                    <div class="clock-segment">
-                        <div class="clock-screen" id="hours">00</div>
-                        <span>SAAT</span>
-                    </div>
+                    <div class="clock-segment"><div class="clock-screen" id="hours">00</div><span>SAAT</span></div>
                     <div class="clock-divider">:</div>
-                    <div class="clock-segment">
-                        <div class="clock-screen" id="minutes">00</div>
-                        <span>DAKİKA</span>
-                    </div>
+                    <div class="clock-segment"><div class="clock-screen" id="minutes">00</div><span>DAKİKA</span></div>
                     <div class="clock-divider">:</div>
-                    <div class="clock-segment">
-                        <div class="clock-screen" id="seconds">00</div>
-                        <span>SANİYE</span>
-                    </div>
+                    <div class="clock-segment"><div class="clock-screen" id="seconds">00</div><span>SANİYE</span></div>
                 </div>
             </div>
         </div>
@@ -207,7 +219,6 @@
                     <p>Kuruluş amacımız, vizyonumuz ve toplumsal kapsayıcılık hedeflerimiz hakkında bilgi alın.</p>
                 </div>
             </a>
-
             <a href="./faaliyetler.html" style="text-decoration:none; color:inherit;">
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fa-solid fa-list-check"></i></div>
@@ -215,7 +226,6 @@
                     <p>RAM, STK iş birlikleri, mesleki atölyeler ve kampüs farkındalık kampanyalarımız.</p>
                 </div>
             </a>
-
             <a href="./etkinlikler.html" style="text-decoration:none; color:inherit;">
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fa-solid fa-calendar-days"></i></div>
@@ -223,7 +233,6 @@
                     <p>Kategori filtreli etkinliklerimiz ve fotoğraf arşivini inceleyin.</p>
                 </div>
             </a>
-
             <a href="./ekip.html" style="text-decoration:none; color:inherit;">
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
@@ -234,13 +243,13 @@
         </div>
     </section>
 
-    <!-- ETKİNLİK FOTOĞRAF GALERİSİ -->
+    <!-- FOTOĞRAF GALERİSİ -->
     <section class="section bg-light">
         <div class="container">
             <div class="section-header">
                 <span class="section-subtitle">FOTOĞRAF GALERİSİ</span>
                 <h2>Etkinliklerimizden Kareler</h2>
-                <p>Topluluğumuzun son faaliyet ve konferanslarından anlar. (Büyütmek için fotoğrafa tıklayın)</p>
+                <p>Topluluğumuzun son faaliyet ve konferanslarından anlar.</p>
             </div>
 
             <div class="insta-grid">
@@ -264,7 +273,7 @@
         </div>
     </section>
 
-    <!-- FOTOĞRAF BÜYÜTME (LIGHTBOX) MODAL PENCERESİ -->
+    <!-- LIGHTBOX MODAL -->
     <div id="imageModal" style="display:none; position:fixed; z-index:999999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); align-items:center; justify-content:center; backdrop-filter:blur(5px);">
         <span id="closeModal" style="position:absolute; top:20px; right:30px; color:#fff; font-size:2.5rem; font-weight:bold; cursor:pointer;">&times;</span>
         <img id="modalImg" style="max-width:90%; max-height:85%; border-radius:12px; box-shadow:0 0 30px rgba(0,0,0,0.7); object-fit:contain;">
@@ -330,15 +339,9 @@
                 </p>
             </div>
             <div class="social-links">
-                <a href="#" target="_blank" title="WhatsApp Kanalı" style="background: #25D366; color: #fff;">
-                    <i class="fa-brands fa-whatsapp"></i>
-                </a>
-                <a href="https://instagram.com" target="_blank" title="Instagram Hesabı" style="background: #E1306C; color: #fff;">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-                <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Topluluk%20İletişim" title="Doğrudan E-Posta Gönder">
-                    <i class="fa-solid fa-envelope"></i>
-                </a>
+                <a href="#" target="_blank" title="WhatsApp Kanalı" style="background: #25D366; color: #fff;"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://instagram.com" target="_blank" title="Instagram Hesabı" style="background: #E1306C; color: #fff;"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Topluluk%20İletişim" title="Doğrudan E-Posta Gönder"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
         <div class="container footer-bottom">
@@ -346,7 +349,7 @@
         </div>
     </footer>
 
-    <!-- SAĞ ALT: KAŞLI, AYRIK BIYIKLI, EL SALLAYAN VE DANS EDEN 3D "FEHİM" WIDGET -->
+    <!-- SAĞ ALT: FEHİM WIDGET -->
     <div class="chat-widget-wrapper">
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
@@ -366,7 +369,6 @@
                     <div class="chat-quick-replies">
                         <button class="quick-btn" onclick="sendQuickReply('Topluluğa nasıl katılırım?')">Nasıl Katılırım?</button>
                         <button class="quick-btn" onclick="sendQuickReply('Sıradaki etkinlik ne zaman?')">Etkinlik Ne Zaman?</button>
-                        <button class="quick-btn" onclick="sendQuickReply('Başka bölümden katılabilir miyim?')">Farklı Bölüm</button>
                         <button class="quick-btn" onclick="sendQuickReply('WhatsApp grubuna nasıl girerim?')">WhatsApp Linki</button>
                     </div>
                 </div>
@@ -397,9 +399,9 @@
         </button>
     </div>
 
-    <!-- JAVASCRIPT: PROFİL KONTROLÜ & GENEL İŞLEMLER -->
+    <!-- JAVASCRIPT: YÜKLENEBİLİR PROFİL FOTOĞRAFI & KULLANICI YÖNETİMİ -->
     <script>
-        // Sinematik Giriş Animasyonu
+        // Giriş Animasyonu
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             setTimeout(() => {
@@ -421,7 +423,6 @@
         // Karanlık Mod
         const rootElement = document.documentElement;
         const themeBtn = document.getElementById('themeToggleNav');
-
         function applyTheme(isDark) {
             if (isDark) {
                 rootElement.classList.add('dark-theme');
@@ -431,7 +432,6 @@
                 if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
             }
         }
-
         applyTheme(localStorage.getItem('site_theme') === 'dark');
         if (themeBtn) {
             themeBtn.addEventListener('click', () => {
@@ -441,64 +441,95 @@
             });
         }
 
-        // KULLANICI / YÖNETİCİ OTURUM YÖNETİMİ
-        function updateAuthUI() {
+        // DİNAMİK PROFİL VE GİRİŞ KONTROLÜ
+        function checkUserAuth() {
             const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
             const navAuthBtn = document.getElementById('navAuthBtn');
-            const navAuthText = document.getElementById('navAuthText');
+            const userAvatarBtn = document.getElementById('userAvatarBtn');
             const drawerProfileBox = document.getElementById('drawerProfileBox');
             const drawerRegisterLink = document.getElementById('drawerRegisterLink');
 
             if (!session) {
-                // Giriş yapılmamış
-                navAuthBtn.href = "./giris.html";
-                navAuthBtn.classList.remove('logged-in');
-                navAuthText.innerText = "Giriş / Üye Ol";
+                // Giriş Yapılmamış: Giriş butonu görünür, yuvarlak avatar gizlenir
+                navAuthBtn.style.display = 'inline-flex';
+                userAvatarBtn.style.display = 'none';
                 drawerProfileBox.style.display = 'none';
                 if (drawerRegisterLink) drawerRegisterLink.style.display = 'flex';
-            } else if (session.role === 'admin') {
-                // Yönetici Girmiş
-                navAuthBtn.href = "./giris.html";
-                navAuthBtn.classList.add('logged-in');
-                navAuthText.innerText = "Yönetici Paneli";
+            } else {
+                // Giriş Yapılmış: Giriş butonu gizlenir, yuvarlak avatar devreye girer
+                navAuthBtn.style.display = 'none';
+                userAvatarBtn.style.display = 'flex';
                 drawerProfileBox.style.display = 'flex';
-                document.getElementById('drawerAvatarChar').innerText = "Y";
-                document.getElementById('drawerUserName').innerText = "Yönetici";
-                document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
-                document.getElementById('drawerScoreContainer').style.display = 'none';
                 if (drawerRegisterLink) drawerRegisterLink.style.display = 'none';
-            } else if (session.role === 'member') {
-                // Üye Girmiş
-                const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
-                const me = users.find(u => u.username === session.username);
-                if (me) {
-                    navAuthBtn.href = "./giris.html";
-                    navAuthBtn.classList.add('logged-in');
-                    navAuthText.innerText = me.fullName.split(' ')[0]; // Sadece ilk adı yazar
-                    drawerProfileBox.style.display = 'flex';
-                    document.getElementById('drawerAvatarChar').innerText = me.fullName.charAt(0).toUpperCase();
-                    document.getElementById('drawerUserName').innerText = me.fullName;
-                    document.getElementById('drawerUserDept').innerText = me.dept;
-                    document.getElementById('drawerScoreContainer').style.display = 'inline-flex';
-                    document.getElementById('drawerUserPoints').innerText = me.points || 0;
-                    if (drawerRegisterLink) drawerRegisterLink.style.display = 'none';
+
+                if (session.role === 'admin') {
+                    document.getElementById('drawerUserName').innerText = "Yönetici";
+                    document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
+                    document.getElementById('drawerScoreContainer').style.display = 'none';
+                } else if (session.role === 'member') {
+                    const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+                    const me = users.find(u => u.username === session.username);
+                    if (me) {
+                        document.getElementById('drawerUserName').innerText = me.fullName;
+                        document.getElementById('drawerUserDept').innerText = me.dept;
+                        document.getElementById('drawerScoreContainer').style.display = 'inline-flex';
+                        document.getElementById('drawerUserPoints').innerText = me.points || 0;
+
+                        // Fotoğraf Yüklüyse Göster, Değilse Varsayılan İkon
+                        if (me.avatar) {
+                            applyAvatarImage(me.avatar);
+                        } else {
+                            clearAvatarImage();
+                        }
+                    }
                 }
             }
         }
 
-        // Çıkış Fonksiyonu
-        window.userLogout = function() {
-            sessionStorage.removeItem('active_session');
-            window.location.reload();
-        };
+        function applyAvatarImage(base64Url) {
+            const navImg = document.getElementById('navAvatarImg');
+            const navIcon = document.getElementById('navAvatarIcon');
+            const drawerImg = document.getElementById('drawerAvatarImg');
+            const drawerIcon = document.getElementById('drawerAvatarIcon');
+            const prevImg = document.getElementById('previewImg');
+            const prevIcon = document.getElementById('previewIcon');
 
-        // Profil Ayarları Modalı
+            [navImg, drawerImg, prevImg].forEach(img => {
+                if (img) { img.src = base64Url; img.style.display = 'block'; }
+            });
+            [navIcon, drawerIcon, prevIcon].forEach(icon => {
+                if (icon) { icon.style.display = 'none'; }
+            });
+        }
+
+        function clearAvatarImage() {
+            const navImg = document.getElementById('navAvatarImg');
+            const navIcon = document.getElementById('navAvatarIcon');
+            const drawerImg = document.getElementById('drawerAvatarImg');
+            const drawerIcon = document.getElementById('drawerAvatarIcon');
+            const prevImg = document.getElementById('previewImg');
+            const prevIcon = document.getElementById('previewIcon');
+
+            [navImg, drawerImg, prevImg].forEach(img => {
+                if (img) { img.style.display = 'none'; }
+            });
+            [navIcon, drawerIcon, prevIcon].forEach(icon => {
+                if (icon) { icon.style.display = 'block'; }
+            });
+        }
+
+        // Profil Ayarları Penceresi
         window.openProfileSettings = function() {
             const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
-            if (!session || session.role !== 'member') {
-                alert('Yönetici ayarları için sistem yöneticisine danışınız.');
+            if (!session) {
+                window.open('./giris.html', '_blank');
                 return;
             }
+            if (session.role === 'admin') {
+                alert('Yönetici bilgileri sabittir.');
+                return;
+            }
+
             const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
             const me = users.find(u => u.username === session.username);
             if (me) {
@@ -514,6 +545,29 @@
         window.closeProfileSettings = function() {
             document.getElementById('settingsModal').style.display = 'none';
         };
+
+        // Kullanıcının Bilgisayarından Fotoğraf Seçip Kaydetmesi
+        const avatarInput = document.getElementById('avatarFileInput');
+        avatarInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
+                if (session && session.role === 'member') {
+                    const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+                    const me = users.find(u => u.username === session.username);
+                    if (me) {
+                        me.avatar = base64Data;
+                        localStorage.setItem('deu_members', JSON.stringify(users));
+                        applyAvatarImage(base64Data);
+                    }
+                }
+            };
+            reader.readAsDataURL(file);
+        });
 
         // Profil Güncelleme Formu
         document.getElementById('profileUpdateForm').addEventListener('submit', (e) => {
@@ -533,30 +587,35 @@
                 localStorage.setItem('deu_members', JSON.stringify(users));
                 alert('Profil bilgileriniz başarıyla güncellendi!');
                 closeProfileSettings();
-                updateAuthUI();
+                checkUserAuth();
             }
         });
 
-        // Sayfa Yüklendiğinde UI'ı ayarla
-        updateAuthUI();
+        // Çıkış Fonksiyonu
+        window.userLogout = function() {
+            sessionStorage.removeItem('active_session');
+            window.location.reload();
+        };
 
-        // Dijital Saat Geri Sayımı
+        // Sekmeler Arası Oturum Senkronizasyonu (Yeni sekmede giriş yapılınca ana sayfa otomatik algılar)
+        window.addEventListener('storage', checkUserAuth);
+        window.addEventListener('focus', checkUserAuth);
+        checkUserAuth();
+
+        // Geri Sayım
         const targetDate = new Date("Nov 20, 2026 14:00:00").getTime();
         setInterval(function() {
             const now = new Date().getTime();
             const diff = targetDate - now;
-
             if (diff > 0) {
                 const d = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((diff % (1000 * 60)) / 1000);
-
                 const elD = document.getElementById("days");
                 const elH = document.getElementById("hours");
                 const elM = document.getElementById("minutes");
                 const elS = document.getElementById("seconds");
-
                 if (elD) elD.innerText = d < 10 ? "0" + d : d;
                 if (elH) elH.innerText = h < 10 ? "0" + h : h;
                 if (elM) elM.innerText = m < 10 ? "0" + m : m;
@@ -568,9 +627,7 @@
         const imgModal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
         const closeModal = document.getElementById('closeModal');
-        const zoomItems = document.querySelectorAll('.insta-item');
-
-        zoomItems.forEach(item => {
+        document.querySelectorAll('.insta-item').forEach(item => {
             item.addEventListener('click', () => {
                 const img = item.querySelector('img');
                 if (img && img.src) {
@@ -579,13 +636,10 @@
                 }
             });
         });
-
         closeModal.addEventListener('click', () => { imgModal.style.display = 'none'; });
-        imgModal.addEventListener('click', (e) => {
-            if (e.target === imgModal) imgModal.style.display = 'none';
-        });
+        imgModal.addEventListener('click', (e) => { if (e.target === imgModal) imgModal.style.display = 'none'; });
 
-        // Mesaj Formu
+        // İletişim Formu
         const cForm = document.getElementById('contactForm');
         if (cForm) {
             cForm.addEventListener('submit', function(e) {
@@ -594,21 +648,15 @@
                 const email = document.getElementById('senderEmail').value;
                 const msg = document.getElementById('senderMsg').value;
                 const status = document.getElementById('formStatus');
-
                 status.style.display = 'block';
                 status.style.color = '#10b981';
                 status.innerText = 'Mesajınız hazırlanıyor...';
-
                 window.location.href = `mailto:ozelegitimtoplulukdeu@gmail.com?subject=İletişim Formu: ${encodeURIComponent(name)}&body=Gönderen: ${encodeURIComponent(name)} (%0D%0AE-Posta: ${encodeURIComponent(email)})%0D%0A%0D%0AMesaj:%0D%0A${encodeURIComponent(msg)}`;
-                
-                setTimeout(() => {
-                    status.innerText = 'Mesaj istemcinize aktarıldı!';
-                    cForm.reset();
-                }, 1000);
+                setTimeout(() => { status.innerText = 'Mesaj istemcinize aktarıldı!'; cForm.reset(); }, 1000);
             });
         }
 
-        // FEHİM ROBOT ASİSTAN
+        // FEHİM BOTU
         const chatBubbleBtn = document.getElementById('chatBubbleBtn');
         const chatWindow = document.getElementById('chatWindow');
         const chatCloseBtn = document.getElementById('chatCloseBtn');
@@ -621,7 +669,6 @@
             const badge = chatBubbleBtn.querySelector('.chat-badge');
             if (badge) badge.style.display = 'none';
         });
-
         chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('open'); });
 
         function appendMessage(sender, text) {
@@ -634,14 +681,12 @@
 
         function getBotResponse(input) {
             const q = input.toLowerCase();
-            if (q.includes('katıl') || q.includes('başvuru') || q.includes('üye')) {
-                return 'Topluluğumuza katılmak çok kolay! Üst bardaki "Giriş / Üye Ol" butonundan kayıt olabilir veya Google Form Başvuru Formu üzerinden kaydınızı bırakabilirsiniz.';
-            } else if (q.includes('etkinlik') || q.includes('ne zaman') || q.includes('tarih')) {
-                return 'Yaklaşan büyük buluşmamız: <strong>20 Kasım 2026</strong> tarihinde Buca Eğitim Fakültesi Konferans Salonu\'ndadır!';
-            } else if (q.includes('fehim') || q.includes('bıyık') || q.includes('kaş')) {
-                return 'Ben <strong>Fehim</strong>! DEÜ Özel Eğitim Topluluğu\'nun bıyıklı, dans eden asistanıyım!';
+            if (q.includes('katıl') || q.includes('üye') || q.includes('giriş')) {
+                return 'Üst bardaki "Giriş / Üye Ol" butonuna tıklayarak yeni sekmede hemen aramıza katılabilirsin!';
+            } else if (q.includes('etkinlik') || q.includes('ne zaman')) {
+                return '20 Kasım 2026\'da Buca Eğitim Fakültesi Konferans Salonu\'nda buluşuyoruz!';
             } else {
-                return 'Bu konuda detaylı bilgi almak istersen ana sayfadaki mesaj formundan yazabilir veya <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresimize iletebilirsin!';
+                return 'Ben Fehim! DEÜ Özel Eğitim Topluluğu hakkında merak ettiğin her şeyi bana sorabilirsin.';
             }
         }
 
@@ -650,24 +695,14 @@
             if (!val) return;
             appendMessage('user', val);
             chatInput.value = '';
-
-            setTimeout(() => {
-                const response = getBotResponse(val);
-                appendMessage('bot', response);
-            }, 450);
+            setTimeout(() => { appendMessage('bot', getBotResponse(val)); }, 450);
         }
 
         chatSendBtn.addEventListener('click', handleSend);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSend();
-        });
-
+        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
         window.sendQuickReply = function(text) {
             appendMessage('user', text);
-            setTimeout(() => {
-                const response = getBotResponse(text);
-                appendMessage('bot', response);
-            }, 450);
+            setTimeout(() => { appendMessage('bot', getBotResponse(text)); }, 450);
         };
     </script>
 </body>
