@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topluluk Portalı - Giriş Yap & Üye Ol</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .portal-wrapper {
+            max-width: 480px;
+            margin: 40px auto 70px;
+            padding: 0 16px;
+        }
+        .portal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 35px 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+        }
+        .tab-btn-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: var(--bg-main);
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+        .tab-btn.active {
+            background: var(--card-bg);
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+        .portal-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .portal-input:focus {
+            border-color: var(--primary);
+        }
+        .portal-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .portal-alert {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .alert-error {
+            background: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fecaca;
+        }
+        .alert-success {
+            background: #ecfdf5;
+            color: #10b981;
+            border: 1px solid #a7f3d0;
+        }
+
+        .dash-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .score-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            color: #fff;
+            font-size: 1.4rem;
+            font-weight: 800;
+            padding: 10px 22px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+        }
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.88rem;
+        }
+        .user-table th, .user-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="./index.html" class="logo">
+                <img src="./logo.png" alt="DEÜ Logo" class="nav-logo-img">
+                <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
+            </a>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod"><i class="fa-solid fa-moon"></i></button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menü"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3 ÇİZGİ MENÜSÜ -->
+    <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header">
+            <span class="drawer-title">MENÜ</span>
+            <button class="drawer-close" id="drawerClose">&times;</button>
+        </div>
+        <div class="drawer-links">
+            <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <a href="./duyurular.html" class="drawer-link"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
+            <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
+            <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
+            <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
+            <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
+            <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
+            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
+        </div>
+    </div>
+
+    <!-- GİRİŞ & ÜYELİK FORMLARI -->
+    <div class="portal-wrapper" id="authSection">
+        <div class="portal-card">
+            <div class="tab-btn-row">
+                <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Giriş Yap</button>
+                <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">Üye Ol</button>
+            </div>
+
+            <div id="alertBox" class="portal-alert"></div>
+
+            <!-- GİRİŞ FORMU -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="loginUser" class="portal-input" placeholder="Kullanıcı adınız..." required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="loginPass" class="portal-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="portal-btn"><i class="fa-solid fa-arrow-right-to-bracket"></i> Giriş Yap</button>
+                <p style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin-top:15px;">
+                    Yönetici hesabı: <code>admin</code> / <code>deu1982</code>
+                </p>
+            </form>
+
+            <!-- KAYIT FORMU -->
+            <form id="registerForm" style="display:none;">
+                <div class="form-group">
+                    <label>Adınız Soyadınız</label>
+                    <input type="text" id="regFullName" class="portal-input" placeholder="Ad Soyad" required>
+                </div>
+                <div class="form-group">
+                    <label>Bölümünüz</label>
+                    <input type="text" id="regDept" class="portal-input" placeholder="Örn: Özel Eğitim Öğretmenliği" required>
+                </div>
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="regUser" class="portal-input" placeholder="kullanici_adiniz" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre Belirleyin</label>
+                    <input type="password" id="regPass" class="portal-input" placeholder="En az 4 karakter" required>
+                </div>
+                <button type="submit" class="portal-btn" style="background:#10b981;"><i class="fa-solid fa-user-plus"></i> Hesabımı Oluştur (+50 Puan)</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ÜYE PROFİL PANELİ -->
+    <div class="container section" id="memberDashboard" style="display:none; max-width:800px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:10px;">
+            <div>
+                <span style="font-size:0.8rem; font-weight:800; color:var(--primary);">ÜYE PORTALI</span>
+                <h2 id="welcomeMemberName">Hoş Geldin, Öğrenci</h2>
+            </div>
+            <button onclick="logout()" class="btn-primary" style="background:#ef4444; color:#fff; padding:8px 16px; font-size:0.85rem;"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</button>
+        </div>
+
+        <div class="dash-card" style="text-align:center; padding:35px 20px;">
+            <p style="color:var(--text-muted); font-size:0.9rem; font-weight:700; margin-bottom:10px;">TOPLAM TOPLULUK PUANINIZ</p>
+            <div class="score-pill">
+                <i class="fa-solid fa-star fa-beat"></i>
+                <span id="memberScore">0</span> Puan
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:14px;">
+                Topluluk etkinliklerine katılarak puan kazanabilirsin.
+            </p>
+        </div>
+    </div>
+
+    <!-- YÖNETİCİ PANELİ -->
+    <div class="container section" id="adminDashboard" style="display:none; max-width:900px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:10px;">
+            <div>
+                <span style="font-size:0.8rem; font-weight:800; color:#ef4444;"><i class="fa-solid fa-shield-halved"></i> YÖNETİCİ PANELİ</span>
+                <h2>Sistem Yönetimi</h2>
+            </div>
+            <button onclick="logout()" class="btn-primary" style="background:#ef4444; color:#fff; padding:8px 16px; font-size:0.85rem;"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</button>
+        </div>
+
+        <div class="dash-card">
+            <h3><i class="fa-solid fa-coins"></i> Üyelere Puan Tanımla</h3>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                <input type="text" id="targetUser" class="portal-input" placeholder="Hedef Kullanıcı Adı" style="flex:1; min-width:200px;">
+                <input type="number" id="addPoints" class="portal-input" placeholder="Puan (+100 vb.)" style="width:180px;">
+                <button onclick="givePoints()" class="btn-primary" style="background:var(--primary); color:#fff; border:none; cursor:pointer;"><i class="fa-solid fa-plus"></i> Yükle</button>
+            </div>
+        </div>
+
+        <div class="dash-card">
+            <h3><i class="fa-solid fa-users"></i> Kayıtlı Üyeler</h3>
+            <div style="overflow-x:auto;">
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Ad Soyad</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>Bölüm</th>
+                            <th>Puan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="memberTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-bottom"><p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p></div>
+    </footer>
+
+    <script>
+        // Menü & Tema
+        const toggleBtn = document.getElementById('menuToggle');
+        const closeBtn = document.getElementById('drawerClose');
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+        toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
+        closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+        overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+
+        const themeBtn = document.getElementById('themeToggleNav');
+        if (localStorage.getItem('site_theme') === 'dark') document.documentElement.classList.add('dark-theme');
+        themeBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark-theme');
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+        });
+
+        function switchTab(type) {
+            document.getElementById('tabLogin').classList.toggle('active', type === 'login');
+            document.getElementById('tabRegister').classList.toggle('active', type === 'register');
+            document.getElementById('loginForm').style.display = type === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = type === 'register' ? 'block' : 'none';
+            hideAlert();
+        }
+
+        function showAlert(msg, isSuccess = false) {
+            const b = document.getElementById('alertBox');
+            b.className = 'portal-alert ' + (isSuccess ? 'alert-success' : 'alert-error');
+            b.innerText = msg;
+            b.style.display = 'block';
+        }
+
+        function hideAlert() {
+            document.getElementById('alertBox').style.display = 'none';
+        }
+
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('deu_members') || '[]');
+        }
+        function saveUsers(u) {
+            localStorage.setItem('deu_members', JSON.stringify(u));
+        }
+
+        // Kayıt Ol
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('regFullName').value.trim();
+            const dept = document.getElementById('regDept').value.trim();
+            const username = document.getElementById('regUser').value.trim().toLowerCase();
+            const pass = document.getElementById('regPass').value;
+
+            if (username === 'admin') {
+                showAlert('Bu kullanıcı adı alınamaz.');
+                return;
+            }
+
+            const users = getUsers();
+            if (users.find(u => u.username === username)) {
+                showAlert('Bu kullanıcı adı zaten kullanılıyor.');
+                return;
+            }
+
+            users.push({ fullName, dept, username, pass, points: 50, avatar: null });
+            saveUsers(users);
+            showAlert('Kaydınız başarıyla oluşturuldu! 50 Puan yüklendi. Giriş yapabilirsiniz.', true);
+            setTimeout(() => switchTab('login'), 1200);
+        });
+
+        // Giriş Yap
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = document.getElementById('loginUser').value.trim().toLowerCase();
+            const pass = document.getElementById('loginPass').value;
+
+            if (user === 'admin' && pass === 'deu1982') {
+                sessionStorage.setItem('active_session', JSON.stringify({ role: 'admin', name: 'Yönetici' }));
+                renderViews();
+                return;
+            }
+
+            const users = getUsers();
+            const found = users.find(u => u.username === user && u.pass === pass);
+            if (found) {
+                sessionStorage.setItem('active_session', JSON.stringify({ role: 'member', username: found.username }));
+                renderViews();
+            } else {
+                showAlert('Hatalı kullanıcı adı veya şifre!');
+            }
+        });
+
+        function logout() {
+            sessionStorage.removeItem('active_session');
+            renderViews();
+        }
+
+        function givePoints() {
+            const target = document.getElementById('targetUser').value.trim().toLowerCase();
+            const pts = parseInt(document.getElementById('addPoints').value);
+            if (!target || isNaN(pts)) {
+                alert('Geçerli bir kullanıcı ve puan girin.');
+                return;
+            }
+            const users = getUsers();
+            const u = users.find(x => x.username === target);
+            if (!u) {
+                alert('Kullanıcı bulunamadı!');
+                return;
+            }
+            u.points = (u.points || 0) + pts;
+            saveUsers(users);
+            alert(`${u.fullName} kullanıcısına ${pts} puan eklendi!`);
+            document.getElementById('targetUser').value = '';
+            document.getElementById('addPoints').value = '';
+            renderAdminTable();
+        }
+
+        function renderAdminTable() {
+            const tb = document.getElementById('memberTableBody');
+            const users = getUsers();
+            if (users.length === 0) {
+                tb.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Kayıtlı üye yok.</td></tr>';
+                return;
+            }
+            tb.innerHTML = users.map(u => `
+                <tr>
+                    <td><strong>${u.fullName}</strong></td>
+                    <td>@${u.username}</td>
+                    <td>${u.dept}</td>
+                    <td><span style="color:#0284c7; font-weight:800;">${u.points || 0} P</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function renderViews() {
+            const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
+            const authSec = document.getElementById('authSection');
+            const memberDash = document.getElementById('memberDashboard');
+            const adminDash = document.getElementById('adminDashboard');
+
+            authSec.style.display = 'none';
+            memberDash.style.display = 'none';
+            adminDash.style.display = 'none';
+
+            if (!session) {
+                authSec.style.display = 'block';
+            } else if (session.role === 'admin') {
+                adminDash.style.display = 'block';
+                renderAdminTable();
+            } else if (session.role === 'member') {
+                memberDash.style.display = 'block';
+                const users = getUsers();
+                const me = users.find(u => u.username === session.username);
+                if (me) {
+                    document.getElementById('welcomeMemberName').innerText = `Hoş Geldin, ${me.fullName}`;
+                    document.getElementById('memberScore').innerText = me.points || 0;
+                }
+            }
+        }
+
+        renderViews();
+    </script>
+</body>
+</html>
