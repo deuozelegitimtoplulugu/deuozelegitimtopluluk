@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+-<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -11,11 +11,500 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .portal-wrapper {
-            max-width: 480px;
+            max-width: 460px;
             margin: 40px auto 70px;
             padding: 0 16px;
         }
         .portal-card {
             background: var(--card-bg);
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
             border-radius: 20px;
+            padding: 35px 28px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+        }
+        .tab-btn-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 22px;
+            background: var(--bg-main);
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+        .tab-btn.active {
+            background: var(--card-bg);
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+        .portal-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .portal-input:focus {
+            border-color: var(--primary);
+        }
+        .portal-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .portal-alert {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .alert-error {
+            background: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fecaca;
+        }
+        .alert-success {
+            background: #ecfdf5;
+            color: #10b981;
+            border: 1px solid #a7f3d0;
+        }
+        .dash-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .score-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            color: #fff;
+            font-size: 1.4rem;
+            font-weight: 800;
+            padding: 10px 22px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.88rem;
+        }
+        .admin-table th, .admin-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+        .admin-table th {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .pt-badge {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 12px;
+        }
+        html.dark-theme .pt-badge {
+            background: #1e3a8a;
+            color: #93c5fd;
+        }
+        .btn-table-action {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .btn-table-action:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .btn-table-action.del:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="./index.html" class="logo">
+                <img src="./logo.png" alt="DEÜ Logo" class="nav-logo-img">
+                <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
+            </a>
+            <div class="nav-actions">
+                <a href="./index.html" class="nav-auth-btn" style="background:var(--bg-light); color:var(--text-main)!important; border-color:var(--border);">
+                    <i class="fa-solid fa-house"></i> <span>Ana Sayfaya Dön</span>
+                </a>
+                <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod"><i class="fa-solid fa-moon"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- GİRİŞ & ÜYELİK FORMLARI (OTURUM YOKKEN) -->
+    <div class="portal-wrapper" id="authSection">
+        <div class="portal-card">
+            <div class="tab-btn-row">
+                <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Giriş Yap</button>
+                <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">Üye Ol</button>
+            </div>
+
+            <div id="alertBox" class="portal-alert"></div>
+
+            <!-- GİRİŞ FORMU -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="loginUser" class="portal-input" placeholder="Kullanıcı adınız..." required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="loginPass" class="portal-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="portal-btn"><i class="fa-solid fa-arrow-right-to-bracket"></i> Giriş Yap</button>
+                <div style="margin-top:16px; padding:10px; background:var(--bg-main); border-radius:10px; font-size:0.78rem; color:var(--text-muted); text-align:center;">
+                    <strong>Yönetici Hesabı:</strong> Kullanıcı Adı: <code>admin</code> | Şifre: <code>deu1982</code>
+                </div>
+            </form>
+
+            <!-- KAYIT FORMU -->
+            <form id="registerForm" style="display:none;">
+                <div class="form-group">
+                    <label>Adınız Soyadınız</label>
+                    <input type="text" id="regFullName" class="portal-input" placeholder="Ad Soyad" required>
+                </div>
+                <div class="form-group">
+                    <label>Bölümünüz</label>
+                    <input type="text" id="regDept" class="portal-input" placeholder="Örn: Özel Eğitim Öğretmenliği" required>
+                </div>
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="regUser" class="portal-input" placeholder="kullanici_adiniz" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre Belirleyin</label>
+                    <input type="password" id="regPass" class="portal-input" placeholder="En az 4 karakter" required>
+                </div>
+                <button type="submit" class="portal-btn" style="background:#10b981;"><i class="fa-solid fa-user-plus"></i> Kaydol (+50 Hoş Geldin Puanı)</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ÜYE PROFİL PANELİ (ÜYE GİRİŞİ YAPILDIĞINDA) -->
+    <div class="container section" id="memberDashboard" style="display:none; max-width:800px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:10px;">
+            <div>
+                <span style="font-size:0.8rem; font-weight:800; color:var(--primary);"><i class="fa-solid fa-circle-check"></i> AKTİF ÜYE OTURUMU</span>
+                <h2 id="welcomeMemberName">Hoş Geldin, Öğrenci</h2>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <a href="./index.html" class="btn-primary" style="padding:9px 18px; font-size:0.85rem;"><i class="fa-solid fa-house"></i> Ana Sayfaya Git</a>
+                <button onclick="logout()" class="btn-primary" style="background:#ef4444; color:#fff; border:none; padding:9px 16px; font-size:0.85rem; cursor:pointer;"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
+            </div>
+        </div>
+
+        <div class="dash-card" style="text-align:center; padding:35px 20px;">
+            <p style="color:var(--text-muted); font-size:0.9rem; font-weight:700; margin-bottom:10px;">MEVCUT TOPLULUK PUANINIZ</p>
+            <div class="score-pill">
+                <i class="fa-solid fa-star fa-beat"></i>
+                <span id="memberScore">0</span> Puan
+            </div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:14px;">
+                Etkinliklere katıldıkça yöneticiler tarafından hesabınıza ek puanlar tanımlanacaktır.
+            </p>
+        </div>
+    </div>
+
+    <!-- YÖNETİCİ KONTROL PANELİ (ADMİN GİRİŞİ YAPILDIĞINDA) -->
+    <div class="container section" id="adminDashboard" style="display:none; max-width:960px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:10px;">
+            <div>
+                <span style="font-size:0.8rem; font-weight:800; color:#ef4444;"><i class="fa-solid fa-shield-halved"></i> YÖNETİCİ KONTROL PANELİ</span>
+                <h2>Sistem ve Üye Yönetimi</h2>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <a href="./index.html" class="btn-primary" style="padding:9px 18px; font-size:0.85rem;"><i class="fa-solid fa-house"></i> Ana Sayfaya Git</a>
+                <button onclick="logout()" class="btn-primary" style="background:#ef4444; color:#fff; border:none; padding:9px 16px; font-size:0.85rem; cursor:pointer;"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
+            </div>
+        </div>
+
+        <!-- Üyeye Hızlı Puan Ekleme -->
+        <div class="dash-card">
+            <h3><i class="fa-solid fa-coins"></i> Üyeye Puan Tanımla</h3>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">Aşağıdaki tablodan ya da kullanıcı adını yazarak etkinliğe katılan üyeye puan tanımlayabilirsiniz.</p>
+            
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <input type="text" id="targetUser" class="portal-input" placeholder="Hedef Kullanıcı Adı (@kullanici)" style="flex:1; min-width:200px;">
+                <input type="number" id="addPoints" class="portal-input" placeholder="Eklenecek Puan (+50, +100)" style="width:190px;">
+                <button onclick="givePoints()" class="btn-primary" style="background:var(--primary); color:#fff; border:none; cursor:pointer;"><i class="fa-solid fa-plus"></i> Puanı Ekle</button>
+            </div>
+        </div>
+
+        <!-- Kayıtlı Üyeler Tablosu -->
+        <div class="dash-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <h3><i class="fa-solid fa-users"></i> Kayıtlı Üyeler ve Puan Durumları</h3>
+                <span id="memberCountBadge" style="font-size:0.82rem; font-weight:700; color:var(--text-muted);">0 Üye Kayıtlı</span>
+            </div>
+
+            <div style="overflow-x:auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Ad Soyad</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>Bölüm</th>
+                            <th>Mevcut Puan</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="memberTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-bottom"><p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p></div>
+    </footer>
+
+    <!-- JAVASCRIPT MOTORU -->
+    <script>
+        // Tema
+        const rootElement = document.documentElement;
+        const themeBtn = document.getElementById('themeToggleNav');
+        function applyTheme(isDark) {
+            if (isDark) {
+                rootElement.classList.add('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                rootElement.classList.remove('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+        applyTheme(localStorage.getItem('site_theme') === 'dark');
+        themeBtn.addEventListener('click', () => {
+            const isDark = !rootElement.classList.contains('dark-theme');
+            applyTheme(isDark);
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+        });
+
+        // Tab Değiştirme
+        function switchTab(type) {
+            document.getElementById('tabLogin').classList.toggle('active', type === 'login');
+            document.getElementById('tabRegister').classList.toggle('active', type === 'register');
+            document.getElementById('loginForm').style.display = type === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = type === 'register' ? 'block' : 'none';
+            hideAlert();
+        }
+
+        function showAlert(msg, isSuccess = false) {
+            const b = document.getElementById('alertBox');
+            b.className = 'portal-alert ' + (isSuccess ? 'alert-success' : 'alert-error');
+            b.innerText = msg;
+            b.style.display = 'block';
+        }
+
+        function hideAlert() {
+            document.getElementById('alertBox').style.display = 'none';
+        }
+
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('deu_members') || '[]');
+        }
+        function saveUsers(u) {
+            localStorage.setItem('deu_members', JSON.stringify(u));
+        }
+
+        // Kayıt Ol
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('regFullName').value.trim();
+            const dept = document.getElementById('regDept').value.trim();
+            const username = document.getElementById('regUser').value.trim().toLowerCase();
+            const pass = document.getElementById('regPass').value;
+
+            if (username === 'admin') {
+                showAlert('Bu kullanıcı adı alınamaz.');
+                return;
+            }
+
+            const users = getUsers();
+            if (users.find(u => u.username === username)) {
+                showAlert('Bu kullanıcı adı zaten kullanılıyor.');
+                return;
+            }
+
+            users.push({ fullName, dept, username, pass, points: 50, avatar: null });
+            saveUsers(users);
+            showAlert('Kaydınız başarıyla oluşturuldu! 50 Hoş Geldin Puanı tanımlandı. Giriş yapabilirsiniz.', true);
+            setTimeout(() => switchTab('login'), 1200);
+        });
+
+        // Giriş Yap
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = document.getElementById('loginUser').value.trim().toLowerCase();
+            const pass = document.getElementById('loginPass').value;
+
+            // 1. Yönetici Girişi
+            if (user === 'admin' && pass === 'deu1982') {
+                sessionStorage.setItem('active_session', JSON.stringify({ role: 'admin', name: 'Yönetici' }));
+                renderViews();
+                return;
+            }
+
+            // 2. Üye Girişi
+            const users = getUsers();
+            const found = users.find(u => u.username === user && u.pass === pass);
+            if (found) {
+                sessionStorage.setItem('active_session', JSON.stringify({ role: 'member', username: found.username }));
+                renderViews();
+            } else {
+                showAlert('Hatalı kullanıcı adı veya şifre!');
+            }
+        });
+
+        function logout() {
+            sessionStorage.removeItem('active_session');
+            renderViews();
+        }
+
+        // Puan Ekleme
+        function givePoints(preUser = null, prePts = null) {
+            const target = (preUser || document.getElementById('targetUser').value).trim().toLowerCase();
+            const pts = prePts !== null ? prePts : parseInt(document.getElementById('addPoints').value);
+
+            if (!target || isNaN(pts)) {
+                alert('Geçerli bir kullanıcı ve puan girin.');
+                return;
+            }
+
+            const users = getUsers();
+            const u = users.find(x => x.username === target);
+            if (!u) {
+                alert('Kullanıcı bulunamadı!');
+                return;
+            }
+
+            u.points = (u.points || 0) + pts;
+            saveUsers(users);
+            alert(`${u.fullName} kullanıcısına ${pts} puan başarıyla tanımlandı!`);
+            document.getElementById('targetUser').value = '';
+            document.getElementById('addPoints').value = '';
+            renderAdminTable();
+        }
+
+        // Üye Silme
+        window.deleteUser = function(username) {
+            if (!confirm(`@${username} kullanıcısını silmek istediğinize emin misiniz?`)) return;
+            let users = getUsers();
+            users = users.filter(u => u.username !== username);
+            saveUsers(users);
+            renderAdminTable();
+        };
+
+        function renderAdminTable() {
+            const tb = document.getElementById('memberTableBody');
+            const users = getUsers();
+            document.getElementById('memberCountBadge').innerText = `${users.length} Üye Kayıtlı`;
+
+            if (users.length === 0) {
+                tb.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı üye bulunmuyor.</td></tr>';
+                return;
+            }
+
+            tb.innerHTML = users.map(u => `
+                <tr>
+                    <td><strong>${u.fullName}</strong></td>
+                    <td>@${u.username}</td>
+                    <td>${u.dept}</td>
+                    <td><span class="pt-badge">${u.points || 0} Puan</span></td>
+                    <td style="display:flex; gap:6px;">
+                        <button class="btn-table-action" onclick="givePoints('${u.username}', 25)">+25 P</button>
+                        <button class="btn-table-action" onclick="givePoints('${u.username}', 50)">+50 P</button>
+                        <button class="btn-table-action del" onclick="deleteUser('${u.username}')" title="Üyeyi Sil"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderViews() {
+            const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
+            const authSec = document.getElementById('authSection');
+            const memberDash = document.getElementById('memberDashboard');
+            const adminDash = document.getElementById('adminDashboard');
+
+            authSec.style.display = 'none';
+            memberDash.style.display = 'none';
+            adminDash.style.display = 'none';
+
+            if (!session) {
+                authSec.style.display = 'block';
+            } else if (session.role === 'admin') {
+                adminDash.style.display = 'block';
+                renderAdminTable();
+            } else if (session.role === 'member') {
+                memberDash.style.display = 'block';
+                const users = getUsers();
+                const me = users.find(u => u.username === session.username);
+                if (me) {
+                    document.getElementById('welcomeMemberName').innerText = `Hoş Geldin, ${me.fullName}`;
+                    document.getElementById('memberScore').innerText = me.points || 0;
+                }
+            }
+        }
+
+        renderViews();
+    </script>
+</body>
+</html>
