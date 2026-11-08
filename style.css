@@ -40,7 +40,7 @@ body {
     transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* 1. SİNEMATİK GİRİŞ AÇILIŞ ANİMASYONU */
+/* 1. SİNEMATİK GİRİŞ AÇILIŞ ANİMASYONU (KÜÇÜLTÜLMÜŞ ORANTILI LOGO) */
 #preloader {
     position: fixed;
     top: 0;
@@ -64,38 +64,38 @@ body {
 
 .intro-stage {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 130px;
+    height: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .intro-logo {
-    width: 90px;
-    height: 90px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 0 35px rgba(2, 132, 199, 0.45);
+    box-shadow: 0 0 25px rgba(2, 132, 199, 0.45);
     animation: zoomFromDistance 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     z-index: 2;
 }
 
 @keyframes zoomFromDistance {
     0% { transform: scale(0.05) translateZ(-400px); opacity: 0; }
-    65% { transform: scale(1.1) translateZ(0); opacity: 1; }
+    65% { transform: scale(1.08) translateZ(0); opacity: 1; }
     100% { transform: scale(1) translateZ(0); opacity: 1; }
 }
 
 .intro-ring {
     position: absolute;
-    width: 130px;
-    height: 130px;
+    width: 95px;
+    height: 95px;
     border-radius: 50%;
-    border: 3px solid transparent;
+    border: 2px solid transparent;
     border-top-color: #38bdf8;
     border-right-color: #0284c7;
-    box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
     opacity: 0;
     animation: ringSpin 1.4s linear 0.9s infinite, ringFadeIn 0.4s ease 0.9s forwards;
     z-index: 1;
@@ -105,9 +105,9 @@ body {
 @keyframes ringSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 .intro-text {
-    margin-top: 25px;
+    margin-top: 18px;
     color: #ffffff;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 800;
     letter-spacing: -0.01em;
     opacity: 0;
@@ -116,15 +116,15 @@ body {
 
 .intro-subtext {
     color: #38bdf8;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    margin-top: 6px;
+    margin-top: 4px;
     opacity: 0;
     animation: textReveal 0.6s ease 1.1s forwards;
 }
 
 @keyframes textReveal {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -134,11 +134,7 @@ body {
     padding: 0 24px;
 }
 
-.top-announcement {
-    display: none !important;
-}
-
-/* Navbar */
+/* NAVBAR (ÜST BARDAKİ TÜM LİNKLER KALDIRILDI) */
 .navbar {
     background: var(--card-bg);
     border-bottom: 1px solid var(--border);
@@ -152,7 +148,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 75px;
+    height: 70px;
 }
 
 .logo {
@@ -164,46 +160,22 @@ body {
 }
 
 .nav-logo-img {
-    height: 48px;
-    width: 48px;
-    min-width: 48px;
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
     object-fit: cover;
     border-radius: 50%;
-    transform: scale(1.45);
-    clip-path: circle(50%);
 }
 
 .logo-text {
     font-weight: 800;
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: var(--text-main);
 }
 
+/* ÜST BAR LİNKLERİ TAMAMEN GİZLENDİ */
 .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--text-muted);
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-.nav-links a:hover {
-    color: var(--primary);
-}
-
-.btn-nav {
-    background: var(--primary);
-    color: #fff !important;
-    padding: 9px 18px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    display: none !important;
 }
 
 .nav-actions {
@@ -223,7 +195,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     transition: 0.2s ease;
 }
 
@@ -232,7 +204,7 @@ body {
     border-color: var(--primary);
 }
 
-/* Hamburger */
+/* Hamburger Menü Butonu */
 .menu-toggle {
     display: flex;
     flex-direction: column;
@@ -253,7 +225,7 @@ body {
     border-radius: 3px;
 }
 
-/* Yan Menü (Drawer) */
+/* YAN MENÜ (DRAWER - TÜM LİNKLER BURADA) */
 .mobile-menu-overlay {
     position: fixed;
     top: 0;
@@ -285,6 +257,7 @@ body {
     padding: 30px 24px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
     transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -319,13 +292,13 @@ body {
 .drawer-links {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .drawer-link {
     text-decoration: none;
     color: var(--text-main);
-    font-size: 1.05rem;
+    font-size: 0.98rem;
     font-weight: 600;
     padding: 12px 16px;
     border-radius: 10px;
@@ -334,6 +307,12 @@ body {
     gap: 12px;
     background: var(--bg-main);
     border: 1px solid var(--border);
+    transition: 0.2s ease;
+}
+
+.drawer-link:hover {
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .drawer-link i {
@@ -377,7 +356,7 @@ html.dark-theme .drawer-link.highlight {
 .hero {
     background: radial-gradient(100% 100% at 50% 0%, #0369a1 0%, #0c4a6e 100%);
     color: #fff;
-    padding: 85px 0 90px;
+    padding: 75px 0 80px;
     text-align: center;
 }
 
@@ -389,23 +368,23 @@ html.dark-theme .drawer-link.highlight {
     font-size: 0.85rem;
     font-weight: 600;
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .hero h1 {
-    font-size: 2.6rem;
+    font-size: 2.4rem;
     font-weight: 800;
     letter-spacing: -0.02em;
     max-width: 820px;
-    margin: 0 auto 18px;
+    margin: 0 auto 16px;
     line-height: 1.25;
 }
 
 .hero p {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     max-width: 680px;
-    margin: 0 auto 35px;
+    margin: 0 auto 30px;
     color: #bae6fd;
 }
 
@@ -413,7 +392,7 @@ html.dark-theme .drawer-link.highlight {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     flex-wrap: wrap;
 }
 
@@ -421,7 +400,7 @@ html.dark-theme .drawer-link.highlight {
     background: #fff;
     color: var(--primary-dark);
     text-decoration: none;
-    padding: 13px 26px;
+    padding: 12px 24px;
     font-weight: 700;
     border-radius: 8px;
     display: inline-flex;
@@ -437,24 +416,19 @@ html.dark-theme .drawer-link.highlight {
     background: var(--whatsapp);
     color: #ffffff;
     text-decoration: none;
-    padding: 13px 24px;
+    padding: 12px 22px;
     font-weight: 700;
     border-radius: 8px;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-}
-
-.btn-whatsapp:hover {
-    background: var(--whatsapp-dark);
-    transform: translateY(-2px);
+    gap: 8px;
 }
 
 .btn-secondary {
     background: rgba(255, 255, 255, 0.12);
     color: #fff;
     text-decoration: none;
-    padding: 13px 22px;
+    padding: 12px 20px;
     font-weight: 600;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.25);
@@ -465,17 +439,17 @@ html.dark-theme .drawer-link.highlight {
 
 /* Dijital Saat Kartı */
 .countdown-center-section {
-    margin-top: -50px;
+    margin-top: -45px;
     position: relative;
     z-index: 20;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .digital-event-card {
     background: #0f172a;
     border: 2px solid #1e293b;
     border-radius: 20px;
-    padding: 40px 30px;
+    padding: 35px 25px;
     text-align: center;
     max-width: 840px;
     margin: 0 auto;
@@ -492,20 +466,20 @@ html.dark-theme .drawer-link.highlight {
     font-weight: 800;
     letter-spacing: 0.08em;
     display: inline-block;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .digital-event-card h2 {
     color: #ffffff;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 800;
     margin-bottom: 8px;
 }
 
 .digital-event-card .event-meta {
     color: #94a3b8;
-    font-size: 0.95rem;
-    margin-bottom: 25px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
 }
 
 .digital-clock {
@@ -526,10 +500,10 @@ html.dark-theme .drawer-link.highlight {
     background: #020617;
     color: #38bdf8;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 2.8rem;
+    font-size: 2.6rem;
     font-weight: 700;
-    width: 95px;
-    height: 90px;
+    width: 90px;
+    height: 85px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -541,7 +515,7 @@ html.dark-theme .drawer-link.highlight {
 
 .clock-segment span {
     color: #64748b;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     margin-top: 8px;
@@ -549,14 +523,14 @@ html.dark-theme .drawer-link.highlight {
 
 .clock-divider {
     color: #38bdf8;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 25px;
+    margin-bottom: 22px;
 }
 
 /* Bölümler */
 .section {
-    padding: 70px 24px;
+    padding: 65px 24px;
 }
 
 .bg-light {
@@ -568,7 +542,7 @@ html.dark-theme .drawer-link.highlight {
 
 .section-header {
     text-align: center;
-    margin-bottom: 45px;
+    margin-bottom: 40px;
 }
 
 .section-subtitle {
@@ -579,7 +553,7 @@ html.dark-theme .drawer-link.highlight {
 }
 
 .section-header h2 {
-    font-size: 2.1rem;
+    font-size: 2rem;
     font-weight: 800;
     color: var(--text-main);
     margin-top: 6px;
@@ -587,7 +561,7 @@ html.dark-theme .drawer-link.highlight {
 
 .section-header p {
     color: var(--text-muted);
-    font-size: 1.05rem;
+    font-size: 1rem;
     margin-top: 6px;
 }
 
@@ -595,14 +569,14 @@ html.dark-theme .drawer-link.highlight {
 .feature-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 25px;
+    gap: 22px;
 }
 
 .feature-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 30px 24px;
+    padding: 28px 22px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
     transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.25s ease;
 }
@@ -613,16 +587,16 @@ html.dark-theme .drawer-link.highlight {
 }
 
 .feature-icon {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     background: var(--primary-light);
     color: var(--primary);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+    font-size: 1.4rem;
+    margin-bottom: 18px;
 }
 
 html.dark-theme .feature-icon {
@@ -631,18 +605,18 @@ html.dark-theme .feature-icon {
 }
 
 .feature-card h3 {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .feature-card p {
     color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     line-height: 1.6;
 }
 
-/* Instagram Vitrini */
+/* Galeri */
 .insta-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -656,6 +630,7 @@ html.dark-theme .feature-icon {
     height: 220px;
     display: block;
     border: 1px solid var(--border);
+    cursor: pointer;
 }
 
 .insta-item img {
@@ -670,12 +645,12 @@ html.dark-theme .feature-icon {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(225, 48, 108, 0.6);
+    background: rgba(2, 132, 199, 0.65);
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-size: 2.2rem;
+    font-size: 2rem;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -688,20 +663,20 @@ html.dark-theme .feature-icon {
 .contact-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+    gap: 28px;
 }
 
 .contact-box {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 35px;
+    padding: 32px;
     transition: background-color 0.25s ease;
 }
 
 .contact-box h3 {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+    font-size: 1.35rem;
+    margin-bottom: 8px;
 }
 
 .contact-box p {
@@ -734,7 +709,7 @@ html.dark-theme .feature-icon {
 .footer {
     background: #0f172a;
     color: #cbd5e1;
-    padding: 60px 0 30px;
+    padding: 55px 0 28px;
 }
 
 .footer-content {
@@ -742,14 +717,14 @@ html.dark-theme .feature-icon {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #1e293b;
-    padding-bottom: 35px;
+    padding-bottom: 30px;
     flex-wrap: wrap;
     gap: 20px;
 }
 
 .footer-info h4 {
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 700;
     margin-bottom: 5px;
 }
@@ -762,23 +737,19 @@ html.dark-theme .feature-icon {
 .social-links a {
     color: #cbd5e1;
     background: #1e293b;
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     text-decoration: none;
-}
-
-.social-links a:hover {
-    transform: translateY(-2px);
 }
 
 .footer-bottom {
     text-align: center;
-    padding-top: 25px;
+    padding-top: 22px;
     font-size: 0.85rem;
     color: #64748b;
 }
@@ -792,8 +763,8 @@ html.dark-theme .feature-icon {
 }
 
 .robot-trigger-btn {
-    width: 105px;
-    height: 135px;
+    width: 100px;
+    height: 130px;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -806,7 +777,6 @@ html.dark-theme .feature-icon {
     overflow: visible;
 }
 
-/* Ritmik Dans ve Kalça Yaylanması */
 .fehim-character-stage {
     position: relative;
     display: flex;
@@ -817,18 +787,10 @@ html.dark-theme .feature-icon {
 }
 
 @keyframes fehimDance {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-    25% {
-        transform: translateY(-11px) rotate(-6deg);
-    }
-    50% {
-        transform: translateY(-3px) rotate(0deg);
-    }
-    75% {
-        transform: translateY(-11px) rotate(6deg);
-    }
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-11px) rotate(-6deg); }
+    50% { transform: translateY(-3px) rotate(0deg); }
+    75% { transform: translateY(-11px) rotate(6deg); }
 }
 
 .fehim-shadow {
@@ -847,7 +809,6 @@ html.dark-theme .feature-icon {
     25%, 75% { transform: scale(0.65); opacity: 0.15; }
 }
 
-/* Anten */
 .fehim-antenna {
     width: 4px;
     height: 11px;
@@ -873,10 +834,9 @@ html.dark-theme .feature-icon {
     to { opacity: 1; transform: scale(1.15); }
 }
 
-/* Kafa (Kaşlar, Gözler ve Bıyığın Hiyerarşik Yerleşimi) */
 .fehim-head {
-    width: 68px;
-    height: 56px;
+    width: 66px;
+    height: 54px;
     background: linear-gradient(145deg, #ffffff 0%, #cbd5e1 100%);
     border-radius: 20px;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22), inset -2px -2px 5px rgba(0, 0, 0, 0.1), inset 2px 2px 5px rgba(255, 255, 255, 0.95);
@@ -889,7 +849,6 @@ html.dark-theme .feature-icon {
     z-index: 4;
 }
 
-/* Kulaklıklar */
 .fehim-head::before, .fehim-head::after {
     content: '';
     position: absolute;
@@ -902,7 +861,6 @@ html.dark-theme .feature-icon {
 .fehim-head::before { left: -7px; }
 .fehim-head::after { right: -7px; }
 
-/* 1. KATMAN: KAŞLAR */
 .fehim-eyebrows-row {
     display: flex;
     gap: 12px;
@@ -916,13 +874,11 @@ html.dark-theme .feature-icon {
     background: #0284c7;
     border-radius: 2px;
 }
-
 .eyebrow-l { transform: rotate(10deg); }
 .eyebrow-r { transform: rotate(-10deg); }
 
-/* 2. KATMAN: VİZÖR İÇİNDE GÖZLER */
 .fehim-eye-visor {
-    width: 50px;
+    width: 48px;
     height: 22px;
     background: #090d16;
     border-radius: 9px;
@@ -948,33 +904,23 @@ html.dark-theme .feature-icon {
     96% { transform: scaleY(0.1); }
 }
 
-/* 3. KATMAN: GÖZLERDEN TAMAMEN AYRIK PALA BIYIK */
 .fehim-mustache-zone {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 2px;
-    margin-top: 4px;
+    margin-top: 3px;
 }
 
 .m-wing-left, .m-wing-right {
-    width: 16px;
+    width: 15px;
     height: 6px;
     background: #0284c7;
     box-shadow: 0 0 5px rgba(2, 132, 199, 0.8);
 }
+.m-wing-left { border-radius: 12px 2px 10px 0; transform: rotate(14deg); }
+.m-wing-right { border-radius: 2px 12px 0 10px; transform: rotate(-14deg); }
 
-.m-wing-left {
-    border-radius: 12px 2px 10px 0;
-    transform: rotate(14deg);
-}
-
-.m-wing-right {
-    border-radius: 2px 12px 0 10px;
-    transform: rotate(-14deg);
-}
-
-/* Gövde, Kollar ve Bacaklar */
 .fehim-torso-assembly {
     position: relative;
     width: 76px;
@@ -987,7 +933,7 @@ html.dark-theme .feature-icon {
 
 .fehim-chest-body {
     width: 44px;
-    height: 34px;
+    height: 33px;
     background: linear-gradient(145deg, #ffffff 0%, #cbd5e1 100%);
     border: 2px solid #0284c7;
     border-radius: 8px 8px 16px 16px;
@@ -1022,7 +968,6 @@ html.dark-theme .feature-icon {
     50% { transform: scale(1.25); }
 }
 
-/* Sol Kol */
 .fehim-arm-l {
     position: absolute;
     left: 4px;
@@ -1035,13 +980,12 @@ html.dark-theme .feature-icon {
     transform: rotate(20deg);
 }
 
-/* Sağ Kol (EL SALLAMA ANİMASYONU) */
 .fehim-arm-r {
     position: absolute;
     right: 3px;
     top: 2px;
     width: 9px;
-    height: 24px;
+    height: 23px;
     background: #0284c7;
     border: 1px solid #0369a1;
     border-radius: 5px;
@@ -1058,7 +1002,6 @@ html.dark-theme .feature-icon {
     80% { transform: rotate(-125deg); }
 }
 
-/* Bacaklar */
 .fehim-legs-row {
     display: flex;
     gap: 10px;
@@ -1067,7 +1010,7 @@ html.dark-theme .feature-icon {
 
 .fehim-leg {
     width: 8px;
-    height: 11px;
+    height: 10px;
     background: #0284c7;
     border-radius: 0 0 4px 4px;
 }
@@ -1293,7 +1236,6 @@ html.dark-theme .feature-icon {
 }
 
 @media (max-width: 900px) {
-    .nav-links { display: none; }
     .clock-screen { font-size: 2.1rem; width: 70px; height: 70px; }
     .clock-divider { font-size: 1.8rem; }
     .chat-window { width: calc(100vw - 32px); right: -8px; height: 460px; }
