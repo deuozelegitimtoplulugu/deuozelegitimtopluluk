@@ -4,64 +4,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hakkımızda - DEÜ Özel Eğitim Topluluğu</title>
+    
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
+    <!-- NAVBAR (SADECE LOGO VE SAĞ MENÜ BUTONLARI) -->
     <header class="navbar">
         <div class="container nav-content">
-            <a href="index.html" class="logo">
-                <img src="logo.png" alt="Logo" class="nav-logo-img">
+            <a href="./index.html" class="logo">
+                <img src="./logo.png" alt="DEÜ Logo" class="nav-logo-img">
                 <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
             </a>
-            <nav class="nav-links">
-                <a href="hakkimizda.html" style="color:var(--primary);">Hakkımızda</a>
-                <a href="faaliyetler.html">Faaliyetlerimiz</a>
-                <a href="etkinlikler.html">Etkinlikler</a>
-                <a href="ekip.html">Ekibimiz</a>
-            </nav>
-            <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menü">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
         </div>
     </header>
 
+    <!-- SAĞDAKİ 3 ÇİZGİ MENÜSÜ (TAM EKSİKSİZ LİSTE) -->
     <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
-        <div class="drawer-header"><span class="drawer-title">MENÜ</span><button class="drawer-close" id="drawerClose">&times;</button></div>
+        <div class="drawer-header">
+            <span class="drawer-title">MENÜ</span>
+            <button class="drawer-close" id="drawerClose">&times;</button>
+        </div>
         <div class="drawer-links">
-            <a href="index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
-            <a href="hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
-            <a href="faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
-            <a href="etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
-            <a href="ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
+            <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <a href="./duyurular.html" class="drawer-link highlight"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
+            <a href="./hakkimizda.html" class="drawer-link" style="color:var(--primary);"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
+            <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
+            <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
+            <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
+            <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
+            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
+            <a href="./index.html#basvuru" class="drawer-link drawer-btn-apply">
+                <i class="fa-solid fa-user-plus"></i> Aramıza Katıl
+            </a>
+            <a href="#" target="_blank" class="drawer-link drawer-btn-wa">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı
+            </a>
         </div>
     </div>
 
-    <section class="container section">
-        <div class="section-header">
-            <span class="section-subtitle">BİZ KİMİZ?</span>
-            <h2>Topluluğumuzun Amacı ve Misyonu</h2>
+    <!-- BAŞLIK -->
+    <section class="hero" style="padding: 65px 0 70px;">
+        <div class="container">
+            <span class="hero-tag"><i class="fa-solid fa-circle-info"></i> Kurumsal</span>
+            <h1>Hakkımızda & Vizyonumuz</h1>
+            <p>Dokuz Eylül Üniversitesi bünyesinde özel gereksinimli bireylerin toplumsal yaşama tam ve etkin katılımı için çalışıyoruz.</p>
         </div>
-        <div class="about-card" style="max-width:850px; margin:0 auto; padding:40px; background:#fff; border-radius:16px; border:1px solid var(--border);">
-            <p style="font-size:1.2rem; line-height:1.9; color:#334155;">
-                Özel eğitim alanında öğrenim gören öğrencileri bir araya getirerek <strong>mesleki bilgi ve becerilerini geliştirmek</strong>, bireysel farklılıklara yönelik toplumsal farkındalığı artırmak, <strong>özel gereksinimli bireylere ve ailelerine yönelik sosyal sorumluluk projeleri yürütmek</strong> ve Dokuz Eylül Üniversitesi bünyesinde kapsayıcı, eşitlikçi bir kültürün oluşmasına katkı sağlamaktır.
+    </section>
+
+    <!-- İÇERİK -->
+    <section class="container section">
+        <div class="feature-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 30px;">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-bullseye"></i></div>
+                <h3>Misyonumuz</h3>
+                <p>Özel eğitim alanında bilimsel temelli çalışmalar yürütmek, üniversitemiz genelinde ve toplumda farkındalık oluşturmak, öğretmen adaylarının mesleki gelişimlerini saha tecrübeleri ve atölyelerle desteklemektir.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-eye"></i></div>
+                <h3>Vizyonumuz</h3>
+                <p>Türkiye'de özel eğitim alanında öncü, kapsayıcı eğitim felsefesini kampüsten topluma yayan ve özel gereksinimli tüm bireylerin eşit haklarla temsil edilmesini sağlayan örnek bir öğrenci topluluğu olmak.</p>
+            </div>
+        </div>
+
+        <div class="feature-card">
+            <h3>Temel Değerlerimiz</h3>
+            <p style="margin-top: 10px;">
+                Topluluğumuz; <strong>kapsayıcılık, empati, bilimsel yaklaşım, gönüllülük ve dayanışma</strong> ilkeleri üzerine kurulmuştur. Buca Eğitim Fakültesi başta olmak üzere Dokuz Eylül Üniversitesi'nin tüm birimleriyle iş birliği içinde faaliyet gösterir.
             </p>
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="footer">
-        <div class="container footer-bottom"><p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu.</p></div>
+        <div class="container footer-bottom">
+            <p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
+        </div>
     </footer>
+
+    <!-- SAĞ ALT: FEHİM BOTU -->
+    <div class="chat-widget-wrapper">
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar-mini">
+                        <div class="chat-avatar-eyes"><span></span><span></span></div>
+                        <div class="chat-avatar-mustache"><span></span><span></span></div>
+                        <div class="chat-online-dot"></div>
+                    </div>
+                    <div>
+                        <h4>Fehim</h4>
+                        <span>Özel Eğitim Asistanı • Çevrimiçi</span>
+                    </div>
+                </div>
+                <button class="chat-close-btn" id="chatCloseBtn">&times;</button>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="chat-msg bot">
+                    Hakkımızda sayfamızı inceliyorsun! Topluluğumuzun amaçları veya projelerimiz hakkında merak ettiğin bir şey var mı?
+                </div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Fehim'e bir soru sor...">
+                <button id="chatSendBtn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <button class="robot-trigger-btn" id="chatBubbleBtn" aria-label="Fehim Asistanı Aç">
+            <div class="fehim-shadow"></div>
+            <div class="fehim-character-stage">
+                <div class="fehim-antenna"><div class="fehim-antenna-light"></div></div>
+                <div class="fehim-head">
+                    <div class="fehim-eyebrows-row"><div class="eyebrow-l"></div><div class="eyebrow-r"></div></div>
+                    <div class="fehim-eye-visor"><div class="fehim-eye-dot"></div><div class="fehim-eye-dot"></div></div>
+                    <div class="fehim-mustache-zone"><div class="m-wing-left"></div><div class="m-wing-right"></div></div>
+                </div>
+                <div class="fehim-torso-assembly">
+                    <div class="fehim-arm-l"></div>
+                    <div class="fehim-chest-body"><span class="fehim-name-tag">FEHİM</span><i class="fa-solid fa-heart fehim-chest-heart"></i></div>
+                    <div class="fehim-arm-r"></div>
+                    <div class="fehim-legs-row"><div class="fehim-leg"></div><div class="fehim-leg"></div></div>
+                </div>
+            </div>
+            <span class="chat-badge">1</span>
+        </button>
+    </div>
+
+    <!-- JAVASCRIPT BETİKLERİ -->
     <script>
+        // Çekmece Menü
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
         const drawer = document.getElementById('mobileDrawer');
         const overlay = document.getElementById('mobileOverlay');
+
         toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+
+        // Karanlık Mod
+        const rootElement = document.documentElement;
+        const themeBtn = document.getElementById('themeToggleNav');
+
+        function applyTheme(isDark) {
+            if (isDark) {
+                rootElement.classList.add('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                rootElement.classList.remove('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        const savedTheme = localStorage.getItem('site_theme');
+        applyTheme(savedTheme === 'dark');
+
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                const isDark = !rootElement.classList.contains('dark-theme');
+                applyTheme(isDark);
+                localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+            });
+        }
+
+        // Fehim Chat
+        const chatBubbleBtn = document.getElementById('chatBubbleBtn');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatCloseBtn = document.getElementById('chatCloseBtn');
+
+        chatBubbleBtn.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+            const badge = chatBubbleBtn.querySelector('.chat-badge');
+            if (badge) badge.style.display = 'none';
+        });
+        chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('open'); });
     </script>
 </body>
 </html>
