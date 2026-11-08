@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puan Sıralaması - DEÜ Özel Eğitim Topluluğu</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .leaderboard-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 12px;
+            transition: 0.2s ease;
+        }
+        .leaderboard-row:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+        .rank-badge {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--bg-light);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+        }
+        .rank-1 { background: #fef08a; color: #854d0e; border: 2px solid #eab308; }
+        .rank-2 { background: #e2e8f0; color: #334155; border: 2px solid #94a3b8; }
+        .rank-3 { background: #fed7aa; color: #9a3412; border: 2px solid #f97316; }
+        .score-pill-badge {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-weight: 800;
+            font-size: 0.95rem;
+            padding: 6px 16px;
+            border-radius: 20px;
+        }
+        html.dark-theme .score-pill-badge {
+            background: #1e3a8a;
+            color: #93c5fd;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="./index.html" class="logo">
+                <img src="./logo.png" alt="DEÜ Logo" class="nav-logo-img">
+                <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
+            </a>
+            <div class="nav-actions">
+                <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> <span>Giriş / Üye Ol</span>
+                </a>
+                <button class="user-avatar-btn" id="userAvatarBtn" onclick="location.href='./index.html'" title="Profil">
+                    <i class="fa-solid fa-user" id="navAvatarIcon"></i>
+                    <img id="navAvatarImg" style="display:none;" alt="Profil">
+                </button>
+                <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod"><i class="fa-solid fa-moon"></i></button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menü"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3 ÇİZGİ MENÜSÜ -->
+    <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header">
+            <span class="drawer-title">MENÜ</span>
+            <button class="drawer-close" id="drawerClose">&times;</button>
+        </div>
+        <div class="drawer-links">
+            <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <a href="./siralama.html" class="drawer-link highlight" style="color:var(--primary);"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
+            <a href="./duyurular.html" class="drawer-link"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
+            <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
+            <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
+            <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
+            <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
+            <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
+            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
+            <a href="./index.html#basvuru" class="drawer-link drawer-btn-apply"><i class="fa-solid fa-user-plus"></i> Aramıza Katıl</a>
+            <a href="#" target="_blank" class="drawer-link drawer-btn-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı</a>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" style="padding: 65px 0 70px;">
+        <div class="container">
+            <span class="hero-tag"><i class="fa-solid fa-trophy"></i> Liderlik Tablosu</span>
+            <h1>Öğrenci Puan Sıralaması</h1>
+            <p>Topluluk etkinliklerine ve atölyelere katılarak puan toplayan tüm öğrencilerimizin güncel başarı tablosu.</p>
+        </div>
+    </section>
+
+    <!-- SIRALAMA LİSTESİ -->
+    <section class="container section">
+        <div style="max-width: 800px; margin: 0 auto;" id="leaderboardList">
+            <!-- JS ile büyükten küçüğe dolar -->
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-bottom"><p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p></div>
+    </footer>
+
+    <script>
+        // Menü
+        const toggleBtn = document.getElementById('menuToggle');
+        const closeBtn = document.getElementById('drawerClose');
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+        toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
+        closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+        overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+
+        // Tema
+        const rootElement = document.documentElement;
+        const themeBtn = document.getElementById('themeToggleNav');
+        function applyTheme(isDark) {
+            if (isDark) {
+                rootElement.classList.add('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                rootElement.classList.remove('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+        applyTheme(localStorage.getItem('site_theme') === 'dark');
+        themeBtn.addEventListener('click', () => {
+            const isDark = !rootElement.classList.contains('dark-theme');
+            applyTheme(isDark);
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+        });
+
+        // Üst Bar Avatar Kontrolü
+        const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
+        if (session) {
+            document.getElementById('navAuthBtn').style.display = 'none';
+            const userAvatarBtn = document.getElementById('userAvatarBtn');
+            userAvatarBtn.style.display = 'flex';
+            if (session.role === 'member') {
+                const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+                const me = users.find(u => u.username === session.username);
+                if (me && me.avatar) {
+                    const img = document.getElementById('navAvatarImg');
+                    img.src = me.avatar;
+                    img.style.display = 'block';
+                    document.getElementById('navAvatarIcon').style.display = 'none';
+                }
+            }
+        }
+
+        // Sıralama Listesini Doldurma (Büyükten Küçüğe)
+        function loadLeaderboard() {
+            const list = document.getElementById('leaderboardList');
+            let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+
+            // Büyükten küçüğe sırala
+            users.sort((a, b) => (b.points || 0) - (a.points || 0));
+
+            if (users.length === 0) {
+                list.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Henüz kayıtlı öğrenci bulunmuyor.</div>';
+                return;
+            }
+
+            list.innerHTML = users.map((u, index) => {
+                let badgeClass = '';
+                let rankText = `#${index + 1}`;
+                if (index === 0) { badgeClass = 'rank-1'; rankText = '<i class="fa-solid fa-crown"></i> 1'; }
+                else if (index === 1) { badgeClass = 'rank-2'; rankText = '2'; }
+                else if (index === 2) { badgeClass = 'rank-3'; rankText = '3'; }
+
+                return `
+                    <div class="leaderboard-row">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <div class="rank-badge ${badgeClass}">${rankText}</div>
+                            <div>
+                                <h4 style="font-size:1rem; font-weight:800; color:var(--text-main); margin-bottom:2px;">${u.fullName}</h4>
+                                <span style="font-size:0.8rem; color:var(--text-muted);">${u.dept} • @${u.username}</span>
+                            </div>
+                        </div>
+                        <div class="score-pill-badge">
+                            ${u.points || 0} Puan
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        loadLeaderboard();
+    </script>
+</body>
+</html>
