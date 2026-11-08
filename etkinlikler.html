@@ -3,158 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Etkinlikler & Galeri - DEÜ Özel Eğitim Topluluğu</title>
+    <title>Etkinlikler - DEÜ Özel Eğitim Topluluğu</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
+    <!-- NAVBAR -->
     <header class="navbar">
         <div class="container nav-content">
             <a href="./index.html" class="logo">
-                <img src="./logo.png" alt="Logo" class="nav-logo-img">
+                <img src="./logo.png" alt="DEÜ Logo" class="nav-logo-img">
                 <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
             </a>
             <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle"><i class="fa-solid fa-moon"></i></button>
-                <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+                <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod"><i class="fa-solid fa-moon"></i></button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menü"><span></span><span></span><span></span></button>
             </div>
         </div>
     </header>
 
+    <!-- 3 ÇİZGİ MENÜSÜ -->
     <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
-        <div class="drawer-header"><span class="drawer-title">MENÜ</span><button class="drawer-close" id="drawerClose">&times;</button></div>
+        <div class="drawer-header">
+            <span class="drawer-title">MENÜ</span>
+            <button class="drawer-close" id="drawerClose">&times;</button>
+        </div>
         <div class="drawer-links">
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <a href="./duyurular.html" class="drawer-link highlight"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
             <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
             <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
-            <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
+            <a href="./etkinlikler.html" class="drawer-link" style="color:var(--primary);"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
             <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
             <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
-            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> SSS</a>
+            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
+            <a href="./index.html#basvuru" class="drawer-link drawer-btn-apply"><i class="fa-solid fa-user-plus"></i> Aramıza Katıl</a>
+            <a href="#" target="_blank" class="drawer-link drawer-btn-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı</a>
         </div>
     </div>
 
-    <!-- Etkinlikler & Kategori Filtresi -->
-    <section class="container section">
-        <div class="section-header">
-            <span class="section-subtitle">ARŞİV VE PROGRAMLAR</span>
-            <h2>Etkinliklerimiz</h2>
-            <p>Kategorilere göre filtreleyebilir veya etkinlik detaylarını inceleyebilirsiniz.</p>
-            
-            <div class="filter-buttons">
-                <button class="btn-filter active" data-filter="all">Tümü</button>
-                <button class="btn-filter" data-filter="atolye">Atölyeler & Saha</button>
-                <button class="btn-filter" data-filter="panel">Paneller</button>
-                <button class="btn-filter" data-filter="kampus">Kampüs</button>
-            </div>
-        </div>
-
-        <div class="cards-grid">
-            <article class="card event-item" data-category="atolye">
-                <div class="card-badge">Atölye</div>
-                <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80" alt="Etkinlik 1" class="gallery-img"></div>
-                <div class="card-body">
-                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 07 Kasım 2026</span>
-                    <h3>Özel Bireylerle Duyusal Sanat Atölyesi</h3>
-                    <p>İzmir yerel uygulama merkezinde çocuklarla duyusal bütünleme ve serbest boyama atölyesi gerçekleştirdik.</p>
-                </div>
-            </article>
-
-            <article class="card event-item" data-category="panel">
-                <div class="card-badge">Panel</div>
-                <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80" alt="Etkinlik 2" class="gallery-img"></div>
-                <div class="card-body">
-                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 31 Ekim 2026</span>
-                    <h3>Kapsayıcı Eğitimde Yeni Yaklaşımlar Paneli</h3>
-                    <p>Fakültemiz öğretim üyelerinin ve konuklarımızın katkılarıyla kapsayıcı sınıf yönetimini tartıştık.</p>
-                </div>
-            </article>
-
-            <article class="card event-item" data-category="kampus">
-                <div class="card-badge">Kampüs</div>
-                <div class="card-img-wrapper"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80" alt="Etkinlik 3" class="gallery-img"></div>
-                <div class="card-body">
-                    <span class="card-date"><i class="fa-regular fa-calendar"></i> 24 Ekim 2026</span>
-                    <h3>Yeni Dönem Tanışma ve Görev Dağılımı</h3>
-                    <p>Topluluk üyelerimizle dönem planımızı çıkardık ve yeni çalışma komisyonlarımızı oluşturduk.</p>
-                </div>
-            </article>
+    <!-- HERO -->
+    <section class="hero" style="padding: 65px 0 70px;">
+        <div class="container">
+            <span class="hero-tag"><i class="fa-solid fa-calendar-days"></i> Program & Arşiv</span>
+            <h1>Etkinliklerimiz</h1>
+            <p>Gerçekleştirdiğimiz konferanslar, sempozyumlar ve yaklaşan dönem takvimimiz.</p>
         </div>
     </section>
 
-    <!-- Fotoğraf Büyütme (Lightbox Modal) -->
-    <div id="lightboxModal" class="lightbox-modal">
-        <span class="lightbox-close">&times;</span>
-        <img class="lightbox-content" id="lightboxTarget">
-    </div>
+    <!-- İÇERİK -->
+    <section class="container section">
+        <div style="display: flex; flex-direction: column; gap: 24px; max-width: 860px; margin: 0 auto;">
+            
+            <div class="feature-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span style="font-size:0.8rem; font-weight:800; color:#fff; background:var(--primary); padding:3px 12px; border-radius:20px;">YAKLAŞAN BULUŞMA</span>
+                    <span style="font-size:0.85rem; color:var(--text-muted);"><i class="fa-regular fa-calendar"></i> 20 Kasım 2026 | 14:00</span>
+                </div>
+                <h3>Güz Dönemi Tanışma & Komisyonlar Buluşması</h3>
+                <p>Yer: Buca Eğitim Fakültesi Konferans Salonu. Yeni katılan üyelerimizle tanışıyor, komisyon görev dağılımlarını planlıyoruz.</p>
+            </div>
 
+            <div class="feature-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span style="font-size:0.8rem; font-weight:800; color:#10b981; background:rgba(16,185,129,0.15); padding:3px 12px; border-radius:20px;">TAMAMLANDI</span>
+                    <span style="font-size:0.85rem; color:var(--text-muted);"><i class="fa-regular fa-calendar"></i> 06 Kasım 2026</span>
+                </div>
+                <h3>DEHB Dostu Okullar Konferansı - Nicola Coss</h3>
+                <p>Yer: Reşat Postacıoğlu Konferans Salonu. ADHD Ireland Ulusal Hizmet Lideri Nicola Coss ile öğretmen adaylarına öneriler ve iyi uygulama örnekleri ele alındı.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer class="footer">
-        <div class="container footer-bottom"><p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu.</p></div>
+        <div class="container footer-bottom"><p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p></div>
     </footer>
+
+    <!-- SAĞ ALT: FEHİM -->
+    <div class="chat-widget-wrapper">
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar-mini">
+                        <div class="chat-avatar-eyes"><span></span><span></span></div>
+                        <div class="chat-avatar-mustache"><span></span><span></span></div>
+                        <div class="chat-online-dot"></div>
+                    </div>
+                    <div><h4>Fehim</h4><span>Özel Eğitim Asistanı • Çevrimiçi</span></div>
+                </div>
+                <button class="chat-close-btn" id="chatCloseBtn">&times;</button>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="chat-msg bot">Sıradaki büyük etkinliğimiz 20 Kasım'da! Katılmak ister misin?</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Fehim'e bir soru sor...">
+                <button id="chatSendBtn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+        <button class="robot-trigger-btn" id="chatBubbleBtn" aria-label="Fehim Asistanı Aç">
+            <div class="fehim-shadow"></div>
+            <div class="fehim-character-stage">
+                <div class="fehim-antenna"><div class="fehim-antenna-light"></div></div>
+                <div class="fehim-head">
+                    <div class="fehim-eyebrows-row"><div class="eyebrow-l"></div><div class="eyebrow-r"></div></div>
+                    <div class="fehim-eye-visor"><div class="fehim-eye-dot"></div><div class="fehim-eye-dot"></div></div>
+                    <div class="fehim-mustache-zone"><div class="m-wing-left"></div><div class="m-wing-right"></div></div>
+                </div>
+                <div class="fehim-torso-assembly">
+                    <div class="fehim-arm-l"></div>
+                    <div class="fehim-chest-body"><span class="fehim-name-tag">FEHİM</span><i class="fa-solid fa-heart fehim-chest-heart"></i></div>
+                    <div class="fehim-arm-r"></div>
+                    <div class="fehim-legs-row"><div class="fehim-leg"></div><div class="fehim-leg"></div></div>
+                </div>
+            </div>
+            <span class="chat-badge">1</span>
+        </button>
+    </div>
 
     <script>
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
         const drawer = document.getElementById('mobileDrawer');
         const overlay = document.getElementById('mobileOverlay');
-
         toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
 
-        // Karanlık Mod
-        const themeBtn = document.getElementById('themeToggle');
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-theme');
-            themeBtn.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+        const rootElement = document.documentElement;
+        const themeBtn = document.getElementById('themeToggleNav');
+        function applyTheme(isDark) {
+            if (isDark) {
+                rootElement.classList.add('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                rootElement.classList.remove('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
+            }
         }
+        applyTheme(localStorage.getItem('site_theme') === 'dark');
         themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-theme');
-            const isDark = document.body.classList.contains('dark-theme');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            themeBtn.querySelector('i').classList.toggle('fa-sun', isDark);
-            themeBtn.querySelector('i').classList.toggle('fa-moon', !isDark);
+            const isDark = !rootElement.classList.contains('dark-theme');
+            applyTheme(isDark);
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
         });
 
-        // Kategori Filtreleme
-        const filterBtns = document.querySelectorAll('.btn-filter');
-        const eventItems = document.querySelectorAll('.event-item');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const cat = btn.getAttribute('data-filter');
-
-                eventItems.forEach(item => {
-                    if (cat === 'all' || item.getAttribute('data-category') === cat) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-        // Lightbox Fotoğraf Büyütme
-        const modal = document.getElementById('lightboxModal');
-        const modalImg = document.getElementById('lightboxTarget');
-        const images = document.querySelectorAll('.gallery-img');
-        const modalClose = document.querySelector('.lightbox-close');
-
-        images.forEach(img => {
-            img.addEventListener('click', () => {
-                modal.style.display = 'flex';
-                modalImg.src = img.src;
-            });
-        });
-
-        modalClose.addEventListener('click', () => { modal.style.display = 'none'; });
-        modal.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+        const chatBubbleBtn = document.getElementById('chatBubbleBtn');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatCloseBtn = document.getElementById('chatCloseBtn');
+        chatBubbleBtn.addEventListener('click', () => { chatWindow.classList.toggle('open'); });
+        chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('open'); });
     </script>
 </body>
 </html>
