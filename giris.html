@@ -1,4 +1,4 @@
--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -112,18 +112,6 @@
             padding: 24px;
             margin-bottom: 20px;
         }
-        .score-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
-            color: #fff;
-            font-size: 1.4rem;
-            font-weight: 800;
-            padding: 10px 22px;
-            border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
-        }
         .admin-table {
             width: 100%;
             border-collapse: collapse;
@@ -168,6 +156,7 @@
         .btn-table-action.del:hover {
             border-color: #ef4444;
             color: #ef4444;
+            background: #fef2f2;
         }
     </style>
 </head>
@@ -238,37 +227,12 @@
         </div>
     </div>
 
-    <!-- ÜYE PROFİL PANELİ (ÜYE GİRİŞİ YAPILDIĞINDA) -->
-    <div class="container section" id="memberDashboard" style="display:none; max-width:800px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:10px;">
-            <div>
-                <span style="font-size:0.8rem; font-weight:800; color:var(--primary);"><i class="fa-solid fa-circle-check"></i> AKTİF ÜYE OTURUMU</span>
-                <h2 id="welcomeMemberName">Hoş Geldin, Öğrenci</h2>
-            </div>
-            <div style="display:flex; gap:10px;">
-                <a href="./index.html" class="btn-primary" style="padding:9px 18px; font-size:0.85rem;"><i class="fa-solid fa-house"></i> Ana Sayfaya Git</a>
-                <button onclick="logout()" class="btn-primary" style="background:#ef4444; color:#fff; border:none; padding:9px 16px; font-size:0.85rem; cursor:pointer;"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
-            </div>
-        </div>
-
-        <div class="dash-card" style="text-align:center; padding:35px 20px;">
-            <p style="color:var(--text-muted); font-size:0.9rem; font-weight:700; margin-bottom:10px;">MEVCUT TOPLULUK PUANINIZ</p>
-            <div class="score-pill">
-                <i class="fa-solid fa-star fa-beat"></i>
-                <span id="memberScore">0</span> Puan
-            </div>
-            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:14px;">
-                Etkinliklere katıldıkça yöneticiler tarafından hesabınıza ek puanlar tanımlanacaktır.
-            </p>
-        </div>
-    </div>
-
-    <!-- YÖNETİCİ KONTROL PANELİ (ADMİN GİRİŞİ YAPILDIĞINDA) -->
+    <!-- YÖNETİCİ KONTROL PANELİ (ADMİN GİRİŞİ YAPILDIĞINDA DOĞRUDAN BURASI AÇILIR) -->
     <div class="container section" id="adminDashboard" style="display:none; max-width:960px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:10px;">
             <div>
                 <span style="font-size:0.8rem; font-weight:800; color:#ef4444;"><i class="fa-solid fa-shield-halved"></i> YÖNETİCİ KONTROL PANELİ</span>
-                <h2>Sistem ve Üye Yönetimi</h2>
+                <h2>Sistem ve Öğrenci Yönetimi</h2>
             </div>
             <div style="display:flex; gap:10px;">
                 <a href="./index.html" class="btn-primary" style="padding:9px 18px; font-size:0.85rem;"><i class="fa-solid fa-house"></i> Ana Sayfaya Git</a>
@@ -279,7 +243,7 @@
         <!-- Üyeye Hızlı Puan Ekleme -->
         <div class="dash-card">
             <h3><i class="fa-solid fa-coins"></i> Üyeye Puan Tanımla</h3>
-            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">Aşağıdaki tablodan ya da kullanıcı adını yazarak etkinliğe katılan üyeye puan tanımlayabilirsiniz.</p>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">Aşağıdaki tablodan hızlıca veya kullanıcı adını girerek puan ekleyebilirsiniz.</p>
             
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
                 <input type="text" id="targetUser" class="portal-input" placeholder="Hedef Kullanıcı Adı (@kullanici)" style="flex:1; min-width:200px;">
@@ -288,21 +252,22 @@
             </div>
         </div>
 
-        <!-- Kayıtlı Üyeler Tablosu -->
+        <!-- Kayıtlı Üyeler Tablosu (Büyükten Küçüğe Sıralı & Silme Butonlu) -->
         <div class="dash-card">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <h3><i class="fa-solid fa-users"></i> Kayıtlı Üyeler ve Puan Durumları</h3>
-                <span id="memberCountBadge" style="font-size:0.82rem; font-weight:700; color:var(--text-muted);">0 Üye Kayıtlı</span>
+                <h3><i class="fa-solid fa-users"></i> Kayıtlı Öğrenciler ve Puan Durumları</h3>
+                <span id="memberCountBadge" style="font-size:0.82rem; font-weight:700; color:var(--text-muted);">0 Öğrenci</span>
             </div>
 
             <div style="overflow-x:auto;">
                 <table class="admin-table">
                     <thead>
                         <tr>
+                            <th>Sıra</th>
                             <th>Ad Soyad</th>
                             <th>Kullanıcı Adı</th>
                             <th>Bölüm</th>
-                            <th>Mevcut Puan</th>
+                            <th>Puan</th>
                             <th>İşlemler</th>
                         </tr>
                     </thead>
@@ -319,7 +284,6 @@
 
     <!-- JAVASCRIPT MOTORU -->
     <script>
-        // Tema
         const rootElement = document.documentElement;
         const themeBtn = document.getElementById('themeToggleNav');
         function applyTheme(isDark) {
@@ -338,7 +302,6 @@
             localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
         });
 
-        // Tab Değiştirme
         function switchTab(type) {
             document.getElementById('tabLogin').classList.toggle('active', type === 'login');
             document.getElementById('tabRegister').classList.toggle('active', type === 'register');
@@ -390,25 +353,25 @@
             setTimeout(() => switchTab('login'), 1200);
         });
 
-        // Giriş Yap
+        // Giriş Yap: Üye İse Doğrudan Ana Sayfaya Gönder, Admin İse Panelde Kal
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const user = document.getElementById('loginUser').value.trim().toLowerCase();
             const pass = document.getElementById('loginPass').value;
 
-            // 1. Yönetici Girişi
+            // 1. Yönetici Girişi (Panelde kalır)
             if (user === 'admin' && pass === 'deu1982') {
                 sessionStorage.setItem('active_session', JSON.stringify({ role: 'admin', name: 'Yönetici' }));
                 renderViews();
                 return;
             }
 
-            // 2. Üye Girişi
+            // 2. Normal Üye Girişi (Doğrudan ana sayfaya yönlendirilir)
             const users = getUsers();
             const found = users.find(u => u.username === user && u.pass === pass);
             if (found) {
                 sessionStorage.setItem('active_session', JSON.stringify({ role: 'member', username: found.username }));
-                renderViews();
+                window.location.href = './index.html'; // Puan sayfası açılmaz, doğrudan ana sayfa açılır
             } else {
                 showAlert('Hatalı kullanıcı adı veya şifre!');
             }
@@ -416,7 +379,7 @@
 
         function logout() {
             sessionStorage.removeItem('active_session');
-            renderViews();
+            window.location.href = './index.html';
         }
 
         // Puan Ekleme
@@ -444,35 +407,41 @@
             renderAdminTable();
         }
 
-        // Üye Silme
+        // Sistemden Üye Silme
         window.deleteUser = function(username) {
-            if (!confirm(`@${username} kullanıcısını silmek istediğinize emin misiniz?`)) return;
+            if (!confirm(`@${username} kullanıcısını sistemden tamamen silmek istediğinize emin misiniz?`)) return;
             let users = getUsers();
             users = users.filter(u => u.username !== username);
             saveUsers(users);
             renderAdminTable();
         };
 
+        // Üyeleri Büyükten Küçüğe Sıralayıp Listeleme
         function renderAdminTable() {
             const tb = document.getElementById('memberTableBody');
-            const users = getUsers();
-            document.getElementById('memberCountBadge').innerText = `${users.length} Üye Kayıtlı`;
+            let users = getUsers();
+            
+            // Puana göre büyükten küçüğe sıralama
+            users.sort((a, b) => (b.points || 0) - (a.points || 0));
+
+            document.getElementById('memberCountBadge').innerText = `${users.length} Öğrenci Kayıtlı`;
 
             if (users.length === 0) {
-                tb.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı üye bulunmuyor.</td></tr>';
+                tb.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı öğrenci bulunmuyor.</td></tr>';
                 return;
             }
 
-            tb.innerHTML = users.map(u => `
+            tb.innerHTML = users.map((u, index) => `
                 <tr>
+                    <td><strong>#${index + 1}</strong></td>
                     <td><strong>${u.fullName}</strong></td>
                     <td>@${u.username}</td>
                     <td>${u.dept}</td>
-                    <td><span class="pt-badge">${u.points || 0} Puan</span></td>
+                    <td><span class="pt-badge">${u.points || 0} P</span></td>
                     <td style="display:flex; gap:6px;">
-                        <button class="btn-table-action" onclick="givePoints('${u.username}', 25)">+25 P</button>
-                        <button class="btn-table-action" onclick="givePoints('${u.username}', 50)">+50 P</button>
-                        <button class="btn-table-action del" onclick="deleteUser('${u.username}')" title="Üyeyi Sil"><i class="fa-solid fa-trash"></i></button>
+                        <button class="btn-table-action" onclick="givePoints('${u.username}', 25)">+25</button>
+                        <button class="btn-table-action" onclick="givePoints('${u.username}', 50)">+50</button>
+                        <button class="btn-table-action del" onclick="deleteUser('${u.username}')" title="Sistemden Sil"><i class="fa-solid fa-trash"></i> Sil</button>
                     </td>
                 </tr>
             `).join('');
@@ -481,26 +450,18 @@
         function renderViews() {
             const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
             const authSec = document.getElementById('authSection');
-            const memberDash = document.getElementById('memberDashboard');
             const adminDash = document.getElementById('adminDashboard');
-
-            authSec.style.display = 'none';
-            memberDash.style.display = 'none';
-            adminDash.style.display = 'none';
 
             if (!session) {
                 authSec.style.display = 'block';
+                adminDash.style.display = 'none';
             } else if (session.role === 'admin') {
+                authSec.style.display = 'none';
                 adminDash.style.display = 'block';
                 renderAdminTable();
             } else if (session.role === 'member') {
-                memberDash.style.display = 'block';
-                const users = getUsers();
-                const me = users.find(u => u.username === session.username);
-                if (me) {
-                    document.getElementById('welcomeMemberName').innerText = `Hoş Geldin, ${me.fullName}`;
-                    document.getElementById('memberScore').innerText = me.points || 0;
-                }
+                // Üye oturumu açıkken giris.html'e gelirse ana sayfaya atar
+                window.location.href = './index.html';
             }
         }
 
