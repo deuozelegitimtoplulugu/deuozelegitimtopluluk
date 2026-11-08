@@ -35,7 +35,7 @@
         <div class="intro-subtext">Farkındalık Yaratıyor, Birlikte Aşıyoruz...</div>
     </div>
 
-    <!-- ÜST NAVBAR (SADECE LOGO VE SAĞ MENÜ BUTONLARI) -->
+    <!-- ÜST NAVBAR: GİRİŞ BUTONU 3 ÇİZGİNİN HEMEN YANINDA -->
     <header class="navbar">
         <div class="container nav-content">
             <a href="./index.html" class="logo">
@@ -44,6 +44,12 @@
             </a>
 
             <div class="nav-actions">
+                <!-- Dinamik Giriş/Profil Butonu (Giriş yapılınca kullanıcı adına dönüşür) -->
+                <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
+                    <i class="fa-solid fa-user-circle"></i>
+                    <span id="navAuthText">Giriş / Üye Ol</span>
+                </a>
+
                 <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod Değiştirici">
                     <i class="fa-solid fa-moon"></i>
                 </button>
@@ -56,13 +62,34 @@
         </div>
     </header>
 
-    <!-- SAĞDAKİ 3 ÇİZGİ MENÜSÜ (EKSİKSİZ TÜM SAYFALAR BURADA) -->
+    <!-- SAĞDAKİ 3 ÇİZGİ MENÜSÜ -->
     <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-header">
             <span class="drawer-title">MENÜ</span>
             <button class="drawer-close" id="drawerClose">&times;</button>
         </div>
+
+        <!-- 3 ÇİZGİ MENÜSÜNÜN EN TEPESİNDEKİ KİŞİSEL PROFİL ALANI -->
+        <div class="drawer-profile-card" id="drawerProfileBox" style="display:none;">
+            <div class="drawer-profile-top">
+                <div class="drawer-profile-avatar" id="drawerAvatarChar">A</div>
+                <div class="drawer-profile-info">
+                    <h4 id="drawerUserName">Kullanıcı Adı</h4>
+                    <span id="drawerUserDept">Bölüm Bilgisi</span>
+                </div>
+            </div>
+            <div class="drawer-score-badge" id="drawerScoreContainer">
+                <i class="fa-solid fa-star"></i>
+                <span id="drawerUserPoints">0</span> Topluluk Puanı
+            </div>
+            <div class="drawer-profile-actions">
+                <button class="profile-action-btn" onclick="openProfileSettings()"><i class="fa-solid fa-gear"></i> Ayarlar</button>
+                <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
+            </div>
+        </div>
+
+        <!-- Menü Linkleri -->
         <div class="drawer-links">
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
             <a href="./duyurular.html" class="drawer-link highlight"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
@@ -72,12 +99,41 @@
             <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
             <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
             <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
-            <a href="#basvuru" class="drawer-link drawer-btn-apply">
+            
+            <a href="#basvuru" class="drawer-link drawer-btn-apply" id="drawerRegisterLink">
                 <i class="fa-solid fa-user-plus"></i> Aramıza Katıl
             </a>
             <a href="#" target="_blank" class="drawer-link drawer-btn-wa">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı
             </a>
+        </div>
+    </div>
+
+    <!-- PROFİL AYARLARI MODAL PENCERESİ -->
+    <div class="profile-modal" id="settingsModal">
+        <div class="profile-modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+                <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-main);"><i class="fa-solid fa-user-gear"></i> Profil Ayarları</h3>
+                <button onclick="closeProfileSettings()" style="background:transparent; border:none; font-size:1.4rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+            </div>
+
+            <form id="profileUpdateForm" style="display:flex; flex-direction:column; gap:12px;">
+                <div>
+                    <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:4px; display:block;">Adınız Soyadınız</label>
+                    <input type="text" id="settingFullName" class="form-input" required>
+                </div>
+                <div>
+                    <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:4px; display:block;">Bölümünüz</label>
+                    <input type="text" id="settingDept" class="form-input" required>
+                </div>
+                <div>
+                    <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:4px; display:block;">Yeni Şifre (İsteğe Bağlı)</label>
+                    <input type="password" id="settingNewPass" class="form-input" placeholder="Değiştirmek istemiyorsanız boş bırakın">
+                </div>
+                <button type="submit" class="btn-primary" style="background:var(--primary); color:#fff; border:none; justify-content:center; margin-top:8px; cursor:pointer;">
+                    <i class="fa-solid fa-floppy-disk"></i> Değişiklikleri Kaydet
+                </button>
+            </form>
         </div>
     </div>
 
@@ -89,7 +145,7 @@
             <p>Özel eğitim alanında bilimsel, sosyal ve gönüllülük temelli projeler üreten DEÜ'nün aktif öğrenci topluluğu platformu.</p>
             
             <div class="hero-actions">
-                <a href="#basvuru" class="btn-primary">
+                <a href="#basvuru" class="btn-primary" id="heroApplyBtn">
                     <i class="fa-solid fa-paper-plane"></i> Gönüllü Başvurusu
                 </a>
                 <a href="#" target="_blank" class="btn-whatsapp">
@@ -214,7 +270,7 @@
         <img id="modalImg" style="max-width:90%; max-height:85%; border-radius:12px; box-shadow:0 0 30px rgba(0,0,0,0.7); object-fit:contain;">
     </div>
 
-    <!-- İLETİŞİM, MESAJ FORMU VE HARİTA -->
+    <!-- İLETİŞİM & HARİTA -->
     <section id="basvuru" class="container section">
         <div class="section-header">
             <span class="section-subtitle">İLETİŞİM & KATILIM</span>
@@ -296,18 +352,11 @@
             <div class="chat-header">
                 <div class="chat-header-info">
                     <div class="chat-avatar-mini">
-                        <div class="chat-avatar-eyes">
-                            <span></span><span></span>
-                        </div>
-                        <div class="chat-avatar-mustache">
-                            <span></span><span></span>
-                        </div>
+                        <div class="chat-avatar-eyes"><span></span><span></span></div>
+                        <div class="chat-avatar-mustache"><span></span><span></span></div>
                         <div class="chat-online-dot"></div>
                     </div>
-                    <div>
-                        <h4>Fehim</h4>
-                        <span>Özel Eğitim Asistanı • Çevrimiçi</span>
-                    </div>
+                    <div><h4>Fehim</h4><span>Özel Eğitim Asistanı • Çevrimiçi</span></div>
                 </div>
                 <button class="chat-close-btn" id="chatCloseBtn">&times;</button>
             </div>
@@ -330,49 +379,27 @@
 
         <button class="robot-trigger-btn" id="chatBubbleBtn" aria-label="Fehim Asistanı Aç">
             <div class="fehim-shadow"></div>
-            
             <div class="fehim-character-stage">
-                <div class="fehim-antenna">
-                    <div class="fehim-antenna-light"></div>
-                </div>
-                
+                <div class="fehim-antenna"><div class="fehim-antenna-light"></div></div>
                 <div class="fehim-head">
-                    <div class="fehim-eyebrows-row">
-                        <div class="eyebrow-l"></div>
-                        <div class="eyebrow-r"></div>
-                    </div>
-                    <div class="fehim-eye-visor">
-                        <div class="fehim-eye-dot"></div>
-                        <div class="fehim-eye-dot"></div>
-                    </div>
-                    <div class="fehim-mustache-zone">
-                        <div class="m-wing-left"></div>
-                        <div class="m-wing-right"></div>
-                    </div>
+                    <div class="fehim-eyebrows-row"><div class="eyebrow-l"></div><div class="eyebrow-r"></div></div>
+                    <div class="fehim-eye-visor"><div class="fehim-eye-dot"></div><div class="fehim-eye-dot"></div></div>
+                    <div class="fehim-mustache-zone"><div class="m-wing-left"></div><div class="m-wing-right"></div></div>
                 </div>
-
                 <div class="fehim-torso-assembly">
                     <div class="fehim-arm-l"></div>
-                    <div class="fehim-chest-body">
-                        <span class="fehim-name-tag">FEHİM</span>
-                        <i class="fa-solid fa-heart fehim-chest-heart"></i>
-                    </div>
+                    <div class="fehim-chest-body"><span class="fehim-name-tag">FEHİM</span><i class="fa-solid fa-heart fehim-chest-heart"></i></div>
                     <div class="fehim-arm-r"></div>
-                    
-                    <div class="fehim-legs-row">
-                        <div class="fehim-leg"></div>
-                        <div class="fehim-leg"></div>
-                    </div>
+                    <div class="fehim-legs-row"><div class="fehim-leg"></div><div class="fehim-leg"></div></div>
                 </div>
             </div>
-
             <span class="chat-badge">1</span>
         </button>
     </div>
 
-    <!-- JAVASCRIPT BETİKLERİ -->
+    <!-- JAVASCRIPT: PROFİL KONTROLÜ & GENEL İŞLEMLER -->
     <script>
-        // Sinematik Giriş Animasyonu Kapatma
+        // Sinematik Giriş Animasyonu
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             setTimeout(() => {
@@ -391,7 +418,7 @@
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
 
-        // Karanlık Mod (Sayfalar Arası Kalıcı Hafızalı)
+        // Karanlık Mod
         const rootElement = document.documentElement;
         const themeBtn = document.getElementById('themeToggleNav');
 
@@ -405,9 +432,7 @@
             }
         }
 
-        const savedTheme = localStorage.getItem('site_theme');
-        applyTheme(savedTheme === 'dark');
-
+        applyTheme(localStorage.getItem('site_theme') === 'dark');
         if (themeBtn) {
             themeBtn.addEventListener('click', () => {
                 const isDark = !rootElement.classList.contains('dark-theme');
@@ -415,6 +440,105 @@
                 localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
             });
         }
+
+        // KULLANICI / YÖNETİCİ OTURUM YÖNETİMİ
+        function updateAuthUI() {
+            const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
+            const navAuthBtn = document.getElementById('navAuthBtn');
+            const navAuthText = document.getElementById('navAuthText');
+            const drawerProfileBox = document.getElementById('drawerProfileBox');
+            const drawerRegisterLink = document.getElementById('drawerRegisterLink');
+
+            if (!session) {
+                // Giriş yapılmamış
+                navAuthBtn.href = "./giris.html";
+                navAuthBtn.classList.remove('logged-in');
+                navAuthText.innerText = "Giriş / Üye Ol";
+                drawerProfileBox.style.display = 'none';
+                if (drawerRegisterLink) drawerRegisterLink.style.display = 'flex';
+            } else if (session.role === 'admin') {
+                // Yönetici Girmiş
+                navAuthBtn.href = "./giris.html";
+                navAuthBtn.classList.add('logged-in');
+                navAuthText.innerText = "Yönetici Paneli";
+                drawerProfileBox.style.display = 'flex';
+                document.getElementById('drawerAvatarChar').innerText = "Y";
+                document.getElementById('drawerUserName').innerText = "Yönetici";
+                document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
+                document.getElementById('drawerScoreContainer').style.display = 'none';
+                if (drawerRegisterLink) drawerRegisterLink.style.display = 'none';
+            } else if (session.role === 'member') {
+                // Üye Girmiş
+                const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+                const me = users.find(u => u.username === session.username);
+                if (me) {
+                    navAuthBtn.href = "./giris.html";
+                    navAuthBtn.classList.add('logged-in');
+                    navAuthText.innerText = me.fullName.split(' ')[0]; // Sadece ilk adı yazar
+                    drawerProfileBox.style.display = 'flex';
+                    document.getElementById('drawerAvatarChar').innerText = me.fullName.charAt(0).toUpperCase();
+                    document.getElementById('drawerUserName').innerText = me.fullName;
+                    document.getElementById('drawerUserDept').innerText = me.dept;
+                    document.getElementById('drawerScoreContainer').style.display = 'inline-flex';
+                    document.getElementById('drawerUserPoints').innerText = me.points || 0;
+                    if (drawerRegisterLink) drawerRegisterLink.style.display = 'none';
+                }
+            }
+        }
+
+        // Çıkış Fonksiyonu
+        window.userLogout = function() {
+            sessionStorage.removeItem('active_session');
+            window.location.reload();
+        };
+
+        // Profil Ayarları Modalı
+        window.openProfileSettings = function() {
+            const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
+            if (!session || session.role !== 'member') {
+                alert('Yönetici ayarları için sistem yöneticisine danışınız.');
+                return;
+            }
+            const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+            const me = users.find(u => u.username === session.username);
+            if (me) {
+                document.getElementById('settingFullName').value = me.fullName;
+                document.getElementById('settingDept').value = me.dept;
+                document.getElementById('settingNewPass').value = '';
+                document.getElementById('settingsModal').style.display = 'flex';
+                drawer.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        };
+
+        window.closeProfileSettings = function() {
+            document.getElementById('settingsModal').style.display = 'none';
+        };
+
+        // Profil Güncelleme Formu
+        document.getElementById('profileUpdateForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const session = JSON.parse(sessionStorage.getItem('active_session') || 'null');
+            if (!session) return;
+
+            const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+            const me = users.find(u => u.username === session.username);
+            if (me) {
+                me.fullName = document.getElementById('settingFullName').value.trim();
+                me.dept = document.getElementById('settingDept').value.trim();
+                const newPass = document.getElementById('settingNewPass').value;
+                if (newPass && newPass.length >= 4) {
+                    me.pass = newPass;
+                }
+                localStorage.setItem('deu_members', JSON.stringify(users));
+                alert('Profil bilgileriniz başarıyla güncellendi!');
+                closeProfileSettings();
+                updateAuthUI();
+            }
+        });
+
+        // Sayfa Yüklendiğinde UI'ı ayarla
+        updateAuthUI();
 
         // Dijital Saat Geri Sayımı
         const targetDate = new Date("Nov 20, 2026 14:00:00").getTime();
@@ -440,7 +564,7 @@
             }
         }, 1000);
 
-        // Fotoğraf Büyütme (Lightbox)
+        // Lightbox
         const imgModal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImg');
         const closeModal = document.getElementById('closeModal');
@@ -461,7 +585,7 @@
             if (e.target === imgModal) imgModal.style.display = 'none';
         });
 
-        // Sayfa İçi Hızlı Mesaj
+        // Mesaj Formu
         const cForm = document.getElementById('contactForm');
         if (cForm) {
             cForm.addEventListener('submit', function(e) {
@@ -484,7 +608,7 @@
             });
         }
 
-        // FEHİM ROBOT ASİSTAN MANTIĞI
+        // FEHİM ROBOT ASİSTAN
         const chatBubbleBtn = document.getElementById('chatBubbleBtn');
         const chatWindow = document.getElementById('chatWindow');
         const chatCloseBtn = document.getElementById('chatCloseBtn');
@@ -498,9 +622,7 @@
             if (badge) badge.style.display = 'none';
         });
 
-        chatCloseBtn.addEventListener('click', () => {
-            chatWindow.classList.remove('open');
-        });
+        chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('open'); });
 
         function appendMessage(sender, text) {
             const div = document.createElement('div');
@@ -513,21 +635,13 @@
         function getBotResponse(input) {
             const q = input.toLowerCase();
             if (q.includes('katıl') || q.includes('başvuru') || q.includes('üye')) {
-                return 'Topluluğumuza katılmak çok kolay! Menüdeki "Aramıza Katıl" butonuna tıklayabilir veya <a href="https://forms.google.com" target="_blank" style="color:var(--primary); font-weight:700;">Google Form Başvuru Formu</a> üzerinden kaydınızı bırakabilirsiniz.';
+                return 'Topluluğumuza katılmak çok kolay! Üst bardaki "Giriş / Üye Ol" butonundan kayıt olabilir veya Google Form Başvuru Formu üzerinden kaydınızı bırakabilirsiniz.';
             } else if (q.includes('etkinlik') || q.includes('ne zaman') || q.includes('tarih')) {
-                return 'Yaklaşan büyük buluşmamız: <strong>20 Kasım 2026</strong> tarihinde Buca Eğitim Fakültesi Konferans Salonu\'ndaki Tanışma & Çalışma Komisyonları Buluşmasıdır!';
-            } else if (q.includes('farklı') || q.includes('bölüm') || q.includes('özel eğitim değilim')) {
-                return 'Elbette katılabilirsiniz! Dokuz Eylül Üniversitesi bünyesindeki tüm fakülte ve bölümlerden gönüllü arkadaşlara kapımız sonuna kadar açık.';
-            } else if (q.includes('whatsapp') || q.includes('grup') || q.includes('kanal')) {
-                return 'Duyuruları ve sohbetleri kaçırmamak için menüdeki "WhatsApp Kanalı" linkinden resmi grubumuza dahil olabilirsiniz.';
-            } else if (q.includes('iletişim') || q.includes('mail') || q.includes('nerede') || q.includes('yer')) {
-                return 'Bize her zaman <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresinden e-posta atabilir ya da Buca Eğitim Fakültesi yerleşkesinde bizi ziyaret edebilirsiniz!';
-            } else if (q.includes('fehim') || q.includes('bıyık') || q.includes('kaş') || q.includes('kimsin') || q.includes('adın')) {
-                return 'Ben <strong>Fehim</strong>! DEÜ Özel Eğitim Topluluğu\'nun kaşlı, bıyıklı, dans eden neşeli asistanıyım. Size rehberlik etmek için buradayım!';
-            } else if (q.includes('merhaba') || q.includes('selam')) {
-                return 'Selamlar! Aklınızdaki soruları bana yazabilir ya da yukarıdaki hazır butonlardan birini seçebilirsiniz.';
+                return 'Yaklaşan büyük buluşmamız: <strong>20 Kasım 2026</strong> tarihinde Buca Eğitim Fakültesi Konferans Salonu\'ndadır!';
+            } else if (q.includes('fehim') || q.includes('bıyık') || q.includes('kaş')) {
+                return 'Ben <strong>Fehim</strong>! DEÜ Özel Eğitim Topluluğu\'nun bıyıklı, dans eden asistanıyım!';
             } else {
-                return 'Bu konuda detaylı bilgi almak isterseniz ana sayfadaki mesaj formundan yazabilir veya <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresimize iletebilirsiniz!';
+                return 'Bu konuda detaylı bilgi almak istersen ana sayfadaki mesaj formundan yazabilir veya <strong>ozelegitimtoplulukdeu@gmail.com</strong> adresimize iletebilirsin!';
             }
         }
 
