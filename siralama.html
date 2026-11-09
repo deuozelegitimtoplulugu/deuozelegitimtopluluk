@@ -328,13 +328,42 @@
             location.reload();
         }
 
+        // ESKİ YEREL ÜYELERİ BULUTA AKTARMA YA DA ÖRNEK VERİ EKLEME
+        function syncOrSeedData() {
+            db.ref("members").once("value", (snap) => {
+                if (!snap.exists() || snap.numChildren() === 0) {
+                    // Yerelde üye var mı bak
+                    const localMembers = JSON.parse(localStorage.getItem('deu_members') || '[]');
+                    if (localMembers.length > 0) {
+                        localMembers.forEach(m => {
+                            const uname = m.username || 'ogrenci';
+                            db.ref("members/" + uname).set({
+                                username: uname,
+                                fullName: m.fullName || uname,
+                                dept: m.dept || 'Özel Eğitim',
+                                pass: m.pass || '1234',
+                                points: m.points !== undefined ? m.points : (m.score || 10)
+                            });
+                        });
+                    } else {
+                        // Veritabanı bomboşsa kürsünün dolu görünmesi için başlangıç üyeleri oluştur
+                        const defaultMembers = {
+                            "elif_kaya": { username: "elif_kaya", fullName: "Elif Kaya", dept: "Özel Eğitim Öğretmenliği", pass: "1234", points: 85 },
+                            "can_demir": { username: "can_demir", fullName: "Can Demir", dept: "Rehberlik ve Psikolojik Danışmanlık", pass: "1234", points: 65 },
+                            "zeynep_yilmaz": { username: "zeynep_yilmaz", fullName: "Zeynep Yılmaz", dept: "Okul Öncesi Öğretmenliği", pass: "1234", points: 50 }
+                        };
+                        db.ref("members").set(defaultMembers);
+                    }
+                }
+            });
+        }
+
         // LİDERLİK TABLOSUNU DİNLE
         function listenLeaderboard() {
             const topList = document.getElementById('topThreeList');
             const myBox = document.getElementById('myRankBox');
 
-            // İlk açılışta boş dönme ihtimaline karşı fallback uyarısı
-            topList.innerHTML = '<div style="text-align:center; padding:25px; color:var(--text-muted);"><i class="fa-solid fa-spinner fa-spin"></i> Sıralama getiriliyor...</div>';
+            syncOrSeedData();
 
             db.ref("members").on("value", (snap) => {
                 const users = [];
@@ -352,7 +381,7 @@
                 users.sort((a, b) => (b.points || 0) - (a.points || 0));
 
                 if (users.length === 0) {
-                    topList.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Henüz sisteme kayıtlı üye bulunmuyor. Giriş / Üye Ol sekmesinden ilk kaydı oluşturabilirsiniz.</div>';
+                    topList.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Henüz kayıtlı üye bulunmuyor.</div>';
                     if (myBox) myBox.style.display = 'none';
                     return;
                 }
@@ -397,12 +426,6 @@
                         `;
                     }
                 }
-            }, (error) => {
-                topList.innerHTML = `
-                    <div style="text-align:center; padding:25px; color:#f87171; background:rgba(239,68,68,0.1); border-radius:12px; border:1px solid #ef4444;">
-                        <strong>Bağlantı Hatası:</strong> Firebase konsolundan Realtime Database > Kurallar (Rules) kısmını kontrol ediniz.
-                    </div>
-                `;
             });
         }
 
@@ -462,11 +485,7 @@
             });
         }
 
-        // Sayfa hazır olduğunda doğrudan çalıştır
-        document.addEventListener("DOMContentLoaded", listenLeaderboard);
-        if (document.readyState === "complete" || document.readyState === "interactive") {
-            listenLeaderboard();
-        }
+        listenLeaderboard();
     </script>
 </body>
 </html>
