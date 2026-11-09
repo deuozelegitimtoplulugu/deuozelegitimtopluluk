@@ -10,11 +10,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .drawer-link.highlight {
-            color: var(--primary, #0284c7) !important;
+        /* Mavi aktif kutucuk garantisi */
+        .drawer-links .drawer-link.active-link,
+        .drawer-links .drawer-link.highlight {
+            color: #ffffff !important;
             font-weight: 800 !important;
-            background: rgba(2, 132, 199, 0.1) !important;
-            border-radius: 8px;
+            background: #0284c7 !important;
+            border-radius: 8px !important;
+        }
+        .drawer-links .drawer-link.active-link i,
+        .drawer-links .drawer-link.highlight i {
+            color: #ffffff !important;
+        }
+        .user-avatar-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #0284c7;
+            color: #fff;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -31,9 +49,9 @@
                 <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i> <span>Giriş / Üye Ol</span>
                 </a>
-                <button class="user-avatar-btn" id="userAvatarBtn" style="display:none;" onclick="location.href='./index.html'" title="Profil">
+                <button class="user-avatar-btn" id="userAvatarBtn" onclick="location.href='./index.html'" title="Profil">
                     <i class="fa-solid fa-user" id="navAvatarIcon"></i>
-                    <img id="navAvatarImg" style="display:none;" alt="Profil">
+                    <img id="navAvatarImg" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" alt="Profil">
                 </button>
                 <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod"><i class="fa-solid fa-moon"></i></button>
                 <button class="menu-toggle" id="menuToggle" aria-label="Menü"><span></span><span></span><span></span></button>
@@ -49,10 +67,12 @@
             <button class="drawer-close" id="drawerClose">&times;</button>
         </div>
 
+        <!-- Profil Kartı -->
         <div class="drawer-profile-card" id="drawerProfileBox" style="display:none;">
             <div class="drawer-profile-top">
                 <div class="drawer-profile-avatar" title="Profil">
-                    <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-user" id="drawerAvatarIcon"></i>
+                    <img id="drawerAvatarImg" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" alt="Profil">
                 </div>
                 <div class="drawer-profile-info">
                     <h4 id="drawerUserName">Kullanıcı Adı</h4>
@@ -80,7 +100,7 @@
         </div>
     </div>
 
-    <!-- HERO -->
+    <!-- HERO (DİREKT AÇILIR - SİMÜLASYON YOK) -->
     <section class="hero" style="padding: 65px 0 70px;">
         <div class="container">
             <span class="hero-tag"><i class="fa-solid fa-users"></i> Ekibimiz</span>
@@ -118,20 +138,19 @@
     </footer>
 
     <script>
-        // Aktif Link
-        (function setActiveMenuLink() {
-            const path = window.location.pathname.split("/").pop() || "ekip.html";
+        // Bulunulan Sayfayı Belirle ve Menüdeki Kutucuğu Maviye Boya
+        (function highlightCurrentLink() {
             const links = document.querySelectorAll("#drawerNavLinks .drawer-link");
             links.forEach(l => {
-                l.classList.remove("highlight");
+                l.classList.remove("active-link", "highlight");
                 const href = l.getAttribute("href");
-                if (href && (href === `./${path}` || href === path)) {
-                    l.classList.add("highlight");
+                if (href && (href.includes("ekip.html") || href === "./ekip.html")) {
+                    l.classList.add("active-link", "highlight");
                 }
             });
         })();
 
-        // Menü
+        // Menü Aç/Kapat
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
         const drawer = document.getElementById('mobileDrawer');
@@ -159,26 +178,46 @@
             localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
         });
 
-        // Kalıcı Oturum & Profil Kontrolü
-        const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
-        if (session) {
-            document.getElementById('navAuthBtn').style.display = 'none';
-            document.getElementById('userAvatarBtn').style.display = 'flex';
-            document.getElementById('drawerProfileBox').style.display = 'flex';
-            document.getElementById('logoutLink').style.display = 'block';
+        // Kalıcı Profil & Oturum Kontrolü
+        (function checkAuth() {
+            const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
+            const navAuth = document.getElementById('navAuthBtn');
+            const userBtn = document.getElementById('userAvatarBtn');
+            const drawerBox = document.getElementById('drawerProfileBox');
+            const logoutBtn = document.getElementById('logoutLink');
 
-            if (session.role === 'admin' || session.username === 'admin') {
-                document.getElementById('drawerUserName').innerText = "Yönetici";
-                document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
-            } else {
-                const members = JSON.parse(localStorage.getItem('deu_members') || '[]');
-                const me = members.find(m => m.username === session.username);
-                if (me) {
-                    document.getElementById('drawerUserName').innerText = me.fullName || me.name;
-                    document.getElementById('drawerUserDept').innerText = me.dept || 'Özel Eğitim';
+            if (session) {
+                if (navAuth) navAuth.style.display = 'none';
+                if (userBtn) userBtn.style.display = 'inline-flex';
+                if (drawerBox) drawerBox.style.display = 'flex';
+                if (logoutBtn) logoutBtn.style.display = 'block';
+
+                if (session.role === 'admin' || session.username === 'admin') {
+                    document.getElementById('drawerUserName').innerText = "Yönetici";
+                    document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
+                } else {
+                    const members = JSON.parse(localStorage.getItem('deu_members') || '[]');
+                    const me = members.find(m => m.username === session.username);
+                    if (me) {
+                        document.getElementById('drawerUserName').innerText = me.fullName || me.name || me.username;
+                        document.getElementById('drawerUserDept').innerText = me.dept || 'Özel Eğitim';
+                        if (me.avatar) {
+                            const navImg = document.getElementById('navAvatarImg');
+                            const navIcon = document.getElementById('navAvatarIcon');
+                            const drImg = document.getElementById('drawerAvatarImg');
+                            const drIcon = document.getElementById('drawerAvatarIcon');
+                            if (navImg && navIcon) { navImg.src = me.avatar; navImg.style.display = 'block'; navIcon.style.display = 'none'; }
+                            if (drImg && drIcon) { drImg.src = me.avatar; drImg.style.display = 'block'; drIcon.style.display = 'none'; }
+                        }
+                    }
                 }
+            } else {
+                if (navAuth) navAuth.style.display = 'inline-flex';
+                if (userBtn) userBtn.style.display = 'none';
+                if (drawerBox) drawerBox.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'none';
             }
-        }
+        })();
 
         function userLogout() {
             localStorage.removeItem('active_session');
