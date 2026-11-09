@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSS - DEÜ Özel Eğitim Topluluğu</title>
+    <title>Sıkça Sorulan Sorular - DEÜ Özel Eğitim Topluluğu</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .drawer-link.highlight {
+            color: var(--primary, #0284c7) !important;
+            font-weight: 800 !important;
+            background: rgba(2, 132, 199, 0.1) !important;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- NAVBAR (SADECE LOGO VE SAĞ BUTONLAR) -->
+    <!-- NAVBAR -->
     <header class="navbar">
         <div class="container nav-content">
             <a href="./index.html" class="logo">
@@ -20,6 +28,13 @@
                 <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
             </a>
             <div class="nav-actions">
+                <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> <span>Giriş / Üye Ol</span>
+                </a>
+                <button class="user-avatar-btn" id="userAvatarBtn" style="display:none;" onclick="location.href='./index.html'" title="Profil">
+                    <i class="fa-solid fa-user" id="navAvatarIcon"></i>
+                    <img id="navAvatarImg" style="display:none;" alt="Profil">
+                </button>
                 <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod"><i class="fa-solid fa-moon"></i></button>
                 <button class="menu-toggle" id="menuToggle" aria-label="Menü"><span></span><span></span><span></span></button>
             </div>
@@ -33,102 +48,90 @@
             <span class="drawer-title">MENÜ</span>
             <button class="drawer-close" id="drawerClose">&times;</button>
         </div>
-        <div class="drawer-links">
+
+        <div class="drawer-profile-card" id="drawerProfileBox" style="display:none;">
+            <div class="drawer-profile-top">
+                <div class="drawer-profile-avatar" title="Profil">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="drawer-profile-info">
+                    <h4 id="drawerUserName">Kullanıcı Adı</h4>
+                    <span id="drawerUserDept">Bölüm</span>
+                </div>
+            </div>
+            <div class="drawer-profile-actions">
+                <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
+            </div>
+        </div>
+
+        <div class="drawer-links" id="drawerNavLinks">
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
-            <a href="./duyurular.html" class="drawer-link highlight"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
+            <a href="./siralama.html" class="drawer-link"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
+            <a href="./duyurular.html" class="drawer-link"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
             <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
             <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
             <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
             <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
             <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
-            <a href="./sss.html" class="drawer-link" style="color:var(--primary);"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
+            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
             <a href="./index.html#basvuru" class="drawer-link drawer-btn-apply"><i class="fa-solid fa-user-plus"></i> Aramıza Katıl</a>
             <a href="#" target="_blank" class="drawer-link drawer-btn-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı</a>
+            <a href="javascript:void(0)" id="logoutLink" class="drawer-link" style="display:none; color:#f87171;" onclick="userLogout()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</a>
         </div>
     </div>
 
     <!-- HERO -->
     <section class="hero" style="padding: 65px 0 70px;">
         <div class="container">
-            <span class="hero-tag"><i class="fa-solid fa-circle-question"></i> Yardım & Bilgi</span>
+            <span class="hero-tag"><i class="fa-solid fa-circle-question"></i> Merak Edilenler</span>
             <h1>Sıkça Sorulan Sorular</h1>
-            <p>Topluluğumuz, üyelik süreçleri ve projeler hakkında en çok merak edilen soruların yanıtları.</p>
+            <p>Topluluk üyeliği, etkinlikler ve katılım süreçleri hakkında en çok yöneltilen sorular.</p>
         </div>
     </section>
 
-    <!-- İÇERİK -->
+    <!-- SORULAR -->
     <section class="container section">
-        <div style="max-width: 840px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
+        <div class="feature-grid">
             <div class="feature-card">
-                <h3>Topluluğa sadece Özel Eğitim Bölümü öğrencileri mi katılabilir?</h3>
-                <p style="margin-top: 8px;">Hayır. Dokuz Eylül Üniversitesi'nin tüm fakülte, yüksekokul ve bölümlerinden gönüllü öğrencilerin katılımına açığız.</p>
+                <div class="feature-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <h3>Sadece Özel Eğitim öğrencileri mi katılabilir?</h3>
+                <p>Hayır, Dokuz Eylül Üniversitesi'nin tüm fakülte ve bölümlerinden gönüllü arkadaşlarımız topluluğumuza üye olabilir.</p>
             </div>
-
             <div class="feature-card">
-                <h3>Üyelik ücretli mi?</h3>
-                <p style="margin-top: 8px;">Kesinlikle hayır. Topluluğumuza üyelik ve tüm etkinliklerimiz tamamen ücretsizdir.</p>
+                <div class="feature-icon"><i class="fa-solid fa-star"></i></div>
+                <h3>Puanlar nasıl kazanılır?</h3>
+                <p>Topluluğun düzenlediği etkinliklere, atölyelere ve saha projelerine aktif katılım gösterdikçe yönetim tarafından puanınız artırılır.</p>
             </div>
-
             <div class="feature-card">
-                <h3>Komisyonlarda nasıl aktif rol alabilirim?</h3>
-                <p style="margin-top: 8px;">Dönem başlarında açılan Google Forms başvurusunu doldurarak ilgi duyduğun komisyonu (Akademik, Tanıtım, Sosyal Sorumluluk vb.) seçebilirsin.</p>
-            </div>
-
-            <div class="feature-card">
-                <h3>Etkinliklere katılım belgesi veriliyor mu?</h3>
-                <p style="margin-top: 8px;">Düzenlediğimiz resmi çalıştay, konferans ve sertifikalı atölyelerimizde katılımcı belgeleri düzenlenmektedir.</p>
+                <div class="feature-icon"><i class="fa-solid fa-certificate"></i></div>
+                <h3>Dönem sonunda sertifika veriliyor mu?</h3>
+                <p>Evet, dönem boyu aktif rol alan ve belirli etkinlik barajını tamamlayan üyelerimize katılım belgesi takdim edilir.</p>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <div class="container footer-bottom"><p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p></div>
+        <div class="container footer-bottom">
+            <p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
+        </div>
     </footer>
 
-    <!-- SAĞ ALT: FEHİM -->
-    <div class="chat-widget-wrapper">
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header">
-                <div class="chat-header-info">
-                    <div class="chat-avatar-mini">
-                        <div class="chat-avatar-eyes"><span></span><span></span></div>
-                        <div class="chat-avatar-mustache"><span></span><span></span></div>
-                        <div class="chat-online-dot"></div>
-                    </div>
-                    <div><h4>Fehim</h4><span>Özel Eğitim Asistanı • Çevrimiçi</span></div>
-                </div>
-                <button class="chat-close-btn" id="chatCloseBtn">&times;</button>
-            </div>
-            <div class="chat-body" id="chatBody">
-                <div class="chat-msg bot">Buradaki yanıtlarda bulamadığın başka bir soru varsa bana doğrudan sorabilirsin!</div>
-            </div>
-            <div class="chat-footer">
-                <input type="text" id="chatInput" class="chat-input" placeholder="Fehim'e bir soru sor...">
-                <button id="chatSendBtn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-        <button class="robot-trigger-btn" id="chatBubbleBtn" aria-label="Fehim Asistanı Aç">
-            <div class="fehim-shadow"></div>
-            <div class="fehim-character-stage">
-                <div class="fehim-antenna"><div class="fehim-antenna-light"></div></div>
-                <div class="fehim-head">
-                    <div class="fehim-eyebrows-row"><div class="eyebrow-l"></div><div class="eyebrow-r"></div></div>
-                    <div class="fehim-eye-visor"><div class="fehim-eye-dot"></div><div class="fehim-eye-dot"></div></div>
-                    <div class="fehim-mustache-zone"><div class="m-wing-left"></div><div class="m-wing-right"></div></div>
-                </div>
-                <div class="fehim-torso-assembly">
-                    <div class="fehim-arm-l"></div>
-                    <div class="fehim-chest-body"><span class="fehim-name-tag">FEHİM</span><i class="fa-solid fa-heart fehim-chest-heart"></i></div>
-                    <div class="fehim-arm-r"></div>
-                    <div class="fehim-legs-row"><div class="fehim-leg"></div><div class="fehim-leg"></div></div>
-                </div>
-            </div>
-            <span class="chat-badge">1</span>
-        </button>
-    </div>
-
     <script>
+        // Aktif Link
+        (function setActiveMenuLink() {
+            const path = window.location.pathname.split("/").pop() || "sss.html";
+            const links = document.querySelectorAll("#drawerNavLinks .drawer-link");
+            links.forEach(l => {
+                l.classList.remove("highlight");
+                const href = l.getAttribute("href");
+                if (href && (href === `./${path}` || href === path)) {
+                    l.classList.add("highlight");
+                }
+            });
+        })();
+
+        // Menü
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
         const drawer = document.getElementById('mobileDrawer');
@@ -137,6 +140,7 @@
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
 
+        // Tema
         const rootElement = document.documentElement;
         const themeBtn = document.getElementById('themeToggleNav');
         function applyTheme(isDark) {
@@ -155,11 +159,32 @@
             localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
         });
 
-        const chatBubbleBtn = document.getElementById('chatBubbleBtn');
-        const chatWindow = document.getElementById('chatWindow');
-        const chatCloseBtn = document.getElementById('chatCloseBtn');
-        chatBubbleBtn.addEventListener('click', () => { chatWindow.classList.toggle('open'); });
-        chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('open'); });
+        // Kalıcı Oturum & Profil Kontrolü
+        const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
+        if (session) {
+            document.getElementById('navAuthBtn').style.display = 'none';
+            document.getElementById('userAvatarBtn').style.display = 'flex';
+            document.getElementById('drawerProfileBox').style.display = 'flex';
+            document.getElementById('logoutLink').style.display = 'block';
+
+            if (session.role === 'admin' || session.username === 'admin') {
+                document.getElementById('drawerUserName').innerText = "Yönetici";
+                document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
+            } else {
+                const members = JSON.parse(localStorage.getItem('deu_members') || '[]');
+                const me = members.find(m => m.username === session.username);
+                if (me) {
+                    document.getElementById('drawerUserName').innerText = me.fullName || me.name;
+                    document.getElementById('drawerUserDept').innerText = me.dept || 'Özel Eğitim';
+                }
+            }
+        }
+
+        function userLogout() {
+            localStorage.removeItem('active_session');
+            sessionStorage.removeItem('active_session');
+            location.reload();
+        }
     </script>
 </body>
 </html>
