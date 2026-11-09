@@ -1,229 +1,428 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEÜ Özel Eğitim Topluluğu</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: #0b1329; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; scroll-behavior: smooth; }
-
-    /* Üst Menü (Navbar) */
-    .navbar { background: #111e38; border-bottom: 1px solid #1e293b; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #38bdf8; font-weight: 700; font-size: 20px; }
-    .nav-links { display: flex; align-items: center; gap: 24px; }
-    .nav-item { color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; }
-    .nav-item:hover { color: #38bdf8; }
-    .btn-join { background: #0284c7; color: #fff; text-decoration: none; padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 14px; transition: 0.2s; }
-    .btn-join:hover { background: #0369a1; }
-
-    /* Hero Alanı */
-    .hero { text-align: center; padding: 80px 20px 50px; max-width: 900px; margin: 0 auto; }
-    .badge-tag { display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
-    .hero h1 { font-size: 42px; font-weight: 800; line-height: 1.25; margin-bottom: 18px; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero p { font-size: 16px; color: #94a3b8; line-height: 1.6; margin-bottom: 30px; }
-    .hero-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
-    .btn-primary { background: #0284c7; color: #fff; text-decoration: none; padding: 12px 26px; border-radius: 8px; font-weight: 600; font-size: 15px; transition: 0.2s; }
-    .btn-primary:hover { background: #0369a1; }
-    .btn-secondary { background: #1e293b; border: 1px solid #334155; color: #f8fafc; text-decoration: none; padding: 12px 26px; border-radius: 8px; font-weight: 600; font-size: 15px; transition: 0.2s; }
-    .btn-secondary:hover { background: #334155; }
-
-    /* Bölüm Genel */
-    .section { max-width: 1100px; margin: 50px auto; padding: 0 20px; width: 100%; }
-    .section-title { font-size: 26px; font-weight: 700; color: #f8fafc; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-    .section-desc { color: #94a3b8; font-size: 15px; margin-bottom: 28px; }
-
-    /* Etkinlikler & Fotoğraf Galerisi */
-    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
-    .photo-card { background: #111e38; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; transition: 0.3s; }
-    .photo-card:hover { transform: translateY(-5px); border-color: #38bdf8; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
-    .photo-box { height: 190px; background: #1e293b; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-    .photo-box img { width: 100%; height: 100%; object-fit: cover; }
-    .photo-placeholder-icon { font-size: 44px; color: #38bdf8; }
-    .photo-info { padding: 18px; }
-    .photo-info h4 { font-size: 17px; margin-bottom: 6px; color: #f8fafc; }
-    .photo-info p { font-size: 13.5px; color: #94a3b8; line-height: 1.5; }
-    .photo-date { display: inline-block; font-size: 12px; color: #38bdf8; margin-top: 8px; font-weight: 600; }
-
-    /* Fehim Yapay Zekâ Asistanı */
-    .fehim-card { background: linear-gradient(135deg, #111e38, #1e293b); border: 1px solid #38bdf8; border-radius: 16px; padding: 32px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1); }
-    .fehim-avatar { width: 75px; height: 75px; border-radius: 50%; background: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 34px; box-shadow: 0 0 25px rgba(56, 189, 248, 0.5); flex-shrink: 0; }
-    .fehim-content { flex: 1; min-width: 280px; }
-    .fehim-content h3 { color: #38bdf8; font-size: 21px; margin-bottom: 6px; }
-    .fehim-content p { color: #cbd5e1; font-size: 14.5px; line-height: 1.5; margin-bottom: 16px; }
-    .fehim-input-group { display: flex; gap: 10px; max-width: 520px; }
-    .fehim-input { flex: 1; padding: 12px 16px; background: #0b1329; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
-    .fehim-input:focus { border-color: #38bdf8; }
-    .fehim-btn { background: #0284c7; color: #fff; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s; }
-    .fehim-btn:hover { background: #0369a1; }
-    .fehim-box-response { margin-top: 14px; padding: 14px; background: rgba(15, 23, 42, 0.8); border-left: 3px solid #38bdf8; border-radius: 6px; font-size: 14px; color: #e2e8f0; display: none; }
-
-    /* Yönetim Kurulu Kadrosu */
-    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-    .team-card { background: #111e38; border: 1px solid #1e293b; border-radius: 12px; padding: 24px; text-align: center; transition: 0.2s; }
-    .team-card:hover { border-color: #38bdf8; transform: translateY(-4px); }
-    .team-avatar { width: 70px; height: 70px; border-radius: 50%; background: #1e293b; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; border: 2px solid #38bdf8; color: #38bdf8; }
-    .team-card h4 { font-size: 17px; color: #f8fafc; margin-bottom: 4px; }
-    .team-card .role { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 8px; }
-    .team-card p { font-size: 13px; color: #94a3b8; line-height: 1.4; }
-
-    /* Footer */
-    footer { margin-top: auto; background: #080d1c; border-top: 1px solid #1e293b; padding: 30px 20px; text-align: center; font-size: 13.5px; color: #64748b; }
-    footer a { color: #38bdf8; text-decoration: none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEÜ Özel Eğitim Topluluğu</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Yönetici Puan Modal Penceresi */
+        .admin-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .admin-modal-overlay.open { display: flex; }
+        .admin-modal {
+            background: var(--card-bg, #1e293b);
+            border: 1px solid var(--border, #334155);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .admin-modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border, #334155);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-modal-body { padding: 16px 20px; overflow-y: auto; }
+        .score-manage-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border, #334155);
+        }
+        .score-manage-row input {
+            width: 70px;
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid var(--border, #334155);
+            background: var(--bg-light, #0f172a);
+            color: var(--text-main, #fff);
+            text-align: center;
+        }
+        .btn-score-act {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .btn-score-add { background: #0284c7; color: #fff; }
+        .btn-score-sub { background: #475569; color: #fff; margin-left: 4px; }
+    </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <header class="navbar">
-    <a href="index.html" class="brand">
-      <span>🎓</span> DEÜ Özel Eğitim Topluluğu
-    </a>
-    <div class="nav-links">
-      <a href="#etkinlikler" class="nav-item">Fotoğraflar</a>
-      <a href="#fehim" class="nav-item">Fehim AI</a>
-      <a href="#yonetim" class="nav-item">Yönetim</a>
-      <a href="#iletisim" class="btn-join">Aramıza Katıl</a>
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="./index.html" class="logo">
+                <img src="./logo.png" alt="DEÜ Logo" class="nav-logo-img">
+                <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
+            </a>
+            <div class="nav-actions">
+                <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> <span>Giriş / Üye Ol</span>
+                </a>
+                <button class="user-avatar-btn" id="userAvatarBtn" style="display:none;" onclick="location.href='./index.html'" title="Profil">
+                    <i class="fa-solid fa-user" id="navAvatarIcon"></i>
+                    <img id="navAvatarImg" style="display:none;" alt="Profil">
+                </button>
+                <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod"><i class="fa-solid fa-moon"></i></button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menü"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3 ÇİZGİ MENÜSÜ (DRAWER) -->
+    <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header">
+            <span class="drawer-title">MENÜ</span>
+            <button class="drawer-close" id="drawerClose">&times;</button>
+        </div>
+        <div class="drawer-links">
+            <a href="./index.html" class="drawer-link highlight" style="color:var(--primary);"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <a href="./siralama.html" class="drawer-link"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
+            
+            <!-- Yönetici Girişi Yapılmışsa Çıkan Puan Yönetimi -->
+            <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:700;" onclick="openAdminModal()">
+                <i class="fa-solid fa-bolt"></i> Puan Yönetimi (Yönetici)
+            </a>
+
+            <a href="./duyurular.html" class="drawer-link"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
+            <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
+            <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
+            <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
+            <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
+            <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
+            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
+            <a href="#basvuru" class="drawer-link drawer-btn-apply"><i class="fa-solid fa-user-plus"></i> Aramıza Katıl</a>
+            <a href="#" target="_blank" class="drawer-link drawer-btn-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı</a>
+            <a href="javascript:void(0)" id="logoutLink" class="drawer-link" style="display:none; color:#f87171;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</a>
+        </div>
     </div>
-  </header>
 
-  <!-- Hero Tanıtım -->
-  <section class="hero">
-    <div class="badge-tag">Dokuz Eylül Üniversitesi</div>
-    <h1>Özel Eğitim Topluluğu Portalı</h1>
-    <p>Engelleri birlikte aşıyor, farkındalık yaratan saha projeleri ve atölyelerle eğitimde eşitliği destekliyoruz. Topluluğumuzun geçmiş etkinliklerine göz atabilir, projelerimize dahil olabilirsiniz.</p>
-    <div class="hero-buttons">
-      <a href="#etkinlikler" class="btn-primary">Etkinlikleri Keşfet</a>
-      <a href="#fehim" class="btn-secondary">Fehim'e Soru Sor</a>
+    <!-- HERO BÖLÜMÜ -->
+    <section class="hero">
+        <div class="container hero-content">
+            <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Dokuz Eylül Üniversitesi</span>
+            <h1>Farklılıkları Kucaklayan, Geleceği Birlikte İnşa Eden Bir Topluluk.</h1>
+            <p>Özel eğitim alanında farkındalık yaratmak, deneyim paylaşımını desteklemek ve sahada aktif projeler üretmek için buradayız.</p>
+            <div class="hero-actions">
+                <a href="#basvuru" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Aramıza Katıl</a>
+                <a href="./etkinlikler.html" class="btn btn-secondary"><i class="fa-solid fa-calendar-days"></i> Etkinlikleri İncele</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- HIZLI İSTATİSTİKLER -->
+    <section class="stats-section">
+        <div class="container stats-grid">
+            <div class="stat-card">
+                <div class="stat-num">500+</div>
+                <div class="stat-label">Aktif Gönüllü & Üye</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">35+</div>
+                <div class="stat-label">Tamamlanan Atölye</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">12</div>
+                <div class="stat-label">Saha & Okul Projesi</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Erişilebilir Etkinlik</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ETKİNLİKLER VE FOTOĞRAF VİTRİNİ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Fotoğraflar & Anlar</span>
+                    <h2 class="section-title">Sahadan ve Kampüsten Kareler</h2>
+                </div>
+                <a href="./etkinlikler.html" class="section-link">Tümünü Gör <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-img-wrap">
+                        <img src="./etkinlik1.jpg" alt="Duyusal Sanat Atölyesi" onerror="this.src='https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=600&auto=format&fit=crop&q=80'">
+                        <span class="event-badge">Atölye</span>
+                    </div>
+                    <div class="event-content">
+                        <span class="event-date"><i class="fa-regular fa-calendar"></i> Buca Eğitim Fakültesi</span>
+                        <h3 class="event-title">Duyusal Sanat ve Renk Atölyesi</h3>
+                        <p class="event-desc">Özel gereksinimli bireylerle duyusal algıyı ve motor becerileri destekleyen etkileşimli resim çalışması.</p>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-img-wrap">
+                        <img src="./etkinlik2.jpg" alt="Farkındalık Semineri" onerror="this.src='https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&auto=format&fit=crop&q=80'">
+                        <span class="event-badge">Seminer</span>
+                    </div>
+                    <div class="event-content">
+                        <span class="event-date"><i class="fa-regular fa-calendar"></i> Konferans Salonu</span>
+                        <h3 class="event-title">Otizm Spektrumunda Güncel Yaklaşımlar</h3>
+                        <p class="event-desc">Alanında uzman akademisyenlerin katılımıyla öğretmen adaylarımıza ve velilere yönelik bilgilendirici oturum.</p>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-img-wrap">
+                        <img src="./etkinlik3.jpg" alt="Birlikte Spor" onerror="this.src='https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop&q=80'">
+                        <span class="event-badge">Saha</span>
+                    </div>
+                    <div class="event-content">
+                        <span class="event-date"><i class="fa-regular fa-calendar"></i> Tınaztepe Yerleşkesi</span>
+                        <h3 class="event-title">Uyumlu Beden Eğitimi & Oyun Günü</h3>
+                        <p class="event-desc">Her bireyin katılabileceği uyarlanmış fiziksel oyunlarla kaynaşmayı güçlendirdiğimiz keyifli bir buluşma.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEHİM YAPAY ZEKA ASİSTANI -->
+    <section class="section ai-section">
+        <div class="container">
+            <div class="ai-box">
+                <div class="ai-header">
+                    <div class="ai-icon-avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div>
+                        <h3 class="ai-title">Fehim: Topluluk Yapay Zekâ Asistanı</h3>
+                        <p class="ai-desc">Topluluğumuz, etkinlikler veya özel eğitim kavramları hakkında dilediğin soruyu sorabilirsin.</p>
+                    </div>
+                </div>
+                <div class="ai-input-wrap">
+                    <input type="text" id="fehimInput" class="ai-input" placeholder="Örn: Topluluğun başkanı kimdir?">
+                    <button class="btn btn-primary" onclick="askFehim()"><i class="fa-solid fa-paper-plane"></i> Sor</button>
+                </div>
+                <div class="ai-reply" id="fehimReply" style="display:none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- YÖNETİM KURULU (EKİP) -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Yönetim</span>
+                    <h2 class="section-title">Topluluk Yönetim Kurulu</h2>
+                </div>
+                <a href="./ekip.html" class="section-link">Tüm Ekip <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar-box">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <h3 class="team-name">Muhammed Emin Uyanık</h3>
+                    <span class="team-role">Topluluk Başkanı</span>
+                    <p class="team-desc">Genel koordinasyon, resmi ilişkiler ve topluluk vizyonunun sürdürülmesi.</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar-box">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <h3 class="team-name">Organizasyon Kurulu</h3>
+                    <span class="team-role">Etkinlik & Saha</span>
+                    <p class="team-desc">Okul atölyelerinin, seminerlerin ve gönüllü saha projelerinin yönetimi.</p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar-box">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="team-name">Bilişim & Medya</h3>
+                    <span class="team-role">Teknik Koordinasyon</span>
+                    <p class="team-desc">Web portalı altyapısı, puanlama motoru ve dijital medya yönetimi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BAŞVURU & ARAMIZA KATIL -->
+    <section class="section apply-section" id="basvuru">
+        <div class="container">
+            <div class="apply-box">
+                <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 12px;">Topluluğumuza Katılmaya Hazır Mısın?</h2>
+                <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 24px;">Gönüllü ekibimizde yer alarak hem kendini geliştirebilir hem de özel gereksinimli bireylerin hayatına dokunabilirsin.</p>
+                <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+                    <a href="./giris.html" class="btn btn-primary"><i class="fa-solid fa-id-card"></i> Hemen Kaydol</a>
+                    <a href="#" target="_blank" class="btn btn-secondary" style="background:#25D366; color:#fff; border-color:#25D366;"><i class="fa-brands fa-whatsapp"></i> WhatsApp Topluluğumuz</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SADECE YÖNETİCİNİN AÇABİLDİĞİ PUAN DÜZENLEME PENCERESİ -->
+    <div id="adminModal" class="admin-modal-overlay">
+        <div class="admin-modal">
+            <div class="admin-modal-header">
+                <h3 style="font-size:1.1rem; color:#facc15;"><i class="fa-solid fa-bolt"></i> Öğrenci Puanlarını Güncelle</h3>
+                <button style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;" onclick="closeAdminModal()">&times;</button>
+            </div>
+            <div class="admin-modal-body" id="adminUserList"></div>
+        </div>
     </div>
-  </section>
 
-  <!-- Fotoğraf Galerisi & Etkinlikler -->
-  <section class="section" id="etkinlikler">
-    <div class="section-title">📸 Etkinliklerimizden Kareler</div>
-    <div class="section-desc">Kampüste ve sahada özel gereksinimli bireylerle gerçekleştirdiğimiz güncel çalışmalarımız.</div>
-    <div class="gallery-grid">
-      
-      <div class="photo-card">
-        <div class="photo-box">
-          <i class="fa-solid fa-palette photo-placeholder-icon"></i>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-bottom">
+            <p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
         </div>
-        <div class="photo-info">
-          <h4>Duyusal Sanat ve Renk Atölyesi</h4>
-          <p>Özel eğitim sınıflarındaki öğrencilerle dokunsal ve görsel duyuları geliştiren boyama etkinliği gerçekleştirdik.</p>
-          <span class="photo-date">Buca Eğitim Fakültesi</span>
-        </div>
-      </div>
+    </footer>
 
-      <div class="photo-card">
-        <div class="photo-box">
-          <i class="fa-solid fa-masks-theater photo-placeholder-icon"></i>
-        </div>
-        <div class="photo-info">
-          <h4>Farkındalık ve Empati Sahnesi</h4>
-          <p>Üniversite genelinde özel eğitime yönelik kapsayıcı tutumları güçlendiren drama ve sahne performansı.</p>
-          <span class="photo-date">DEÜ Konferans Salonu</span>
-        </div>
-      </div>
+    <script>
+        // Mobil Menü
+        const toggleBtn = document.getElementById('menuToggle');
+        const closeBtn = document.getElementById('drawerClose');
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+        toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
+        closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+        overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
 
-      <div class="photo-card">
-        <div class="photo-box">
-          <i class="fa-solid fa-futbol photo-placeholder-icon"></i>
-        </div>
-        <div class="photo-info">
-          <h4>Birlikte Hareket: Uyumlu Spor Günü</h4>
-          <p>Beden eğitimi ve spor aktivitelerini herkes için erişilebilir kılarak kaynaşmayı destekledik.</p>
-          <span class="photo-date">Tınaztepe Yerleşkesi</span>
-        </div>
-      </div>
+        // Tema
+        const rootElement = document.documentElement;
+        const themeBtn = document.getElementById('themeToggleNav');
+        function applyTheme(isDark) {
+            if (isDark) {
+                rootElement.classList.add('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                rootElement.classList.remove('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+        applyTheme(localStorage.getItem('site_theme') === 'dark');
+        themeBtn.addEventListener('click', () => {
+            const isDark = !rootElement.classList.contains('dark-theme');
+            applyTheme(isDark);
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+        });
 
-    </div>
-  </section>
+        // Oturum Kontrolü
+        const session = JSON.parse(sessionStorage.getItem('active_session') || localStorage.getItem('deu_user') || 'null');
+        if (session) {
+            document.getElementById('navAuthBtn').style.display = 'none';
+            document.getElementById('logoutLink').style.display = 'block';
+            const userAvatarBtn = document.getElementById('userAvatarBtn');
+            userAvatarBtn.style.display = 'flex';
 
-  <!-- Fehim AI Asistanı Bölümü -->
-  <section class="section" id="fehim">
-    <div class="fehim-card">
-      <div class="fehim-avatar">🤖</div>
-      <div class="fehim-content">
-        <h3>Fehim: Topluluk Yapay Zekâ Danışmanı</h3>
-        <p>Topluluk üyelikleri, aktif projelerimiz veya özel eğitim alanındaki temel kavramlar hakkında merak ettiğin her şeyi Fehim'e sorabilirsin.</p>
-        <div class="fehim-input-group">
-          <input type="text" id="fehimInput" class="fehim-input" placeholder="Örn: Topluluğa nasıl katılabilirim?">
-          <button class="fehim-btn" onclick="askFehim()">Fehim'e Sor</button>
-        </div>
-        <div id="fehimResponse" class="fehim-box-response"></div>
-      </div>
-    </div>
-  </section>
+            // Yöneticiyse 3 Çizgili Menüde Puan Yönetimini Göster
+            if (session.role === 'admin' || session.username === 'admin') {
+                document.getElementById('adminScoreMenuItem').style.display = 'block';
+            }
+        }
 
-  <!-- Yönetim Ekibi -->
-  <section class="section" id="yonetim">
-    <div class="section-title">👥 Yönetim Kurulu</div>
-    <div class="section-desc">Topluluğumuzun vizyonunu sahaya taşıyan yönetim kadromuz.</div>
-    <div class="team-grid">
-      
-      <div class="team-card">
-        <div class="team-avatar"><i class="fa-solid fa-user-tie"></i></div>
-        <h4>Muhammed Emin Uyanık</h4>
-        <div class="role">Topluluk Başkanı</div>
-        <p>Genel koordinasyon, resmi temsil ve topluluk vizyonunun yürütülmesi.</p>
-      </div>
+        function logout() {
+            sessionStorage.removeItem('active_session');
+            localStorage.removeItem('deu_user');
+            location.reload();
+        }
 
-      <div class="team-card">
-        <div class="team-avatar"><i class="fa-solid fa-calendar-check"></i></div>
-        <h4>Etkinlik & Saha Ekibi</h4>
-        <div class="role">Organizasyon Koordinatörlüğü</div>
-        <p>Okul ziyaretleri, atölye planlamaları ve gönüllü yönlendirmeleri.</p>
-      </div>
+        // Fehim AI Cevap Motoru
+        function askFehim() {
+            const inp = document.getElementById('fehimInput');
+            const reply = document.getElementById('fehimReply');
+            const q = inp.value.trim().toLowerCase();
+            if (!q) return;
 
-      <div class="team-card">
-        <div class="team-avatar"><i class="fa-solid fa-code"></i></div>
-        <h4>Medya & Bilişim</h4>
-        <div class="role">Teknik Koordinatörlük</div>
-        <p>Web portalı yönetimi, dijital içerikler ve topluluk arşivi.</p>
-      </div>
+            reply.style.display = 'block';
+            if (q.includes('başkan') || q.includes('emin') || q.includes('lider')) {
+                reply.innerHTML = '<strong>Fehim:</strong> Topluluk başkanımız <strong>Muhammed Emin Uyanık</strong>’tır. Saha projelerimizi ve genel yönetim kurulumuzu koordine etmektedir.';
+            } else if (q.includes('katıl') || q.includes('üye') || q.includes('kayıt')) {
+                reply.innerHTML = '<strong>Fehim:</strong> Topluluğumuza katılmak için sayfanın üstündeki <em>Giriş / Üye Ol</em> butonundan kayıt olabilir ve aşağıdaki WhatsApp duyuru kanalımıza katılabilirsin!';
+            } else if (q.includes('puan') || q.includes('sıralama') || q.includes('lider')) {
+                reply.innerHTML = '<strong>Fehim:</strong> Etkinliklere katılıp görevleri tamamlayarak puan biriktirebilirsin. Puan durumunu görmek için menüdeki <em>Puan Sıralaması</em> sayfasına göz atabilirsin!';
+            } else {
+                reply.innerHTML = '<strong>Fehim:</strong> Merhaba! Ben DEÜ Özel Eğitim Topluluğu asistanıyım. Topluluk etkinliklerimiz, projelerimiz veya üyelik hakkında dilediğin soruyu sorabilirsin.';
+            }
+            inp.value = '';
+        }
 
-    </div>
-  </section>
+        // Yönetici Puan Modalı
+        function openAdminModal() {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+            document.getElementById('adminModal').classList.add('open');
+            renderAdminUserList();
+        }
 
-  <!-- İletişim / Katılım -->
-  <section class="section" id="iletisim" style="text-align: center; margin-bottom: 70px;">
-    <div class="section-title" style="justify-content: center;">📬 Bize Ulaşın</div>
-    <p style="color: #94a3b8; max-width: 600px; margin: 0 auto 20px;">Topluluk etkinliklerine gönüllü olarak katılmak veya ortak proje geliştirmek için bizimle iletişime geçebilirsiniz.</p>
-    <a href="https://instagram.com" target="_blank" class="btn-primary" style="display: inline-block;">Topluluk Duyuru Grupları & Sosyal Medya</a>
-  </section>
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('open');
+        }
 
-  <!-- Alt Bilgi -->
-  <footer>
-    Dokuz Eylül Üniversitesi Özel Eğitim Topluluğu © 2026 • Tüm Hakları Saklıdır.
-  </footer>
+        function renderAdminUserList() {
+            const container = document.getElementById('adminUserList');
+            let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
 
-  <script>
-    function askFehim() {
-      const input = document.getElementById("fehimInput");
-      const resBox = document.getElementById("fehimResponse");
-      const question = input.value.trim().toLowerCase();
+            if (users.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı öğrenci bulunmuyor.</p>';
+                return;
+            }
 
-      if (!question) {
-        alert("Lütfen bir soru yazın.");
-        return;
-      }
+            container.innerHTML = users.map(u => {
+                let score = u.points !== undefined ? u.points : (u.score || 0);
+                return `
+                    <div class="score-manage-row">
+                        <div>
+                            <strong style="color:var(--text-main); font-size:0.95rem;">${u.fullName || u.name || u.username}</strong>
+                            <div style="font-size:0.8rem; color:var(--text-muted);">Mevcut: <span style="color:var(--primary); font-weight:bold;">${score} P</span></div>
+                        </div>
+                        <div style="display:flex; align-items:center;">
+                            <input type="number" id="inp_${u.username}" value="10">
+                            <button class="btn-score-act btn-score-add" onclick="modifyScore('${u.username}', true)">+ Ekle</button>
+                            <button class="btn-score-act btn-score-sub" onclick="modifyScore('${u.username}', false)">- Düş</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
 
-      resBox.style.display = "block";
+        function modifyScore(username, isAdd) {
+            const inp = document.getElementById('inp_' + username);
+            const val = parseInt(inp.value, 10);
+            if (isNaN(val) || val <= 0) return alert('Geçerli bir miktar girin.');
 
-      if (question.includes("katıl") || question.includes("üye") || question.includes("başvuru")) {
-        resBox.innerHTML = "<strong>Fehim:</strong> DEÜ Özel Eğitim Topluluğu'na katılmak için dönem başındaki stantlarımıza uğrayabilir veya sayfanın altındaki katılım butonundan duyuru gruplarımıza dahil olabilirsin!";
-      } else if (question.includes("başkan") || question.includes("emin") || question.includes("yönetim")) {
-        resBox.innerHTML = "<strong>Fehim:</strong> Topluluk başkanımız Muhammed Emin Uyanık'tır. Yönetim ekibimizle birlikte yıl boyunca sahada özel eğitim atölyeleri düzenlemekteyiz.";
-      } else if (question.includes("etkinlik") || question.includes("atölye")) {
-        resBox.innerHTML = "<strong>Fehim:</strong> Duyusal sanat atölyeleri, farkındalık tiyatrosu ve uyarlanmış spor günleri gibi düzenli saha etkinlikleri yapıyoruz. Fotoğraflar bölümünden kareleri inceleyebilirsin.";
-      } else {
-        resBox.innerHTML = "<strong>Fehim:</strong> Merhaba! Ben DEÜ Özel Eğitim Topluluğu asistanıyım. Etkinliklerimiz, yönetim kurulumuz veya topluluğa nasıl dahil olabileceğin hakkında her zaman danışabilirsin.";
-      }
-
-      input.value = "";
-    }
-  </script>
+            let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+            const idx = users.findIndex(u => u.username === username);
+            if (idx !== -1) {
+                let current = users[idx].points !== undefined ? users[idx].points : (users[idx].score || 0);
+                users[idx].points = isAdd ? (current + val) : (current - val);
+                users[idx].score = users[idx].points;
+                localStorage.setItem('deu_members', JSON.stringify(users));
+                renderAdminUserList();
+            }
+        }
+    </script>
 </body>
 </html>
