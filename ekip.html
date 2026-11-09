@@ -34,6 +34,149 @@
             border: none;
             cursor: pointer;
         }
+
+        /* SOY AĞACI / HİYERARŞİK ORGANİZASYON ŞEMASI */
+        .tree-container {
+            width: 100%;
+            overflow-x: auto;
+            padding: 40px 10px 80px;
+            text-align: center;
+        }
+        .tree {
+            display: inline-block;
+            min-width: 820px;
+            margin: 0 auto;
+        }
+        .tree ul {
+            padding-top: 24px;
+            position: relative;
+            transition: all 0.5s;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            list-style-type: none;
+            margin: 0;
+            padding-left: 0;
+        }
+        .tree li {
+            float: left;
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 24px 8px 0 8px;
+            transition: all 0.5s;
+        }
+
+        /* Çizgiler (Dallar) */
+        .tree li::before, .tree li::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            border-top: 2px solid var(--border, #334155);
+            width: 50%;
+            height: 24px;
+        }
+        .tree li::after {
+            right: auto;
+            left: 50%;
+            border-left: 2px solid var(--border, #334155);
+        }
+        .tree li:only-child::after, .tree li:only-child::before {
+            display: none;
+        }
+        .tree li:only-child {
+            padding-top: 0;
+        }
+        .tree li:first-child::before, .tree li:last-child::after {
+            border: 0 none;
+        }
+        .tree li:last-child::before {
+            border-right: 2px solid var(--border, #334155);
+            border-radius: 0 10px 0 0;
+        }
+        .tree li:first-child::after {
+            border-radius: 10px 0 0 0;
+        }
+        .tree ul ul::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            border-left: 2px solid var(--border, #334155);
+            width: 0;
+            height: 24px;
+        }
+
+        /* Kişi Kartı */
+        .member-card {
+            background: var(--card-bg, #1e293b);
+            border: 1px solid var(--border, #334155);
+            border-radius: 14px;
+            padding: 16px 14px;
+            width: 190px;
+            margin: 0 auto;
+            display: inline-block;
+            transition: 0.25s ease;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        .member-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary, #0284c7);
+            box-shadow: 0 10px 24px rgba(2, 132, 199, 0.25);
+        }
+        .president-card {
+            width: 230px;
+            border: 2px solid #eab308;
+            background: linear-gradient(180deg, rgba(234, 179, 8, 0.08) 0%, var(--card-bg, #1e293b) 100%);
+        }
+        .president-badge {
+            position: absolute;
+            top: -10px;
+            right: 14px;
+            background: #eab308;
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+        .member-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            overflow: hidden;
+            border: 2px solid var(--primary, #0284c7);
+            background: var(--bg-light, #0f172a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .member-avatar i {
+            font-size: 1.8rem;
+            color: var(--text-muted, #94a3b8);
+        }
+        .member-name {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text-main, #f8fafc);
+            margin-bottom: 2px;
+        }
+        .member-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary, #38bdf8);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
     </style>
 </head>
 <body>
@@ -91,7 +234,7 @@
             <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
             <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
             <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
-            <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
+            <a href="./ekip.html" class="drawer-link active-link highlight"><i class="fa-solid fa-users"></i> Ekibimiz</a>
             <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
             <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
             <a href="./index.html#basvuru" class="drawer-link drawer-btn-apply"><i class="fa-solid fa-user-plus"></i> Aramıza Katıl</a>
@@ -100,33 +243,100 @@
         </div>
     </div>
 
-    <!-- HERO (DİREKT AÇILIR - SİMÜLASYON YOK) -->
-    <section class="hero" style="padding: 65px 0 70px;">
+    <!-- HERO -->
+    <section class="hero" style="padding: 65px 0 40px;">
         <div class="container">
-            <span class="hero-tag"><i class="fa-solid fa-users"></i> Ekibimiz</span>
-            <h1>Yönetim Kurulu ve Koordinatörler</h1>
-            <p>DEÜ Özel Eğitim Topluluğu'na yön veren, projeleri hayata geçiren çalışma kadromuz.</p>
+            <span class="hero-tag"><i class="fa-solid fa-sitemap"></i> Organizasyon Şeması</span>
+            <h1>Yönetim Kurulu & Komisyonlar</h1>
+            <p>DEÜ Özel Eğitim Topluluğu'nun hiyerarşik liderlik ve koordinasyon yapısı.</p>
         </div>
     </section>
 
-    <!-- EKİP LİSTESİ -->
-    <section class="container section">
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-user-tie"></i></div>
-                <h3>Muhammed Emin Uyanık</h3>
-                <p><strong>Topluluk Başkanı</strong><br>Genel koordinasyon, resmi ilişkiler ve topluluk stratejileri.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-clipboard-check"></i></div>
-                <h3>Organizasyon Komisyonu</h3>
-                <p><strong>Etkinlik & Saha</strong><br>Okul atölyeleri, konferanslar ve üye buluşmalarının planlanması.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-laptop-code"></i></div>
-                <h3>Bilişim & Medya Komisyonu</h3>
-                <p><strong>Teknik Koordinasyon</strong><br>Web portalı, sosyal medya ve dijital arşiv yönetimi.</p>
-            </div>
+    <!-- HİYERARŞİK SOY AĞACI YAPISI -->
+    <section class="tree-container">
+        <div class="tree">
+            <ul>
+                <li>
+                    <!-- EN TEPE: TOPLULUK BAŞKANI -->
+                    <div class="member-card president-card">
+                        <span class="president-badge"><i class="fa-solid fa-crown"></i> Başkan</span>
+                        <div class="member-avatar" style="border-color:#eab308; width:82px; height:82px;">
+                            <img src="./baskan.jpg" onerror="this.onerror=null; this.src='./logo.png';" alt="Muhammed Emin Uyanık">
+                        </div>
+                        <div class="member-name">Muhammed Emin Uyanık</div>
+                        <div class="member-title" style="color:#eab308;">Topluluk Başkanı</div>
+                    </div>
+
+                    <!-- ALT DALLAR (KOMİSYONLAR) -->
+                    <ul>
+                        <!-- 1. DAL: BAŞKAN YARDIMCISI & ETKİNLİK -->
+                        <li>
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div class="member-name">Başkan Yardımcısı</div>
+                                <div class="member-title">Organizasyon & Etkinlik</div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="member-card">
+                                        <div class="member-avatar">
+                                            <i class="fa-solid fa-user-check"></i>
+                                        </div>
+                                        <div class="member-name">Saha Koordinatörü</div>
+                                        <div class="member-title">Okul & Atölye</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- 2. DAL: GENEL SEKRETER & İLETİŞİM -->
+                        <li>
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div class="member-name">Genel Sekreter</div>
+                                <div class="member-title">İdari & Resmi İşler</div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="member-card">
+                                        <div class="member-avatar">
+                                            <i class="fa-solid fa-user-pen"></i>
+                                        </div>
+                                        <div class="member-name">Üye İlişkileri</div>
+                                        <div class="member-title">Kayıt & İletişim</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- 3. DAL: BİLİŞİM & MEDYA -->
+                        <li>
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <i class="fa-solid fa-laptop-code"></i>
+                                </div>
+                                <div class="member-name">Medya Koordinatörü</div>
+                                <div class="member-title">Yazılım & Tasarım</div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="member-card">
+                                        <div class="member-avatar">
+                                            <i class="fa-solid fa-camera"></i>
+                                        </div>
+                                        <div class="member-name">Sosyal Medya</div>
+                                        <div class="member-title">Görsel & Arşiv</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </section>
 
@@ -138,18 +348,6 @@
     </footer>
 
     <script>
-        // Bulunulan Sayfayı Belirle ve Menüdeki Kutucuğu Maviye Boya
-        (function highlightCurrentLink() {
-            const links = document.querySelectorAll("#drawerNavLinks .drawer-link");
-            links.forEach(l => {
-                l.classList.remove("active-link", "highlight");
-                const href = l.getAttribute("href");
-                if (href && (href.includes("ekip.html") || href === "./ekip.html")) {
-                    l.classList.add("active-link", "highlight");
-                }
-            });
-        })();
-
         // Menü Aç/Kapat
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
