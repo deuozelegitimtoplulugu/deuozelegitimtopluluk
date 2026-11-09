@@ -234,9 +234,7 @@
         <div style="max-width: 800px; margin: 0 auto;">
             <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);">🏆 Zirvedeki İlk 3 Öğrenci</h3>
             
-            <div id="topThreeList">
-                <div style="text-align:center; padding:30px; color:var(--text-muted);"><i class="fa-solid fa-spinner fa-spin"></i> Yükleniyor...</div>
-            </div>
+            <div id="topThreeList"></div>
 
             <!-- Giriş Yapan Öğrencinin Kendi Sırası -->
             <div id="myRankBox" style="display:none;"></div>
@@ -330,15 +328,18 @@
             location.reload();
         }
 
-        // LİDERLİK TABLOSU: BULUTTAN ÇEK
+        // LİDERLİK TABLOSUNU DİNLE
         function listenLeaderboard() {
             const topList = document.getElementById('topThreeList');
             const myBox = document.getElementById('myRankBox');
 
+            // İlk açılışta boş dönme ihtimaline karşı fallback uyarısı
+            topList.innerHTML = '<div style="text-align:center; padding:25px; color:var(--text-muted);"><i class="fa-solid fa-spinner fa-spin"></i> Sıralama getiriliyor...</div>';
+
             db.ref("members").on("value", (snap) => {
                 const users = [];
 
-                if (snap.exists()) {
+                if (snap && snap.exists()) {
                     snap.forEach((child) => {
                         users.push({
                             username: child.key,
@@ -351,11 +352,12 @@
                 users.sort((a, b) => (b.points || 0) - (a.points || 0));
 
                 if (users.length === 0) {
-                    topList.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Henüz kayıtlı öğrenci bulunmuyor.</div>';
+                    topList.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Henüz sisteme kayıtlı üye bulunmuyor. Giriş / Üye Ol sekmesinden ilk kaydı oluşturabilirsiniz.</div>';
+                    if (myBox) myBox.style.display = 'none';
                     return;
                 }
 
-                // 1. ZİRVEDEKİ İLK 3 KİŞİ
+                // 1. İLK 3 DERECELİ KÜRSÜ
                 const top3 = users.slice(0, 3);
                 topList.innerHTML = top3.map((u, index) => {
                     let badgeClass = index === 0 ? 'rank-1' : (index === 1 ? 'rank-2' : 'rank-3');
@@ -398,13 +400,13 @@
             }, (error) => {
                 topList.innerHTML = `
                     <div style="text-align:center; padding:25px; color:#f87171; background:rgba(239,68,68,0.1); border-radius:12px; border:1px solid #ef4444;">
-                        <strong>Erişim İzni Hatası:</strong> Firebase konsolundan Realtime Database > Kurallar (Rules) kısmını <code>".read": true, ".write": true</code> yapmalısınız.
+                        <strong>Bağlantı Hatası:</strong> Firebase konsolundan Realtime Database > Kurallar (Rules) kısmını kontrol ediniz.
                     </div>
                 `;
             });
         }
 
-        // YÖNETİCİ PUAN MODALI İŞLEMLERİ
+        // YÖNETİCİ PUAN MODALI
         function openAdminModal() {
             drawer.classList.remove('active');
             overlay.classList.remove('active');
@@ -418,9 +420,11 @@
 
         function renderAdminUserList() {
             const container = document.getElementById('adminUserList');
+            container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:15px;">Kayıtlar getiriliyor...</p>';
+
             db.ref("members").once("value", (snap) => {
                 if (!snap.exists()) {
-                    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı öğrenci bulunmuyor.</p>';
+                    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı üye yok.</p>';
                     return;
                 }
 
@@ -458,7 +462,11 @@
             });
         }
 
-        listenLeaderboard();
+        // Sayfa hazır olduğunda doğrudan çalıştır
+        document.addEventListener("DOMContentLoaded", listenLeaderboard);
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            listenLeaderboard();
+        }
     </script>
 </body>
 </html>
