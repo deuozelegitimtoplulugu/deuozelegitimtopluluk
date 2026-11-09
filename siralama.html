@@ -10,6 +10,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        .drawer-links .drawer-link.active-link,
+        .drawer-links .drawer-link.highlight {
+            color: #ffffff !important;
+            font-weight: 800 !important;
+            background: #0284c7 !important;
+            border-radius: 8px !important;
+        }
+        .drawer-links .drawer-link.active-link i,
+        .drawer-links .drawer-link.highlight i {
+            color: #ffffff !important;
+        }
+
+        .user-avatar-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #0284c7;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Sıralama Satırları */
         .leaderboard-row {
             display: flex;
             align-items: center;
@@ -27,8 +53,8 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.04);
         }
         .rank-badge {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: var(--bg-light, #0f172a);
             color: var(--text-main, #f8fafc);
@@ -43,19 +69,15 @@
         .rank-3 { background: #fed7aa !important; color: #9a3412 !important; border: 2px solid #f97316; }
         
         .score-pill-badge {
-            background: var(--primary-light, rgba(2,132,199,0.15));
+            background: rgba(2, 132, 199, 0.15);
             color: var(--primary, #38bdf8);
             font-weight: 800;
             font-size: 0.95rem;
             padding: 6px 16px;
             border-radius: 20px;
         }
-        html.dark-theme .score-pill-badge {
-            background: #1e3a8a;
-            color: #93c5fd;
-        }
 
-        /* Giriş Yapan Öğrencinin Kendi Sıralama Kartı */
+        /* Giriş Yapan Öğrencinin Özel Durum Kartı */
         .my-rank-card {
             background: rgba(2, 132, 199, 0.08);
             border: 2px solid var(--primary, #0284c7);
@@ -65,6 +87,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
         /* Yönetici Puan Düzenleme Modalı */
@@ -73,7 +96,7 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.75);
-            z-index: 9999;
+            z-index: 999999;
             align-items: center;
             justify-content: center;
             padding: 16px;
@@ -89,6 +112,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
         .admin-modal-header {
             padding: 16px 20px;
@@ -102,17 +126,18 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid var(--border, #334155);
         }
         .score-manage-row input {
-            width: 70px;
+            width: 65px;
             padding: 6px;
             border-radius: 6px;
             border: 1px solid var(--border, #334155);
             background: var(--bg-light, #0f172a);
             color: var(--text-main, #fff);
             text-align: center;
+            font-weight: bold;
         }
         .btn-score-act {
             padding: 6px 12px;
@@ -139,9 +164,9 @@
                 <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i> <span>Giriş / Üye Ol</span>
                 </a>
-                <button class="user-avatar-btn" id="userAvatarBtn" style="display:none;" onclick="location.href='./index.html'" title="Profil">
+                <button class="user-avatar-btn" id="userAvatarBtn" onclick="location.href='./index.html'" title="Profil">
                     <i class="fa-solid fa-user" id="navAvatarIcon"></i>
-                    <img id="navAvatarImg" style="display:none;" alt="Profil">
+                    <img id="navAvatarImg" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" alt="Profil">
                 </button>
                 <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod"><i class="fa-solid fa-moon"></i></button>
                 <button class="menu-toggle" id="menuToggle" aria-label="Menü"><span></span><span></span><span></span></button>
@@ -157,11 +182,11 @@
             <button class="drawer-close" id="drawerClose">&times;</button>
         </div>
 
-        <!-- Profil Kartı -->
         <div class="drawer-profile-card" id="drawerProfileBox" style="display:none;">
             <div class="drawer-profile-top">
                 <div class="drawer-profile-avatar" title="Profil">
-                    <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-user" id="drawerAvatarIcon"></i>
+                    <img id="drawerAvatarImg" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" alt="Profil">
                 </div>
                 <div class="drawer-profile-info">
                     <h4 id="drawerUserName">Kullanıcı Adı</h4>
@@ -169,13 +194,13 @@
                 </div>
             </div>
             <div class="drawer-profile-actions">
-                <button class="profile-action-btn logout" onclick="logout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
+                <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
             </div>
         </div>
 
-        <div class="drawer-links">
+        <div class="drawer-links" id="drawerNavLinks">
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
-            <a href="./siralama.html" class="drawer-link highlight" style="color:var(--primary);"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
+            <a href="./siralama.html" class="drawer-link active-link highlight"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
             
             <!-- SADECE YÖNETİCİYE GÖRÜNEN BUTON -->
             <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:700;" onclick="openAdminModal()">
@@ -191,32 +216,34 @@
             <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
             <a href="./index.html#basvuru" class="drawer-link drawer-btn-apply"><i class="fa-solid fa-user-plus"></i> Aramıza Katıl</a>
             <a href="#" target="_blank" class="drawer-link drawer-btn-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı</a>
-            <a href="javascript:void(0)" id="logoutLink" class="drawer-link" style="display:none; color:#f87171;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</a>
+            <a href="javascript:void(0)" id="logoutLink" class="drawer-link" style="display:none; color:#f87171;" onclick="userLogout()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</a>
         </div>
     </div>
 
     <!-- HERO -->
-    <section class="hero" style="padding: 65px 0 70px;">
+    <section class="hero" style="padding: 65px 0 60px;">
         <div class="container">
             <span class="hero-tag"><i class="fa-solid fa-trophy"></i> Liderlik Tablosu</span>
             <h1>Öğrenci Puan Sıralaması</h1>
-            <p>Topluluğumuzun zirvedeki ilk 3 öğrencisi ve güncel kendi başarı dereceniz.</p>
+            <p>Topluluğumuzun zirvedeki ilk 3 öğrencisi ve kendi güncel başarı durumun.</p>
         </div>
     </section>
 
-    <!-- SIRALAMA LİSTESİ -->
+    <!-- SIRALAMA LİSTESİ ALANI -->
     <section class="container section">
         <div style="max-width: 800px; margin: 0 auto;">
             <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);">🏆 Zirvedeki İlk 3 Öğrenci</h3>
             
-            <div id="topThreeList"></div>
+            <div id="topThreeList">
+                <!-- JS ile ilk 3 basılacak -->
+            </div>
 
             <!-- Giriş Yapan Öğrencinin Kendi Sırası -->
             <div id="myRankBox" style="display:none;"></div>
         </div>
     </section>
 
-    <!-- YÖNETİCİ PUAN DÜZENLEME PENCERESİ -->
+    <!-- SADECE YÖNETİCİNİN AÇTIĞI PUAN DÜZENLEME PENCERESİ -->
     <div id="adminModal" class="admin-modal-overlay">
         <div class="admin-modal">
             <div class="admin-modal-header">
@@ -229,7 +256,9 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-        <div class="container footer-bottom"><p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p></div>
+        <div class="container footer-bottom">
+            <p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
+        </div>
     </footer>
 
     <script>
@@ -261,14 +290,13 @@
             localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
         });
 
-        // Oturum Kontrolü (Sayfalar Arası Kalıcı)
+        // Oturum ve Profil Kontrolü
         const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
         
         if (session) {
             document.getElementById('navAuthBtn').style.display = 'none';
             document.getElementById('logoutLink').style.display = 'block';
-            const userAvatarBtn = document.getElementById('userAvatarBtn');
-            userAvatarBtn.style.display = 'flex';
+            document.getElementById('userAvatarBtn').style.display = 'inline-flex';
             document.getElementById('drawerProfileBox').style.display = 'flex';
 
             if (session.role === 'admin' || session.username === 'admin') {
@@ -279,32 +307,41 @@
                 const members = JSON.parse(localStorage.getItem('deu_members') || '[]');
                 const me = members.find(m => m.username === session.username);
                 if (me) {
-                    document.getElementById('drawerUserName').innerText = me.fullName || me.name;
+                    document.getElementById('drawerUserName').innerText = me.fullName || me.name || me.username;
                     document.getElementById('drawerUserDept').innerText = me.dept || 'Özel Eğitim';
+                    if (me.avatar) {
+                        const navImg = document.getElementById('navAvatarImg');
+                        const navIcon = document.getElementById('navAvatarIcon');
+                        const drImg = document.getElementById('drawerAvatarImg');
+                        const drIcon = document.getElementById('drawerAvatarIcon');
+                        if (navImg && navIcon) { navImg.src = me.avatar; navImg.style.display = 'block'; navIcon.style.display = 'none'; }
+                        if (drImg && drIcon) { drImg.src = me.avatar; drImg.style.display = 'block'; drIcon.style.display = 'none'; }
+                    }
                 }
             }
         }
 
-        function logout() {
+        function userLogout() {
             localStorage.removeItem('active_session');
             sessionStorage.removeItem('active_session');
             location.reload();
         }
 
-        // LİDERLİK TABLOSU: YALNIZCA İLK 3 + KENDİ SIRALAMAN
+        // LİDERLİK TABLOSU: YALNIZCA İLK 3 KİŞİ + KENDİ SIRALAMAN
         function loadLeaderboard() {
             const topList = document.getElementById('topThreeList');
             const myBox = document.getElementById('myRankBox');
             let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
 
-            users.sort((a, b) => (b.points || b.score || 0) - (a.points || a.score || 0));
+            // Puana göre büyükten küçüğe sırala
+            users.sort((a, b) => (b.points !== undefined ? b.points : (b.score || 0)) - (a.points !== undefined ? a.points : (a.score || 0)));
 
             if (users.length === 0) {
                 topList.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Henüz kayıtlı öğrenci bulunmuyor.</div>';
                 return;
             }
 
-            // 1. İLK 3 KİŞİYİ LİSTELE
+            // 1. ZİRVEDEKİ İLK 3 KİŞİYİ LİSTELE
             const top3 = users.slice(0, 3);
             topList.innerHTML = top3.map((u, index) => {
                 let badgeClass = index === 0 ? 'rank-1' : (index === 1 ? 'rank-2' : 'rank-3');
@@ -336,9 +373,9 @@
                     myBox.innerHTML = `
                         <div class="my-rank-card">
                             <div style="display:flex; align-items:center; gap:14px;">
-                                <div class="rank-badge" style="background:var(--primary); color:#fff; border:none;">#${myIndex + 1}</div>
+                                <div class="rank-badge" style="background:var(--primary, #0284c7); color:#fff; border:none;">#${myIndex + 1}</div>
                                 <div>
-                                    <span style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--primary);">Senin Başarın</span>
+                                    <span style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--primary, #0284c7);">Senin Başarın</span>
                                     <h4 style="font-size:1.05rem; font-weight:800; color:var(--text-main);">${me.fullName || me.name || me.username}</h4>
                                 </div>
                             </div>
@@ -349,7 +386,7 @@
             }
         }
 
-        // YÖNETİCİ PUAN MODALI
+        // YÖNETİCİ PUAN MODALI İŞLEMLERİ
         function openAdminModal() {
             drawer.classList.remove('active');
             overlay.classList.remove('active');
@@ -366,7 +403,7 @@
             let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
 
             if (users.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted);">Öğrenci bulunamadı.</p>';
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı öğrenci bulunmuyor.</p>';
                 return;
             }
 
@@ -376,7 +413,7 @@
                     <div class="score-manage-row">
                         <div>
                             <strong style="color:var(--text-main); font-size:0.95rem;">${u.fullName || u.name || u.username}</strong>
-                            <div style="font-size:0.8rem; color:var(--text-muted);">Mevcut: <span style="color:var(--primary); font-weight:bold;">${score} P</span></div>
+                            <div style="font-size:0.8rem; color:var(--text-muted);">Mevcut: <span style="color:var(--primary, #0284c7); font-weight:bold;">${score} P</span></div>
                         </div>
                         <div style="display:flex; align-items:center;">
                             <input type="number" id="pts_${u.username}" value="10">
