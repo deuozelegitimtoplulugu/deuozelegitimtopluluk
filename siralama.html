@@ -148,7 +148,7 @@
         .btn-score-sub { background: #475569; color: #fff; margin-left: 4px; }
     </style>
 
-    <!-- Ortak Canlı Bulut Altyapısı -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
@@ -203,7 +203,6 @@
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
             <a href="./siralama.html" class="drawer-link active-link highlight"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
             
-            <!-- SADECE YÖNETİCİYE GÖRÜNEN BUTON -->
             <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:700;" onclick="openAdminModal()">
                 <i class="fa-solid fa-bolt"></i> Puan Yönetimi (Yönetici)
             </a>
@@ -236,7 +235,7 @@
             <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);">🏆 Zirvedeki İlk 3 Öğrenci</h3>
             
             <div id="topThreeList">
-                <div style="text-align:center; padding:30px; color:var(--text-muted);">Yükleniyor...</div>
+                <div style="text-align:center; padding:30px; color:var(--text-muted);"><i class="fa-solid fa-spinner fa-spin"></i> Yükleniyor...</div>
             </div>
 
             <!-- Giriş Yapan Öğrencinin Kendi Sırası -->
@@ -272,7 +271,10 @@
             messagingSenderId: "463233621727",
             appId: "1:463233621727:web:4fcbfac218469b1e0e136a"
         };
-        firebase.initializeApp(firebaseConfig);
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.database();
 
         // Menü Aç/Kapat
@@ -328,19 +330,22 @@
             location.reload();
         }
 
-        // LİDERLİK TABLOSUNU BULUTTAN CANLI DİNLE (İLK 3 KİŞİ + SENİN BAŞARIN)
+        // LİDERLİK TABLOSU: BULUTTAN ÇEK
         function listenLeaderboard() {
+            const topList = document.getElementById('topThreeList');
+            const myBox = document.getElementById('myRankBox');
+
             db.ref("members").on("value", (snap) => {
-                const topList = document.getElementById('topThreeList');
-                const myBox = document.getElementById('myRankBox');
                 const users = [];
 
-                snap.forEach((child) => {
-                    users.push({
-                        username: child.key,
-                        ...child.val()
+                if (snap.exists()) {
+                    snap.forEach((child) => {
+                        users.push({
+                            username: child.key,
+                            ...child.val()
+                        });
                     });
-                });
+                }
 
                 // Puana göre sırala (Büyükten küçüğe)
                 users.sort((a, b) => (b.points || 0) - (a.points || 0));
@@ -390,10 +395,16 @@
                         `;
                     }
                 }
+            }, (error) => {
+                topList.innerHTML = `
+                    <div style="text-align:center; padding:25px; color:#f87171; background:rgba(239,68,68,0.1); border-radius:12px; border:1px solid #ef4444;">
+                        <strong>Erişim İzni Hatası:</strong> Firebase konsolundan Realtime Database > Kurallar (Rules) kısmını <code>".read": true, ".write": true</code> yapmalısınız.
+                    </div>
+                `;
             });
         }
 
-        // YÖNETİCİ PUAN MODALI İŞLEMLERİ (BULUTTA TÜM ÜYELERİ LİSTELE)
+        // YÖNETİCİ PUAN MODALI İŞLEMLERİ
         function openAdminModal() {
             drawer.classList.remove('active');
             overlay.classList.remove('active');
