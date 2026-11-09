@@ -62,6 +62,7 @@
             cursor: pointer;
         }
 
+        /* Yönetici Puan Modal Penceresi */
         .admin-modal-overlay {
             display: none;
             position: fixed;
@@ -97,17 +98,18 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid var(--border, #334155);
         }
         .score-manage-row input {
-            width: 70px;
+            width: 65px;
             padding: 6px;
             border-radius: 6px;
             border: 1px solid var(--border, #334155);
             background: var(--bg-light, #0f172a);
             color: var(--text-main, #fff);
             text-align: center;
+            font-weight: bold;
         }
         .btn-score-act {
             padding: 6px 12px;
@@ -120,6 +122,10 @@
         .btn-score-add { background: #0284c7; color: #fff; }
         .btn-score-sub { background: #475569; color: #fff; margin-left: 4px; }
     </style>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
@@ -132,16 +138,19 @@
             </a>
 
             <div class="nav-actions">
+                <!-- GİRİŞ YAPILINCA GİZLENEN BUTON -->
                 <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     <span>Giriş / Üye Ol</span>
                 </a>
 
+                <!-- KULLANICI PUAN ROZETİ -->
                 <a href="./siralama.html" class="nav-score-chip" id="navScoreChip" title="Puan Sıralamasına Git">
                     <i class="fa-solid fa-star fa-fade"></i>
                     <span id="navScoreValue">0 P</span>
                 </a>
 
+                <!-- Profil Butonu -->
                 <button class="user-avatar-btn" id="userAvatarBtn" onclick="openProfileSettings()" title="Profil Ayarları">
                     <i class="fa-solid fa-user" id="navAvatarIcon"></i>
                     <img id="navAvatarImg" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" alt="Profil">
@@ -169,7 +178,7 @@
 
         <div class="drawer-profile-card" id="drawerProfileBox" style="display:none;">
             <div class="drawer-profile-top">
-                <div class="drawer-profile-avatar" onclick="openProfileSettings()" title="Fotoğraf Yükle/Değiştir">
+                <div class="drawer-profile-avatar" onclick="openProfileSettings()" title="Profil">
                     <i class="fa-solid fa-user" id="drawerAvatarIcon"></i>
                     <img id="drawerAvatarImg" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" alt="Profil">
                 </div>
@@ -178,20 +187,20 @@
                     <span id="drawerUserDept">Bölüm</span>
                 </div>
             </div>
-            <div class="drawer-score-badge" id="drawerScoreContainer">
+            <div class="drawer-score-badge" id="drawerScoreContainer" style="display:none;">
                 <i class="fa-solid fa-star"></i>
                 <span id="drawerUserPoints">0</span> Topluluk Puanı
             </div>
             <div class="drawer-profile-actions">
-                <button class="profile-action-btn" onclick="openProfileSettings()"><i class="fa-solid fa-gear"></i> Ayarlar</button>
                 <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
             </div>
         </div>
 
         <div class="drawer-links" id="drawerNavLinks">
-            <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <a href="./index.html" class="drawer-link active-link highlight"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
             <a href="./siralama.html" class="drawer-link"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
             
+            <!-- SADECE YÖNETİCİYE GÖRÜNEN BUTON -->
             <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:800;" onclick="openAdminModal()">
                 <i class="fa-solid fa-bolt"></i> Puan Yönetimi (Yönetici)
             </a>
@@ -210,49 +219,13 @@
             <a href="#" target="_blank" class="drawer-link drawer-btn-wa">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı
             </a>
+            <a href="javascript:void(0)" id="drawerLogoutLink" class="drawer-link" style="display:none; color:#f87171; font-weight:700;" onclick="userLogout()">
+                <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
+            </a>
         </div>
     </div>
 
-    <!-- PROFİL AYARLARI MODALI -->
-    <div class="profile-modal" id="settingsModal">
-        <div class="profile-modal-content">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-main);"><i class="fa-solid fa-user-gear"></i> Profil Ayarları</h3>
-                <button onclick="closeProfileSettings()" style="background:transparent; border:none; font-size:1.4rem; cursor:pointer; color:var(--text-muted);">&times;</button>
-            </div>
-
-            <div class="avatar-upload-wrapper">
-                <div class="avatar-preview-box">
-                    <i class="fa-solid fa-user" id="previewIcon"></i>
-                    <img id="previewImg" style="display:none;" alt="Önizleme">
-                </div>
-                <label for="avatarFileInput" class="file-select-btn">
-                    <i class="fa-solid fa-camera"></i> Fotoğraf Yükle
-                </label>
-                <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
-            </div>
-
-            <form id="profileUpdateForm" style="display:flex; flex-direction:column; gap:12px;">
-                <div>
-                    <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:4px; display:block;">Adınız Soyadınız</label>
-                    <input type="text" id="settingFullName" class="form-input" required>
-                </div>
-                <div>
-                    <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:4px; display:block;">Bölümünüz</label>
-                    <input type="text" id="settingDept" class="form-input" required>
-                </div>
-                <div>
-                    <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:4px; display:block;">Yeni Şifre (İsteğe Bağlı)</label>
-                    <input type="password" id="settingNewPass" class="form-input" placeholder="Değiştirmek istemiyorsanız boş bırakın">
-                </div>
-                <button type="submit" class="btn-primary" style="background:var(--primary); color:#fff; border:none; justify-content:center; margin-top:8px; cursor:pointer;">
-                    <i class="fa-solid fa-floppy-disk"></i> Değişiklikleri Kaydet
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- HERO KARŞILAMA (DİREKT AÇILIR - HİÇBİR BEKLEME YOK) -->
+    <!-- HERO KARŞILAMA -->
     <section class="hero">
         <div class="container">
             <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Dokuz Eylül Üniversitesi • 1982</span>
@@ -363,12 +336,6 @@
             </div>
         </div>
     </section>
-
-    <!-- LIGHTBOX MODAL -->
-    <div id="imageModal" style="display:none; position:fixed; z-index:999999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); align-items:center; justify-content:center; backdrop-filter:blur(5px);">
-        <span id="closeModal" style="position:absolute; top:20px; right:30px; color:#fff; font-size:2.5rem; font-weight:bold; cursor:pointer;">&times;</span>
-        <img id="modalImg" style="max-width:90%; max-height:85%; border-radius:12px; box-shadow:0 0 30px rgba(0,0,0,0.7); object-fit:contain;">
-    </div>
 
     <!-- İLETİŞİM & HARİTA -->
     <section id="basvuru" class="container section">
@@ -496,21 +463,157 @@
         </button>
     </div>
 
-    <!-- JAVASCRIPT: AKTİF LİNK VE KALICI PROFİL -->
+    <!-- JAVASCRIPT: FIREBASE, PROFİL VE PUAN YÖNETİMİ -->
     <script>
-        // Ana Sayfa Mavi Kutucuk Vurgusu
-        (function highlightHomeLink() {
-            const links = document.querySelectorAll("#drawerNavLinks .drawer-link");
-            links.forEach(l => {
-                l.classList.remove("active-link", "highlight");
-                const href = l.getAttribute("href");
-                if (href && (href.includes("index.html") || href === "./index.html")) {
-                    l.classList.add("active-link", "highlight");
-                }
-            });
-        })();
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBuhOWynw0fbuEP1EKSXHCWetRtqlR474",
+            authDomain: "deu-ozel-egitim.firebaseapp.com",
+            databaseURL: "https://deu-ozel-egitim-default-rtdb.firebaseio.com",
+            projectId: "deu-ozel-egitim",
+            storageBucket: "deu-ozel-egitim.firebasestorage.app",
+            messagingSenderId: "463233621727",
+            appId: "1:463233621727:web:4fcbfac218469b1e0e136a"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
 
-        // Çekmece Menü
+        let allCloudUsers = [];
+
+        // KULLANICI GİRİŞ DURUMU (GİRİŞ BUTONU KALKAR / ÇIKIŞ YAP GELİR)
+        function checkUserAuth() {
+            const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
+            const navAuthBtn = document.getElementById('navAuthBtn');
+            const userAvatarBtn = document.getElementById('userAvatarBtn');
+            const navScoreChip = document.getElementById('navScoreChip');
+            const drawerProfileBox = document.getElementById('drawerProfileBox');
+            const drawerRegisterLink = document.getElementById('drawerRegisterLink');
+            const adminMenuItem = document.getElementById('adminScoreMenuItem');
+            const drawerLogoutLink = document.getElementById('drawerLogoutLink');
+
+            if (!session) {
+                // Çıkış yapılmışsa giriş butonu görünür
+                if (navAuthBtn) navAuthBtn.style.display = 'inline-flex';
+                if (userAvatarBtn) userAvatarBtn.style.display = 'none';
+                if (navScoreChip) navScoreChip.style.display = 'none';
+                if (drawerProfileBox) drawerProfileBox.style.display = 'none';
+                if (adminMenuItem) adminMenuItem.style.display = 'none';
+                if (drawerRegisterLink) drawerRegisterLink.style.display = 'flex';
+                if (drawerLogoutLink) drawerLogoutLink.style.display = 'none';
+            } else {
+                // Giriş yapılmışsa giriş butonu tamamen kalkar
+                if (navAuthBtn) navAuthBtn.style.display = 'none';
+                if (userAvatarBtn) userAvatarBtn.style.display = 'inline-flex';
+                if (drawerProfileBox) drawerProfileBox.style.display = 'flex';
+                if (drawerRegisterLink) drawerRegisterLink.style.display = 'none';
+                if (drawerLogoutLink) drawerLogoutLink.style.display = 'flex';
+
+                if (session.role === 'admin' || session.username === 'admin') {
+                    if (navScoreChip) navScoreChip.style.display = 'none';
+                    if (adminMenuItem) adminMenuItem.style.display = 'block';
+                    document.getElementById('drawerUserName').innerText = "Yönetici";
+                    document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
+                    document.getElementById('drawerScoreContainer').style.display = 'none';
+                } else {
+                    if (adminMenuItem) adminMenuItem.style.display = 'none';
+                    document.getElementById('drawerUserName').innerText = session.fullName || session.username;
+                    document.getElementById('drawerUserDept').innerText = session.dept || 'Özel Eğitim';
+
+                    // Canlı puanı Firebase'den dinle
+                    db.ref("members/" + session.username).on("value", (snap) => {
+                        const val = snap.val();
+                        const p = val && val.points !== undefined ? val.points : 0;
+                        if (navScoreChip) {
+                            navScoreChip.style.display = 'inline-flex';
+                            document.getElementById('navScoreValue').innerText = `${p} P`;
+                        }
+                        const scBox = document.getElementById('drawerScoreContainer');
+                        if (scBox) {
+                            scBox.style.display = 'inline-flex';
+                            document.getElementById('drawerUserPoints').innerText = p;
+                        }
+                    });
+                }
+            }
+        }
+
+        // ÇIKIŞ YAPILINCA SIFIRLAR
+        window.userLogout = function() {
+            localStorage.removeItem('active_session');
+            sessionStorage.removeItem('active_session');
+            window.location.reload();
+        };
+
+        checkUserAuth();
+
+        // YÖNETİCİ PUAN MODALI İŞLEMLERİ (BULUTTA TÜM ÜYELERİ LİSTELE VE DEĞİŞTİR)
+        function openAdminModal() {
+            closeDrawer();
+            document.getElementById('adminModal').classList.add('open');
+            renderAdminUserList();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('open');
+        }
+
+        function renderAdminUserList() {
+            const container = document.getElementById('adminUserList');
+            container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:15px;">Üyeler yükleniyor...</p>';
+
+            db.ref("members").once("value", (snap) => {
+                if (!snap.exists()) {
+                    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı öğrenci yok.</p>';
+                    return;
+                }
+
+                allCloudUsers = [];
+                let html = "";
+                snap.forEach((child) => {
+                    const u = child.val();
+                    const uname = child.key;
+                    if (uname !== "admin") {
+                        const pts = Number(u.points) || 0;
+                        allCloudUsers.push({ username: uname, ...u, points: pts });
+                        html += `
+                            <div class="score-manage-row">
+                                <div>
+                                    <strong style="color:var(--text-main); font-size:0.95rem;">${u.fullName || uname}</strong>
+                                    <div style="font-size:0.8rem; color:var(--text-muted);">Mevcut: <span id="view_${uname}" style="color:var(--primary, #0284c7); font-weight:bold;">${pts} P</span> (@${uname})</div>
+                                </div>
+                                <div style="display:flex; align-items:center;">
+                                    <input type="number" id="inp_${uname}" value="10">
+                                    <button class="btn-score-act btn-score-add" onclick="modifyStudentScore('${uname}', true)">+ Ekle</button>
+                                    <button class="btn-score-act btn-score-sub" onclick="modifyStudentScore('${uname}', false)">- Düş</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                container.innerHTML = html || '<p style="text-align:center; color:var(--text-muted); padding:20px;">Kayıtlı öğrenci yok.</p>';
+            });
+        }
+
+        window.modifyStudentScore = function(username, isAdd) {
+            const inp = document.getElementById('inp_' + username);
+            const val = parseInt(inp.value, 10);
+            if (isNaN(val) || val <= 0) return alert('Geçerli bir miktar girin.');
+
+            const user = allCloudUsers.find(u => u.username === username);
+            if (user) {
+                const current = Number(user.points) || 0;
+                const newScore = isAdd ? (current + val) : (current - val);
+
+                db.ref("members/" + username).update({ points: newScore }).then(() => {
+                    user.points = newScore;
+                    const viewEl = document.getElementById("view_" + username);
+                    if (viewEl) viewEl.innerText = `${newScore} P`;
+                });
+            }
+        };
+
+        // Menü Aç/Kapat
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
         const drawer = document.getElementById('mobileDrawer');
@@ -545,168 +648,6 @@
                 localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
             });
         }
-
-        // KULLANICI GİRİŞ DURUMU
-        function checkUserAuth() {
-            const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
-            const navAuthBtn = document.getElementById('navAuthBtn');
-            const userAvatarBtn = document.getElementById('userAvatarBtn');
-            const navScoreChip = document.getElementById('navScoreChip');
-            const drawerProfileBox = document.getElementById('drawerProfileBox');
-            const drawerRegisterLink = document.getElementById('drawerRegisterLink');
-            const adminMenuItem = document.getElementById('adminScoreMenuItem');
-
-            if (!session) {
-                if (navAuthBtn) navAuthBtn.style.display = 'inline-flex';
-                if (userAvatarBtn) userAvatarBtn.style.display = 'none';
-                if (navScoreChip) navScoreChip.style.display = 'none';
-                if (drawerProfileBox) drawerProfileBox.style.display = 'none';
-                if (adminMenuItem) adminMenuItem.style.display = 'none';
-                if (drawerRegisterLink) drawerRegisterLink.style.display = 'flex';
-            } else {
-                localStorage.setItem('active_session', JSON.stringify(session));
-
-                if (navAuthBtn) navAuthBtn.style.display = 'none';
-                if (userAvatarBtn) userAvatarBtn.style.display = 'inline-flex';
-                if (drawerProfileBox) drawerProfileBox.style.display = 'flex';
-                if (drawerRegisterLink) drawerRegisterLink.style.display = 'none';
-
-                if (session.role === 'admin' || session.username === 'admin') {
-                    if (navScoreChip) navScoreChip.style.display = 'none';
-                    if (adminMenuItem) adminMenuItem.style.display = 'block';
-                    document.getElementById('drawerUserName').innerText = "Yönetici";
-                    document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
-                    document.getElementById('drawerScoreContainer').style.display = 'none';
-                } else {
-                    if (adminMenuItem) adminMenuItem.style.display = 'none';
-                    const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
-                    const me = users.find(u => u.username === session.username);
-                    if (me) {
-                        if (navScoreChip) {
-                            navScoreChip.style.display = 'inline-flex';
-                            document.getElementById('navScoreValue').innerText = `${me.points || me.score || 0} P`;
-                        }
-
-                        document.getElementById('drawerUserName').innerText = me.fullName || me.name;
-                        document.getElementById('drawerUserDept').innerText = me.dept || 'Özel Eğitim';
-                        document.getElementById('drawerScoreContainer').style.display = 'inline-flex';
-                        document.getElementById('drawerUserPoints').innerText = me.points || me.score || 0;
-
-                        if (me.avatar) {
-                            applyAvatarImage(me.avatar);
-                        } else {
-                            clearAvatarImage();
-                        }
-                    }
-                }
-            }
-        }
-
-        function applyAvatarImage(base64Url) {
-            const navImg = document.getElementById('navAvatarImg');
-            const navIcon = document.getElementById('navAvatarIcon');
-            const drawerImg = document.getElementById('drawerAvatarImg');
-            const drawerIcon = document.getElementById('drawerAvatarIcon');
-            const prevImg = document.getElementById('previewImg');
-            const prevIcon = document.getElementById('previewIcon');
-
-            [navImg, drawerImg, prevImg].forEach(img => { if (img) { img.src = base64Url; img.style.display = 'block'; } });
-            [navIcon, drawerIcon, prevIcon].forEach(icon => { if (icon) { icon.style.display = 'none'; } });
-        }
-
-        function clearAvatarImage() {
-            const navImg = document.getElementById('navAvatarImg');
-            const navIcon = document.getElementById('navAvatarIcon');
-            const drawerImg = document.getElementById('drawerAvatarImg');
-            const drawerIcon = document.getElementById('drawerAvatarIcon');
-            const prevImg = document.getElementById('previewImg');
-            const prevIcon = document.getElementById('previewIcon');
-
-            [navImg, drawerImg, prevImg].forEach(img => { if (img) { img.style.display = 'none'; } });
-            [navIcon, drawerIcon, prevIcon].forEach(icon => { if (icon) { icon.style.display = 'block'; } });
-        }
-
-        window.openProfileSettings = function() {
-            const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
-            if (!session) { window.location.href = './giris.html'; return; }
-            if (session.role === 'admin' || session.username === 'admin') { return; }
-
-            const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
-            const me = users.find(u => u.username === session.username);
-            if (me) {
-                document.getElementById('settingFullName').value = me.fullName || me.name;
-                document.getElementById('settingDept').value = me.dept || '';
-                document.getElementById('settingNewPass').value = '';
-                document.getElementById('settingsModal').style.display = 'flex';
-                closeDrawer();
-            }
-        };
-
-        window.closeProfileSettings = function() {
-            document.getElementById('settingsModal').style.display = 'none';
-        };
-
-        function openAdminModal() {
-            closeDrawer();
-            document.getElementById('adminModal').classList.add('open');
-            renderAdminUserList();
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminModal').classList.remove('open');
-        }
-
-        function renderAdminUserList() {
-            const container = document.getElementById('adminUserList');
-            let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
-
-            if (users.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı öğrenci bulunmuyor.</p>';
-                return;
-            }
-
-            container.innerHTML = users.map(u => {
-                let score = u.points !== undefined ? u.points : (u.score || 0);
-                return `
-                    <div class="score-manage-row">
-                        <div>
-                            <strong style="color:var(--text-main); font-size:0.95rem;">${u.fullName || u.name || u.username}</strong>
-                            <div style="font-size:0.8rem; color:var(--text-muted);">Mevcut: <span style="color:var(--primary); font-weight:bold;">${score} P</span></div>
-                        </div>
-                        <div style="display:flex; align-items:center;">
-                            <input type="number" id="inp_${u.username}" value="10">
-                            <button class="btn-score-act btn-score-add" onclick="modifyScore('${u.username}', true)">+ Ekle</button>
-                            <button class="btn-score-act btn-score-sub" onclick="modifyScore('${u.username}', false)">- Düş</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function modifyScore(username, isAdd) {
-            const inp = document.getElementById('inp_' + username);
-            const val = parseInt(inp.value, 10);
-            if (isNaN(val) || val <= 0) return alert('Geçerli bir miktar girin.');
-
-            let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
-            const idx = users.findIndex(u => u.username === username);
-            if (idx !== -1) {
-                let current = users[idx].points !== undefined ? users[idx].points : (users[idx].score || 0);
-                users[idx].points = isAdd ? (current + val) : (current - val);
-                users[idx].score = users[idx].points;
-                localStorage.setItem('deu_members', JSON.stringify(users));
-                renderAdminUserList();
-                checkUserAuth();
-            }
-        }
-
-        window.userLogout = function() {
-            localStorage.removeItem('active_session');
-            sessionStorage.removeItem('active_session');
-            window.location.reload();
-        };
-
-        checkUserAuth();
 
         // Geri Sayım
         const targetDate = new Date("Nov 20, 2026 14:00:00").getTime();
