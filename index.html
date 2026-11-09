@@ -37,11 +37,29 @@
             text-decoration: none;
         }
 
-        .drawer-link.highlight {
-            color: var(--primary, #0284c7) !important;
+        .drawer-links .drawer-link.active-link,
+        .drawer-links .drawer-link.highlight {
+            color: #ffffff !important;
             font-weight: 800 !important;
-            background: rgba(2, 132, 199, 0.1) !important;
-            border-radius: 8px;
+            background: #0284c7 !important;
+            border-radius: 8px !important;
+        }
+        .drawer-links .drawer-link.active-link i,
+        .drawer-links .drawer-link.highlight i {
+            color: #ffffff !important;
+        }
+
+        .user-avatar-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #0284c7;
+            color: #fff;
+            border: none;
+            cursor: pointer;
         }
 
         .admin-modal-overlay {
@@ -105,16 +123,6 @@
 </head>
 <body>
 
-    <!-- SADECE İLK AÇILIŞTA GÖRÜNEN PRELOADER -->
-    <div id="preloader" style="display:none;">
-        <div class="intro-stage">
-            <div class="intro-ring"></div>
-            <img src="./logo.png" alt="DEÜ Logo" class="intro-logo">
-        </div>
-        <div class="intro-text">DEÜ Özel Eğitim Topluluğu</div>
-        <div class="intro-subtext">Farkındalık Yaratıyor, Birlikte Aşıyoruz...</div>
-    </div>
-
     <!-- ÜST NAVBAR -->
     <header class="navbar">
         <div class="container nav-content">
@@ -136,7 +144,7 @@
 
                 <button class="user-avatar-btn" id="userAvatarBtn" onclick="openProfileSettings()" title="Profil Ayarları">
                     <i class="fa-solid fa-user" id="navAvatarIcon"></i>
-                    <img id="navAvatarImg" style="display:none;" alt="Profil">
+                    <img id="navAvatarImg" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" alt="Profil">
                 </button>
 
                 <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod Değiştirici">
@@ -163,7 +171,7 @@
             <div class="drawer-profile-top">
                 <div class="drawer-profile-avatar" onclick="openProfileSettings()" title="Fotoğraf Yükle/Değiştir">
                     <i class="fa-solid fa-user" id="drawerAvatarIcon"></i>
-                    <img id="drawerAvatarImg" style="display:none;" alt="Profil">
+                    <img id="drawerAvatarImg" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" alt="Profil">
                 </div>
                 <div class="drawer-profile-info">
                     <h4 id="drawerUserName">Kullanıcı Adı</h4>
@@ -244,7 +252,7 @@
         </div>
     </div>
 
-    <!-- HERO KARŞILAMA -->
+    <!-- HERO KARŞILAMA (DİREKT AÇILIR - HİÇBİR BEKLEME YOK) -->
     <section class="hero">
         <div class="container">
             <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Dokuz Eylül Üniversitesi • 1982</span>
@@ -488,30 +496,16 @@
         </button>
     </div>
 
-    <!-- JAVASCRIPT: AKTİF LİNK, KALICI PROFİL, PRELOADER KONTROLÜ -->
+    <!-- JAVASCRIPT: AKTİF LİNK VE KALICI PROFİL -->
     <script>
-        // Sadece ilk açılışta preloader göster, geçişlerde çalıştırma
-        if (!sessionStorage.getItem('site_visited')) {
-            const preloader = document.getElementById('preloader');
-            if (preloader) {
-                preloader.style.display = 'flex';
-                setTimeout(() => {
-                    preloader.classList.add('fade-out');
-                    setTimeout(() => preloader.style.display = 'none', 600);
-                }, 1500);
-            }
-            sessionStorage.setItem('site_visited', 'true');
-        }
-
-        // Menüdeki aktif linki (mavi olanı) bulunulan sayfaya göre dinamik yakalama
-        (function setActiveMenuLink() {
-            const path = window.location.pathname.split("/").pop() || "index.html";
+        // Ana Sayfa Mavi Kutucuk Vurgusu
+        (function highlightHomeLink() {
             const links = document.querySelectorAll("#drawerNavLinks .drawer-link");
             links.forEach(l => {
-                l.classList.remove("highlight");
+                l.classList.remove("active-link", "highlight");
                 const href = l.getAttribute("href");
-                if (href && (href === `./${path}` || href === path || (path === "" && href.includes("index.html")))) {
-                    l.classList.add("highlight");
+                if (href && (href.includes("index.html") || href === "./index.html")) {
+                    l.classList.add("active-link", "highlight");
                 }
             });
         })();
@@ -573,7 +567,7 @@
                 localStorage.setItem('active_session', JSON.stringify(session));
 
                 if (navAuthBtn) navAuthBtn.style.display = 'none';
-                if (userAvatarBtn) userAvatarBtn.style.display = 'flex';
+                if (userAvatarBtn) userAvatarBtn.style.display = 'inline-flex';
                 if (drawerProfileBox) drawerProfileBox.style.display = 'flex';
                 if (drawerRegisterLink) drawerRegisterLink.style.display = 'none';
 
@@ -628,7 +622,7 @@
             const prevImg = document.getElementById('previewImg');
             const prevIcon = document.getElementById('previewIcon');
 
-            [navImg, drawerImg, prevImg].forEach(img => { if (img) { img.src = base64Url; img.style.display = 'none'; } });
+            [navImg, drawerImg, prevImg].forEach(img => { if (img) { img.style.display = 'none'; } });
             [navIcon, drawerIcon, prevIcon].forEach(icon => { if (icon) { icon.style.display = 'block'; } });
         }
 
@@ -652,7 +646,6 @@
             document.getElementById('settingsModal').style.display = 'none';
         };
 
-        // YÖNETİCİ PUAN DEĞİŞTİRME MODALI
         function openAdminModal() {
             closeDrawer();
             document.getElementById('adminModal').classList.add('open');
