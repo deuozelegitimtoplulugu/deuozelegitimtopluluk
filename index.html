@@ -6,42 +6,59 @@
   <title>DEÜ Özel Eğitim Topluluğu</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: #0f172a; color: #f8fafc; min-height: 100vh; }
+    body { background: #0b1329; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; }
     
-    /* Navbar */
-    .navbar { background: #1e293b; border-bottom: 1px solid #334155; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-    .brand { font-size: 18px; font-weight: 700; color: #38bdf8; text-decoration: none; }
-    .nav-right { display: flex; align-items: center; gap: 12px; position: relative; }
+    /* Üst Menü (Navbar) */
+    .navbar { background: #111e38; border-bottom: 1px solid #1e293b; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #38bdf8; font-weight: 700; font-size: 19px; }
+    .nav-links { display: flex; align-items: center; gap: 16px; }
+    .nav-item { color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; }
+    .nav-item:hover { color: #f8fafc; }
     
     /* Giriş / Profil Rozeti */
-    .btn-login { background: #0284c7; color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 14px; }
-    .user-pill { display: flex; align-items: center; background: #0f172a; border: 1px solid #334155; padding: 6px 14px; border-radius: 20px; gap: 8px; }
+    .btn-login { background: #0284c7; color: #fff; text-decoration: none; padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 14px; transition: 0.2s; }
+    .btn-login:hover { background: #0369a1; }
+    
+    .user-pill { display: flex; align-items: center; background: #1e293b; border: 1px solid #334155; padding: 6px 14px; border-radius: 20px; gap: 10px; }
     .user-name { font-size: 14px; font-weight: 600; color: #f8fafc; }
-    .user-role-badge { font-size: 11px; background: #854d0e; color: #fef08a; padding: 2px 6px; border-radius: 10px; font-weight: bold; }
+    .user-role-badge { font-size: 11px; background: #854d0e; color: #fef08a; padding: 2px 7px; border-radius: 10px; font-weight: 700; }
     .dots-btn { background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; padding: 0 4px; line-height: 1; }
     .dots-btn:hover { color: #fff; }
 
-    /* 3 Nokta Menüsü */
-    .dropdown { display: none; position: absolute; right: 0; top: 120%; width: 220px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 200; }
+    /* 3 Nokta Açılır Menüsü */
+    .dropdown { display: none; position: absolute; right: 24px; top: 65px; width: 220px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.6); z-index: 200; }
     .dropdown.show { display: block; }
-    .dropdown a, .dropdown button { display: block; width: 100%; text-align: left; padding: 9px 12px; font-size: 13px; color: #cbd5e1; text-decoration: none; background: none; border: none; border-radius: 4px; cursor: pointer; }
+    .dropdown a, .dropdown button { display: block; width: 100%; text-align: left; padding: 10px 12px; font-size: 13px; color: #cbd5e1; text-decoration: none; background: none; border: none; border-radius: 4px; cursor: pointer; }
     .dropdown a:hover, .dropdown button:hover { background: #334155; color: #fff; }
-    .admin-action { color: #facc15 !important; font-weight: 600; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 4px; }
-    .btn-logout { color: #f87171 !important; border-top: 1px solid #334155; margin-top: 4px; padding-top: 8px; }
+    .admin-action { color: #facc15 !important; font-weight: 700; border-bottom: 1px solid #334155; margin-bottom: 4px; }
+    .btn-logout { color: #f87171 !important; border-top: 1px solid #334155; margin-top: 4px; }
 
-    /* İçerik Alanı */
-    .hero { max-width: 900px; margin: 40px auto; padding: 0 20px; text-align: center; }
-    .hero h1 { font-size: 32px; color: #38bdf8; margin-bottom: 12px; }
-    .hero p { color: #94a3b8; font-size: 16px; margin-bottom: 24px; }
-    .btn-action { display: inline-block; background: #0284c7; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; }
+    /* Ana Sayfa Karşılama Alanı (Hero) */
+    .hero { text-align: center; padding: 70px 20px 40px; max-width: 850px; margin: 0 auto; }
+    .badge-tag { display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+    .hero h1 { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 17px; color: #94a3b8; line-height: 1.6; margin-bottom: 30px; }
+    .hero-buttons { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .btn-primary { background: #0284c7; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 15px; }
+    .btn-primary:hover { background: #0369a1; }
+    .btn-secondary { background: #1e293b; border: 1px solid #334155; color: #f8fafc; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 15px; }
+    .btn-secondary:hover { background: #334155; }
 
-    /* Yönetici Puan Modal Penceresi */
+    /* İçerik Kartları */
+    .section-cards { max-width: 1050px; margin: 40px auto 70px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; }
+    .card { background: #111e38; border: 1px solid #1e293b; border-radius: 12px; padding: 24px; transition: 0.2s; }
+    .card:hover { transform: translateY(-3px); border-color: #38bdf8; }
+    .card-icon { font-size: 28px; margin-bottom: 12px; }
+    .card h3 { font-size: 18px; margin-bottom: 8px; color: #f8fafc; }
+    .card p { font-size: 14px; color: #94a3b8; line-height: 1.5; }
+
+    /* Yönetici Puan Düzenleme Modalı */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
     .modal-overlay.open { display: flex; }
-    .modal-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; width: 100%; max-width: 650px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+    .modal-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; width: 100%; max-width: 650px; max-height: 85vh; display: flex; flex-direction: column; }
     .modal-header { padding: 16px 20px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
     .modal-header h3 { color: #facc15; font-size: 18px; }
-    .modal-close { background: none; border: none; color: #94a3b8; font-size: 22px; cursor: pointer; }
+    .modal-close { background: none; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; }
     .modal-body { padding: 16px 20px; overflow-y: auto; }
     .score-table { width: 100%; border-collapse: collapse; }
     .score-table th, .score-table td { padding: 10px; text-align: left; border-bottom: 1px solid #334155; font-size: 13px; }
@@ -57,22 +74,51 @@
 </head>
 <body>
 
-  <!-- Ortak Navbar -->
-  <nav class="navbar">
-    <a href="index.html" class="brand">DEÜ Özel Eğitim</a>
-    <div class="nav-right" id="navAuthArea">
-      <!-- Kullanıcı durumuna göre buton veya 3 nokta menüsü gelecek -->
+  <!-- Üst Bar -->
+  <header class="navbar">
+    <a href="index.html" class="brand">
+      <span>🎓</span> DEÜ Özel Eğitim
+    </a>
+    <div class="nav-links">
+      <a href="siralama.html" class="nav-item">🏆 Sıralama</a>
+      <div id="navAuthArea"></div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Ana Sayfa İçeriği -->
-  <main class="hero">
-    <h1>Topluluk Portalı</h1>
-    <p>Etkinlikler, puanlama sistemi ve güncel duyurular.</p>
-    <a href="siralama.html" class="btn-action">🏆 Canlı Sıralamaya Git</a>
-  </main>
+  <!-- 3 Nokta Açılır Menüsü (Sağ Üst) -->
+  <div id="userMenu" class="dropdown"></div>
 
-  <!-- Sadece Yöneticinin 3 Noktasından Açılan Puan Düzenleme Penceresi -->
+  <!-- Ana Sayfa Vitrini -->
+  <section class="hero">
+    <div class="badge-tag">Dokuz Eylül Üniversitesi</div>
+    <h1>Özel Eğitim Topluluğu Portalı</h1>
+    <p>Topluluğumuzun düzenlediği etkinliklere katılın, görevleri tamamlayarak puan kazanın ve kürsüdeki yerinizi alın.</p>
+    <div class="hero-buttons">
+      <a href="siralama.html" class="btn-primary">🏆 Sıralamayı İncele</a>
+      <a href="giris.html" class="btn-secondary" id="heroAuthBtn">Üye Ol / Giriş Yap</a>
+    </div>
+  </section>
+
+  <!-- Tanıtım Kartları -->
+  <section class="section-cards">
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h3>Puan Sistemi</h3>
+      <p>Topluluk projelerinde, atölyelerde ve toplantılarda aktif rol alarak puan biriktirin.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏅</div>
+      <h3>Canlı Kürsü</h3>
+      <p>En yüksek puanı toplayan ilk 3 üye doğrudan kürsüde sergilenir, bireysel dereceniz anlık hesaplanır.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤝</div>
+      <h3>Birlikte Gelişim</h3>
+      <p>Özel eğitim alanında farkındalık yaratmak ve sahada birlikte üretmek için tasarlandı.</p>
+    </div>
+  </section>
+
+  <!-- Sadece Yönetici 3 Noktadan Tıkladığında Açılan Pencere -->
   <div id="scoreModal" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -83,7 +129,7 @@
         <table class="score-table">
           <thead>
             <tr>
-              <th>Üye</th>
+              <th>Üye Adı</th>
               <th>Mevcut Puan</th>
               <th>Puan Değiştir</th>
             </tr>
@@ -108,31 +154,36 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Navbardaki Durumu Çiz (Giriş Yapıldı mı / Yönetici mi?)
-    function renderNav() {
-      const navArea = document.getElementById("navAuthArea");
+    function setupNav() {
+      const navAuth = document.getElementById("navAuthArea");
+      const userMenu = document.getElementById("userMenu");
+      const heroBtn = document.getElementById("heroAuthBtn");
       const userStr = localStorage.getItem("deu_user");
 
       if (!userStr) {
-        navArea.innerHTML = `<a href="giris.html" class="btn-login">Giriş Yap</a>`;
+        navAuth.innerHTML = `<a href="giris.html" class="btn-login">Giriş Yap</a>`;
         return;
       }
 
       const user = JSON.parse(userStr);
       const isAdmin = (user.role === "admin" || user.username === "admin");
 
-      navArea.innerHTML = `
+      if (heroBtn) {
+        heroBtn.style.display = "none";
+      }
+
+      navAuth.innerHTML = `
         <div class="user-pill">
           <span class="user-name">${user.name || user.username}</span>
           ${isAdmin ? '<span class="user-role-badge">YÖNETİCİ</span>' : ''}
           <button class="dots-btn" onclick="toggleMenu(event)">⋮</button>
         </div>
+      `;
 
-        <div id="userMenu" class="dropdown">
-          <a href="siralama.html">🏆 Sıralama</a>
-          ${isAdmin ? '<button class="admin-action" onclick="openScoreModal()">⚡ Puan Ekle / Çıkart</button>' : ''}
-          <button class="btn-logout" onclick="logout()">Çıkış Yap</button>
-        </div>
+      userMenu.innerHTML = `
+        <a href="siralama.html">🏆 Sıralama</a>
+        ${isAdmin ? '<button class="admin-action" onclick="openScoreModal()">⚡ Puan Ekle / Çıkart</button>' : ''}
+        <button class="btn-logout" onclick="logout()">Çıkış Yap</button>
       `;
     }
 
@@ -151,17 +202,17 @@
       window.location.reload();
     }
 
-    // Modal Aç/Kapat
+    // Puan Modalı
     function openScoreModal() {
       document.getElementById("scoreModal").classList.add("open");
-      loadUsersToModal();
+      loadUsers();
     }
+
     function closeScoreModal() {
       document.getElementById("scoreModal").classList.remove("open");
     }
 
-    // Puanları Listele ve Değiştir
-    function loadUsersToModal() {
+    function loadUsers() {
       db.ref("users").on("value", (snap) => {
         const tbody = document.getElementById("modalUserList");
         tbody.innerHTML = "";
@@ -177,9 +228,9 @@
             <td style="color:#38bdf8; font-weight:bold;">${score} P</td>
             <td>
               <div style="display:flex; gap:6px; align-items:center;">
-                <input type="number" id="mod_${uname}" class="score-inp" value="10">
-                <button class="btn-mod btn-add" onclick="updatePoints('${uname}', ${score}, true)">+ Ekle</button>
-                <button class="btn-mod btn-sub" onclick="updatePoints('${uname}', ${score}, false)">- Düş</button>
+                <input type="number" id="inp_${uname}" class="score-inp" value="10">
+                <button class="btn-mod btn-add" onclick="modifyPoint('${uname}', ${score}, true)">+ Ekle</button>
+                <button class="btn-mod btn-sub" onclick="modifyPoint('${uname}', ${score}, false)">- Düş</button>
               </div>
             </td>
           `;
@@ -188,16 +239,16 @@
       });
     }
 
-    function updatePoints(username, curScore, isAdd) {
-      const inp = document.getElementById("mod_" + username);
+    function modifyPoint(username, currentScore, isAdd) {
+      const inp = document.getElementById("inp_" + username);
       const val = parseInt(inp.value, 10);
       if (isNaN(val) || val <= 0) return alert("Geçerli bir sayı girin.");
-      const newScore = isAdd ? (curScore + val) : (curScore - val);
 
+      const newScore = isAdd ? (currentScore + val) : (currentScore - val);
       db.ref("users/" + username).update({ score: newScore });
     }
 
-    document.addEventListener("DOMContentLoaded", renderNav);
+    document.addEventListener("DOMContentLoaded", setupNav);
   </script>
 </body>
 </html>
