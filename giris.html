@@ -109,10 +109,13 @@
             display: block;
         }
     </style>
+
+    <!-- Ortak Canlı Bulut Altyapısı -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <header class="navbar">
         <div class="container nav-content">
             <a href="./index.html" class="logo">
@@ -151,7 +154,7 @@
             <form id="registerForm" style="display:none;" onsubmit="handleRegister(event)">
                 <div class="form-group">
                     <label>Kullanıcı Adı</label>
-                    <input type="text" id="regUsername" class="form-input" placeholder="ornek: ahmetcan" required>
+                    <input type="text" id="regUsername" class="form-input" placeholder="ornek: mehmetcan" required>
                 </div>
                 <div class="form-group">
                     <label>Adınız Soyadınız</label>
@@ -172,7 +175,6 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <div class="container footer-bottom">
             <p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
@@ -180,6 +182,18 @@
     </footer>
 
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBuhOWynw0fbuEP1EKSXHCWetRtqlR474",
+            authDomain: "deu-ozel-egitim.firebaseapp.com",
+            databaseURL: "https://deu-ozel-egitim-default-rtdb.firebaseio.com",
+            projectId: "deu-ozel-egitim",
+            storageBucket: "deu-ozel-egitim.firebasestorage.app",
+            messagingSenderId: "463233621727",
+            appId: "1:463233621727:web:4fcbfac218469b1e0e136a"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
         function switchTab(type) {
             const tabLogin = document.getElementById('tabLogin');
             const tabRegister = document.getElementById('tabRegister');
@@ -223,24 +237,31 @@
                 return;
             }
 
-            // Normal Üye Girişi
-            const members = JSON.parse(localStorage.getItem('deu_members') || '[]');
-            const user = members.find(m => m.username === u && m.pass === p);
-
-            if (user) {
-                const sessionData = { username: user.username, role: 'member' };
-                localStorage.setItem('active_session', JSON.stringify(sessionData));
-                sessionStorage.setItem('active_session', JSON.stringify(sessionData));
-                showMessage('Giriş başarılı! Yönlendiriliyorsunuz...');
-                setTimeout(() => { window.location.href = './index.html'; }, 800);
-            } else {
-                showMessage('Kullanıcı adı veya şifre hatalı.', true);
-            }
+            // Ortak Buluttan Üye Doğrulama
+            db.ref("members/" + u).once("value", (snap) => {
+                const userData = snap.val();
+                if (userData && userData.pass === p) {
+                    const sessionData = { 
+                        username: u, 
+                        role: 'member',
+                        fullName: userData.fullName,
+                        dept: userData.dept
+                    };
+                    localStorage.setItem('active_session', JSON.stringify(sessionData));
+                    sessionStorage.setItem('active_session', JSON.stringify(sessionData));
+                    showMessage('Giriş başarılı! Yönlendiriliyorsunuz...');
+                    setTimeout(() => { window.location.href = './index.html'; }, 800);
+                } else {
+                    showMessage('Kullanıcı adı veya şifre hatalı.', true);
+                }
+            }).catch(() => {
+                showMessage('Bağlantı hatası oluştu, tekrar deneyin.', true);
+            });
         }
 
         function handleRegister(e) {
             e.preventDefault();
-            const u = document.getElementById('regUsername').value.trim().toLowerCase();
+            const u = document.getElementById('regUsername').value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "");
             const name = document.getElementById('regFullName').value.trim();
             const dept = document.getElementById('regDept').value.trim();
             const p = document.getElementById('regPassword').value;
@@ -250,30 +271,31 @@
                 return;
             }
 
-            let members = JSON.parse(localStorage.getItem('deu_members') || '[]');
-            if (members.some(m => m.username === u)) {
-                showMessage('Bu kullanıcı adı zaten alınmış.', true);
-                return;
-            }
+            // Ortak veritabanında kontrol et
+            db.ref("members/" + u).once("value", (snap) => {
+                if (snap.exists()) {
+                    showMessage('Bu kullanıcı adı zaten alınmış.', true);
+                } else {
+                    const newMember = {
+                        username: u,
+                        fullName: name,
+                        dept: dept,
+                        pass: p,
+                        points: 10,
+                        avatar: ""
+                    };
 
-            const newMember = {
-                username: u,
-                fullName: name,
-                dept: dept,
-                pass: p,
-                points: 10,
-                avatar: null
-            };
-
-            members.push(newMember);
-            localStorage.setItem('deu_members', JSON.stringify(members));
-
-            const sessionData = { username: u, role: 'member' };
-            localStorage.setItem('active_session', JSON.stringify(sessionData));
-            sessionStorage.setItem('active_session', JSON.stringify(sessionData));
-
-            showMessage('Kayıt başarılı! Giriş yapılıyor...');
-            setTimeout(() => { window.location.href = './index.html'; }, 800);
+                    db.ref("members/" + u).set(newMember).then(() => {
+                        const sessionData = { username: u, role: 'member', fullName: name, dept: dept };
+                        localStorage.setItem('active_session', JSON.stringify(sessionData));
+                        sessionStorage.setItem('active_session', JSON.stringify(sessionData));
+                        showMessage('Kayıt başarılı! Giriş yapılıyor...');
+                        setTimeout(() => { window.location.href = './index.html'; }, 800);
+                    }).catch(() => {
+                        showMessage('Kayıt yapılırken bir hata oluştu.', true);
+                    });
+                }
+            });
         }
     </script>
 </body>
