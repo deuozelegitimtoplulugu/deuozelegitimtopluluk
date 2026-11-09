@@ -156,6 +156,23 @@
             <span class="drawer-title">MENÜ</span>
             <button class="drawer-close" id="drawerClose">&times;</button>
         </div>
+
+        <!-- Profil Kartı -->
+        <div class="drawer-profile-card" id="drawerProfileBox" style="display:none;">
+            <div class="drawer-profile-top">
+                <div class="drawer-profile-avatar" title="Profil">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="drawer-profile-info">
+                    <h4 id="drawerUserName">Kullanıcı Adı</h4>
+                    <span id="drawerUserDept">Bölüm</span>
+                </div>
+            </div>
+            <div class="drawer-profile-actions">
+                <button class="profile-action-btn logout" onclick="logout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
+            </div>
+        </div>
+
         <div class="drawer-links">
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
             <a href="./siralama.html" class="drawer-link highlight" style="color:var(--primary);"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
@@ -244,23 +261,33 @@
             localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
         });
 
-        // Oturum Kontrolü
-        const session = JSON.parse(sessionStorage.getItem('active_session') || localStorage.getItem('deu_user') || 'null');
+        // Oturum Kontrolü (Sayfalar Arası Kalıcı)
+        const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
         
         if (session) {
             document.getElementById('navAuthBtn').style.display = 'none';
             document.getElementById('logoutLink').style.display = 'block';
             const userAvatarBtn = document.getElementById('userAvatarBtn');
             userAvatarBtn.style.display = 'flex';
+            document.getElementById('drawerProfileBox').style.display = 'flex';
 
             if (session.role === 'admin' || session.username === 'admin') {
                 document.getElementById('adminScoreMenuItem').style.display = 'block';
+                document.getElementById('drawerUserName').innerText = "Yönetici";
+                document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
+            } else {
+                const members = JSON.parse(localStorage.getItem('deu_members') || '[]');
+                const me = members.find(m => m.username === session.username);
+                if (me) {
+                    document.getElementById('drawerUserName').innerText = me.fullName || me.name;
+                    document.getElementById('drawerUserDept').innerText = me.dept || 'Özel Eğitim';
+                }
             }
         }
 
         function logout() {
+            localStorage.removeItem('active_session');
             sessionStorage.removeItem('active_session');
-            localStorage.removeItem('deu_user');
             location.reload();
         }
 
@@ -299,7 +326,7 @@
             }).join('');
 
             // 2. OTURUM AÇAN ÖĞRENCİNİN KENDİ DERECESİ
-            if (session) {
+            if (session && session.role !== 'admin') {
                 const myIndex = users.findIndex(u => u.username === session.username);
                 if (myIndex !== -1) {
                     const me = users[myIndex];
