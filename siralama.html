@@ -55,7 +55,7 @@
             color: #93c5fd;
         }
 
-        /* Giriş Yapan Öğrencinin Özel Durum Kartı */
+        /* Giriş Yapan Öğrencinin Kendi Sıralama Kartı */
         .my-rank-card {
             background: rgba(2, 132, 199, 0.08);
             border: 2px solid var(--primary, #0284c7);
@@ -160,7 +160,7 @@
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
             <a href="./siralama.html" class="drawer-link highlight" style="color:var(--primary);"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
             
-            <!-- Sadece Yöneticiye Görünen Puan Butonu -->
+            <!-- SADECE YÖNETİCİYE GÖRÜNEN BUTON -->
             <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:700;" onclick="openAdminModal()">
                 <i class="fa-solid fa-bolt"></i> Puan Yönetimi (Yönetici)
             </a>
@@ -183,7 +183,7 @@
         <div class="container">
             <span class="hero-tag"><i class="fa-solid fa-trophy"></i> Liderlik Tablosu</span>
             <h1>Öğrenci Puan Sıralaması</h1>
-            <p>Topluluğumuzun zirvedeki ilk 3 öğrencisi ve mevcut kendi başarı durumun.</p>
+            <p>Topluluğumuzun zirvedeki ilk 3 öğrencisi ve güncel kendi başarı dereceniz.</p>
         </div>
     </section>
 
@@ -192,25 +192,21 @@
         <div style="max-width: 800px; margin: 0 auto;">
             <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);">🏆 Zirvedeki İlk 3 Öğrenci</h3>
             
-            <div id="topThreeList">
-                <!-- Sadece İlk 3 Kişi Listelenir -->
-            </div>
+            <div id="topThreeList"></div>
 
-            <!-- Giriş Yapan Öğrencinin Kendi Sıralaması -->
+            <!-- Giriş Yapan Öğrencinin Kendi Sırası -->
             <div id="myRankBox" style="display:none;"></div>
         </div>
     </section>
 
-    <!-- SADECE YÖNETİCİNİN AÇABİLDİĞİ PUAN DÜZENLEME PENCERESİ -->
+    <!-- YÖNETİCİ PUAN DÜZENLEME PENCERESİ -->
     <div id="adminModal" class="admin-modal-overlay">
         <div class="admin-modal">
             <div class="admin-modal-header">
                 <h3 style="font-size:1.1rem; color:#facc15;"><i class="fa-solid fa-bolt"></i> Öğrenci Puanlarını Güncelle</h3>
                 <button style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;" onclick="closeAdminModal()">&times;</button>
             </div>
-            <div class="admin-modal-body" id="adminUserList">
-                <!-- Öğrenciler ve puan ekle butonları -->
-            </div>
+            <div class="admin-modal-body" id="adminUserList"></div>
         </div>
     </div>
 
@@ -248,7 +244,7 @@
             localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
         });
 
-        // Oturum Kontrolü (Orijinal active_session + deu_user desteği)
+        // Oturum Kontrolü
         const session = JSON.parse(sessionStorage.getItem('active_session') || localStorage.getItem('deu_user') || 'null');
         
         if (session) {
@@ -257,7 +253,6 @@
             const userAvatarBtn = document.getElementById('userAvatarBtn');
             userAvatarBtn.style.display = 'flex';
 
-            // Yöneticiyse 3 Çizgili Menüde Puan Yönetimini Göster
             if (session.role === 'admin' || session.username === 'admin') {
                 document.getElementById('adminScoreMenuItem').style.display = 'block';
             }
@@ -269,13 +264,12 @@
             location.reload();
         }
 
-        // LİDERLİK TABLOSUNU DOLDURMA (Sadece İlk 3 + Kendi Sıran)
+        // LİDERLİK TABLOSU: YALNIZCA İLK 3 + KENDİ SIRALAMAN
         function loadLeaderboard() {
             const topList = document.getElementById('topThreeList');
             const myBox = document.getElementById('myRankBox');
             let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
 
-            // Büyükten küçüğe sırala
             users.sort((a, b) => (b.points || b.score || 0) - (a.points || a.score || 0));
 
             if (users.length === 0) {
@@ -283,7 +277,7 @@
                 return;
             }
 
-            // 1. ZİRVEDEKİ İLK 3 KİŞİYİ BAS
+            // 1. İLK 3 KİŞİYİ LİSTELE
             const top3 = users.slice(0, 3);
             topList.innerHTML = top3.map((u, index) => {
                 let badgeClass = index === 0 ? 'rank-1' : (index === 1 ? 'rank-2' : 'rank-3');
@@ -304,7 +298,7 @@
                 `;
             }).join('');
 
-            // 2. GİRİŞ YAPAN KULLANICININ KENDİ SIRALAMASINI GÖSTER
+            // 2. OTURUM AÇAN ÖĞRENCİNİN KENDİ DERECESİ
             if (session) {
                 const myIndex = users.findIndex(u => u.username === session.username);
                 if (myIndex !== -1) {
@@ -328,7 +322,7 @@
             }
         }
 
-        // YÖNETİCİ PUAN MODALI İŞLEMLERİ
+        // YÖNETİCİ PUAN MODALI
         function openAdminModal() {
             drawer.classList.remove('active');
             overlay.classList.remove('active');
