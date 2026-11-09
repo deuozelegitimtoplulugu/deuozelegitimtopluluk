@@ -1,146 +1,280 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEÜ Özel Eğitim - Giriş & Kayıt</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-    .card { background: #1e293b; border: 1px solid #334155; padding: 32px; border-radius: 12px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-    h2 { margin-bottom: 8px; color: #38bdf8; text-align: center; font-size: 24px; }
-    p.sub { text-align: center; color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
-    .form-group { margin-bottom: 16px; }
-    label { display: block; margin-bottom: 6px; font-size: 14px; color: #cbd5e1; }
-    input { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: #fff; font-size: 14px; outline: none; }
-    input:focus { border-color: #38bdf8; }
-    button { width: 100%; padding: 12px; background: #0284c7; border: none; border-radius: 6px; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 8px; }
-    button:hover { background: #0369a1; }
-    .msg { margin-top: 14px; text-align: center; font-size: 14px; min-height: 20px; }
-    .msg.error { color: #f87171; }
-    .msg.success { color: #4ade80; }
-  </style>
-
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş & Kayıt - DEÜ Özel Eğitim Topluluğu</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .auth-card {
+            max-width: 440px;
+            margin: 40px auto;
+            background: var(--card-bg, #1e293b);
+            border: 1px solid var(--border, #334155);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .auth-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border, #334155);
+            padding-bottom: 8px;
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            color: var(--text-muted, #94a3b8);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .auth-tab.active {
+            background: var(--primary, #0284c7);
+            color: #fff;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main, #f8fafc);
+            margin-bottom: 6px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border, #334155);
+            background: var(--bg-light, #0f172a);
+            color: var(--text-main, #fff);
+            font-size: 0.95rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .form-input:focus {
+            border-color: var(--primary, #0284c7);
+        }
+        .auth-submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary, #0284c7);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.2s;
+        }
+        .auth-submit-btn:hover {
+            background: #0369a1;
+        }
+        .auth-msg {
+            margin-top: 14px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+        }
+        .auth-msg.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid #ef4444;
+            display: block;
+        }
+        .auth-msg.success {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border: 1px solid #22c55e;
+            display: block;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="card">
-    <h2>DEÜ Özel Eğitim</h2>
-    <p class="sub">Topluluk Portalı Girişi</p>
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="./index.html" class="logo">
+                <img src="./logo.png" alt="DEÜ Logo" class="nav-logo-img">
+                <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
+            </a>
+            <div class="nav-actions">
+                <a href="./index.html" class="nav-auth-btn">
+                    <i class="fa-solid fa-house"></i> <span>Ana Sayfa</span>
+                </a>
+            </div>
+        </div>
+    </header>
 
-    <div class="form-group">
-      <label for="username">Kullanıcı Adı</label>
-      <input type="text" id="username" placeholder="ornek: admin veya ahmet">
+    <div class="container" style="flex:1; display:flex; align-items:center;">
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Giriş Yap</button>
+                <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">Yeni Kayıt</button>
+            </div>
+
+            <!-- GİRİŞ FORMU -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="loginUsername" class="form-input" placeholder="admin veya kullanıcı adınız" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="auth-submit-btn">Giriş Yap</button>
+            </form>
+
+            <!-- KAYIT FORMU -->
+            <form id="registerForm" style="display:none;" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" id="regUsername" class="form-input" placeholder="ornek: ahmetcan" required>
+                </div>
+                <div class="form-group">
+                    <label>Adınız Soyadınız</label>
+                    <input type="text" id="regFullName" class="form-input" placeholder="Adınız Soyadınız" required>
+                </div>
+                <div class="form-group">
+                    <label>Bölümünüz</label>
+                    <input type="text" id="regDept" class="form-input" placeholder="Örn: Özel Eğitim Öğretmenliği" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="regPassword" class="form-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="auth-submit-btn">Kayıt Ol</button>
+            </form>
+
+            <div id="authMsg" class="auth-msg"></div>
+        </div>
     </div>
 
-    <div class="form-group">
-      <label for="fullname">Ad Soyad (İlk kayıtta zorunlu)</label>
-      <input type="text" id="fullname" placeholder="Adınız Soyadınız">
-    </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-bottom">
+            <p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
 
-    <div class="form-group">
-      <label for="password">Şifre</label>
-      <input type="password" id="password" placeholder="••••••••">
-    </div>
+    <script>
+        function switchTab(type) {
+            const tabLogin = document.getElementById('tabLogin');
+            const tabRegister = document.getElementById('tabRegister');
+            const formLogin = document.getElementById('loginForm');
+            const formRegister = document.getElementById('registerForm');
+            const msg = document.getElementById('authMsg');
+            msg.className = 'auth-msg';
+            msg.style.display = 'none';
 
-    <button onclick="handleAuth()">Giriş Yap / Kaydol</button>
-    <div id="statusMsg" class="msg"></div>
-  </div>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDBuhOWynw0fbuEP1EKSXHCWetRtqlR474",
-      authDomain: "deu-ozel-egitim.firebaseapp.com",
-      databaseURL: "https://deu-ozel-egitim-default-rtdb.firebaseio.com",
-      projectId: "deu-ozel-egitim",
-      storageBucket: "deu-ozel-egitim.firebasestorage.app",
-      messagingSenderId: "463233621727",
-      appId: "1:463233621727:web:4fcbfac218469b1e0e136a"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    function showMsg(text, isError = false) {
-      const msg = document.getElementById("statusMsg");
-      msg.textContent = text;
-      msg.className = "msg " + (isError ? "error" : "success");
-    }
-
-    async function handleAuth() {
-      const username = document.getElementById("username").value.trim().toLowerCase();
-      const fullname = document.getElementById("fullname").value.trim();
-      const password = document.getElementById("password").value;
-
-      if (!username || !password) {
-        showMsg("Kullanıcı adı ve şifre zorunludur.", true);
-        return;
-      }
-
-      showMsg("Kontrol ediliyor...");
-
-      const userRef = db.ref("users/" + username);
-      const snapshot = await userRef.once("value");
-
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        if (data.password === password) {
-          // Kullanıcı adı admin ise veya veritabanında role: admin ise yetkilendir
-          const role = (username === "admin" || data.role === "admin") ? "admin" : "member";
-
-          localStorage.setItem("deu_user", JSON.stringify({
-            username: username,
-            name: data.name || username,
-            score: data.score || 0,
-            role: role
-          }));
-
-          showMsg("Giriş başarılı! Yönlendiriliyorsunuz...");
-          setTimeout(() => {
-            if (role === "admin") {
-              window.location.href = "yonetici.html";
+            if (type === 'login') {
+                tabLogin.classList.add('active');
+                tabRegister.classList.remove('active');
+                formLogin.style.display = 'block';
+                formRegister.style.display = 'none';
             } else {
-              window.location.href = "index.html";
+                tabRegister.classList.add('active');
+                tabLogin.classList.remove('active');
+                formRegister.style.display = 'block';
+                formLogin.style.display = 'none';
             }
-          }, 600);
-        } else {
-          showMsg("Hatalı şifre girdiniz.", true);
-        }
-      } else {
-        if (!fullname) {
-          showMsg("Yeni üyelik için lütfen Ad Soyad girin.", true);
-          return;
         }
 
-        const role = (username === "admin") ? "admin" : "member";
-        const newUser = {
-          name: fullname,
-          password: password,
-          score: 10,
-          role: role,
-          createdAt: new Date().toISOString()
-        };
+        function showMessage(text, isError = false) {
+            const msg = document.getElementById('authMsg');
+            msg.textContent = text;
+            msg.className = 'auth-msg ' + (isError ? 'error' : 'success');
+        }
 
-        await userRef.set(newUser);
-        localStorage.setItem("deu_user", JSON.stringify({
-          username: username,
-          name: fullname,
-          score: 10,
-          role: role
-        }));
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('loginUsername').value.trim().toLowerCase();
+            const p = document.getElementById('loginPassword').value;
 
-        showMsg("Hesap oluşturuldu! Yönlendiriliyorsunuz...");
-        setTimeout(() => {
-          if (role === "admin") {
-            window.location.href = "yonetici.html";
-          } else {
-            window.location.href = "index.html";
-          }
-        }, 600);
-      }
-    }
-  </script>
+            // Yönetici Girişi
+            if (u === 'admin' && p === 'admin123') {
+                const sessionData = { username: 'admin', role: 'admin' };
+                localStorage.setItem('active_session', JSON.stringify(sessionData));
+                sessionStorage.setItem('active_session', JSON.stringify(sessionData));
+                showMessage('Yönetici girişi başarılı! Yönlendiriliyorsunuz...');
+                setTimeout(() => { window.location.href = './index.html'; }, 800);
+                return;
+            }
+
+            // Normal Üye Girişi
+            const members = JSON.parse(localStorage.getItem('deu_members') || '[]');
+            const user = members.find(m => m.username === u && m.pass === p);
+
+            if (user) {
+                const sessionData = { username: user.username, role: 'member' };
+                localStorage.setItem('active_session', JSON.stringify(sessionData));
+                sessionStorage.setItem('active_session', JSON.stringify(sessionData));
+                showMessage('Giriş başarılı! Yönlendiriliyorsunuz...');
+                setTimeout(() => { window.location.href = './index.html'; }, 800);
+            } else {
+                showMessage('Kullanıcı adı veya şifre hatalı.', true);
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const u = document.getElementById('regUsername').value.trim().toLowerCase();
+            const name = document.getElementById('regFullName').value.trim();
+            const dept = document.getElementById('regDept').value.trim();
+            const p = document.getElementById('regPassword').value;
+
+            if (u === 'admin') {
+                showMessage('Bu kullanıcı adı kullanılamaz.', true);
+                return;
+            }
+
+            let members = JSON.parse(localStorage.getItem('deu_members') || '[]');
+            if (members.some(m => m.username === u)) {
+                showMessage('Bu kullanıcı adı zaten alınmış.', true);
+                return;
+            }
+
+            const newMember = {
+                username: u,
+                fullName: name,
+                dept: dept,
+                pass: p,
+                points: 10,
+                avatar: null
+            };
+
+            members.push(newMember);
+            localStorage.setItem('deu_members', JSON.stringify(members));
+
+            const sessionData = { username: u, role: 'member' };
+            localStorage.setItem('active_session', JSON.stringify(sessionData));
+            sessionStorage.setItem('active_session', JSON.stringify(sessionData));
+
+            showMessage('Kayıt başarılı! Giriş yapılıyor...');
+            setTimeout(() => { window.location.href = './index.html'; }, 800);
+        }
+    </script>
 </body>
 </html>
