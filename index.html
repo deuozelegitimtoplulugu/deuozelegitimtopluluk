@@ -1,76 +1,765 @@
-// KALICI PROFİL VE OTURUM KONTROLÜ
-function checkUserAuth() {
-    // Hem localStorage hem sessionStorage kontrol edilir (Asla sıfırlanmaz)
-    const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
-    const navAuthBtn = document.getElementById('navAuthBtn');
-    const userAvatarBtn = document.getElementById('userAvatarBtn');
-    const navScoreChip = document.getElementById('navScoreChip');
-    const drawerProfileBox = document.getElementById('drawerProfileBox');
-    const drawerRegisterLink = document.getElementById('drawerRegisterLink');
-    const adminMenuItem = document.getElementById('adminScoreMenuItem');
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEÜ Özel Eğitim Öğrenci Topluluğu</title>
+    
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#0284c7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DEÜ Özel Eğitim">
 
-    if (!session) {
-        if (navAuthBtn) navAuthBtn.style.display = 'inline-flex';
-        if (userAvatarBtn) userAvatarBtn.style.display = 'none';
-        if (navScoreChip) navScoreChip.style.display = 'none';
-        if (drawerProfileBox) drawerProfileBox.style.display = 'none';
-        if (adminMenuItem) adminMenuItem.style.display = 'none';
-        if (drawerRegisterLink) drawerRegisterLink.style.display = 'flex';
-    } else {
-        // Oturumu iki tarafa da sabitle
-        localStorage.setItem('active_session', JSON.stringify(session));
+    <meta property="og:title" content="DEÜ Özel Eğitim Öğrenci Topluluğu">
+    <meta property="og:description" content="Farkındalık Yaratıyor, Engelleri Birlikte Aşıyoruz. Dokuz Eylül Üniversitesi aktif öğrenci topluluğu.">
+    <meta property="og:image" content="https://deuozelegitimtoplulugu.github.io/deuozelegitimtopluluk/logo.png">
+    <meta property="og:url" content="https://deuozelegitimtoplulugu.github.io/deuozelegitimtopluluk/">
+    <meta property="og:type" content="website">
 
-        if (navAuthBtn) navAuthBtn.style.display = 'none';
-        if (userAvatarBtn) userAvatarBtn.style.display = 'flex';
-        if (drawerProfileBox) drawerProfileBox.style.display = 'flex';
-        if (drawerRegisterLink) drawerRegisterLink.style.display = 'none';
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .nav-score-chip {
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+            text-decoration: none;
+        }
 
-        if (session.role === 'admin' || session.username === 'admin') {
-            // YÖNETİCİ GİRİŞİ
-            if (navScoreChip) navScoreChip.style.display = 'none';
-            if (adminMenuItem) adminMenuItem.style.display = 'block';
-            const nameEl = document.getElementById('drawerUserName');
-            const deptEl = document.getElementById('drawerUserDept');
-            const scoreCont = document.getElementById('drawerScoreContainer');
-            if (nameEl) nameEl.innerText = "Yönetici";
-            if (deptEl) deptEl.innerText = "Sistem Kontrol";
-            if (scoreCont) scoreCont.style.display = 'none';
-        } else {
-            // NORMAL ÖĞRENCİ GİRİŞİ
-            if (adminMenuItem) adminMenuItem.style.display = 'none';
-            const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
-            const me = users.find(u => u.username === session.username);
-            if (me) {
-                if (navScoreChip) {
-                    navScoreChip.style.display = 'inline-flex';
-                    const scoreVal = document.getElementById('navScoreValue');
-                    if (scoreVal) scoreVal.innerText = `${me.points || me.score || 0} P`;
-                }
+        /* Yönetici Puan Modal Penceresi */
+        .admin-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .admin-modal-overlay.open { display: flex; }
+        .admin-modal {
+            background: var(--card-bg, #1e293b);
+            border: 1px solid var(--border, #334155);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .admin-modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border, #334155);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-modal-body { padding: 16px 20px; overflow-y: auto; }
+        .score-manage-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border, #334155);
+        }
+        .score-manage-row input {
+            width: 70px;
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid var(--border, #334155);
+            background: var(--bg-light, #0f172a);
+            color: var(--text-main, #fff);
+            text-align: center;
+        }
+        .btn-score-act {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .btn-score-add { background: #0284c7; color: #fff; }
+        .btn-score-sub { background: #475569; color: #fff; margin-left: 4px; }
+    </style>
+</head>
+<body>
 
-                const nameEl = document.getElementById('drawerUserName');
-                const deptEl = document.getElementById('drawerUserDept');
-                const scoreCont = document.getElementById('drawerScoreContainer');
-                const ptsEl = document.getElementById('drawerUserPoints');
+    <!-- SİNEMATİK GİRİŞ AÇILIŞ EKRANI -->
+    <div id="preloader">
+        <div class="intro-stage">
+            <div class="intro-ring"></div>
+            <img src="./logo.png" alt="DEÜ Logo" class="intro-logo">
+        </div>
+        <div class="intro-text">DEÜ Özel Eğitim Topluluğu</div>
+        <div class="intro-subtext">Farkındalık Yaratıyor, Birlikte Aşıyoruz...</div>
+    </div>
 
-                if (nameEl) nameEl.innerText = me.fullName || me.name;
-                if (deptEl) deptEl.innerText = me.dept || 'Özel Eğitim';
-                if (scoreCont) scoreCont.style.display = 'inline-flex';
-                if (ptsEl) ptsEl.innerText = me.points || me.score || 0;
+    <!-- ÜST NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="./index.html" class="logo">
+                <img src="./logo.png" alt="DEÜ Özel Eğitim Topluluğu Logosu" class="nav-logo-img">
+                <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
+            </a>
 
-                if (me.avatar) {
-                    applyAvatarImage(me.avatar);
+            <div class="nav-actions">
+                <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <span>Giriş / Üye Ol</span>
+                </a>
+
+                <!-- KULLANICININ YANINDAKİ PUANI (SADECE KENDİ PUANI GÖRÜNÜR) -->
+                <a href="./siralama.html" class="nav-score-chip" id="navScoreChip" title="Puan Sıralamasına Git">
+                    <i class="fa-solid fa-star fa-fade"></i>
+                    <span id="navScoreValue">0 P</span>
+                </a>
+
+                <!-- Profil Butonu -->
+                <button class="user-avatar-btn" id="userAvatarBtn" onclick="openProfileSettings()" title="Profil Ayarları">
+                    <i class="fa-solid fa-user" id="navAvatarIcon"></i>
+                    <img id="navAvatarImg" style="display:none;" alt="Profil">
+                </button>
+
+                <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod Değiştirici">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SAĞDAKİ 3 ÇİZGİ MENÜSÜ -->
+    <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header">
+            <span class="drawer-title">MENÜ</span>
+            <button class="drawer-close" id="drawerClose">&times;</button>
+        </div>
+
+        <!-- Profil Kartı -->
+        <div class="drawer-profile-card" id="drawerProfileBox" style="display:none;">
+            <div class="drawer-profile-top">
+                <div class="drawer-profile-avatar" onclick="openProfileSettings()" title="Fotoğraf Yükle/Değiştir">
+                    <i class="fa-solid fa-user" id="drawerAvatarIcon"></i>
+                    <img id="drawerAvatarImg" style="display:none;" alt="Profil">
+                </div>
+                <div class="drawer-profile-info">
+                    <h4 id="drawerUserName">Kullanıcı Adı</h4>
+                    <span id="drawerUserDept">Bölüm</span>
+                </div>
+            </div>
+            <div class="drawer-score-badge" id="drawerScoreContainer">
+                <i class="fa-solid fa-star"></i>
+                <span id="drawerUserPoints">0</span> Topluluk Puanı
+            </div>
+            <div class="drawer-profile-actions">
+                <button class="profile-action-btn" onclick="openProfileSettings()"><i class="fa-solid fa-gear"></i> Ayarlar</button>
+                <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
+            </div>
+        </div>
+
+        <div class="drawer-links">
+            <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <!-- 3 ÇİZGİ İÇİNDEKİ PUAN SIRALAMASI SEKME LİNKİ -->
+            <a href="./siralama.html" class="drawer-link highlight" style="color:var(--primary); font-weight:800;"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
+            
+            <!-- SADECE YÖNETİCİYE GÖRÜNEN PUAN YÖNETİMİ BUTONU -->
+            <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:800;" onclick="openAdminModal()">
+                <i class="fa-solid fa-bolt"></i> Puan Yönetimi (Yönetici)
+            </a>
+
+            <a href="./duyurular.html" class="drawer-link"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
+            <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
+            <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
+            <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
+            <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
+            <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
+            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
+            
+            <a href="#basvuru" class="drawer-link drawer-btn-apply" id="drawerRegisterLink">
+                <i class="fa-solid fa-user-plus"></i> Aramıza Katıl
+            </a>
+            <a href="#" target="_blank" class="drawer-link drawer-btn-wa">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı
+            </a>
+        </div>
+    </div>
+
+    <!-- PROFİL AYARLARI MODALI -->
+    <div class="profile-modal" id="settingsModal">
+        <div class="profile-modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-main);"><i class="fa-solid fa-user-gear"></i> Profil Ayarları</h3>
+                <button onclick="closeProfileSettings()" style="background:transparent; border:none; font-size:1.4rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+            </div>
+
+            <div class="avatar-upload-wrapper">
+                <div class="avatar-preview-box">
+                    <i class="fa-solid fa-user" id="previewIcon"></i>
+                    <img id="previewImg" style="display:none;" alt="Önizleme">
+                </div>
+                <label for="avatarFileInput" class="file-select-btn">
+                    <i class="fa-solid fa-camera"></i> Fotoğraf Yükle
+                </label>
+                <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
+            </div>
+
+            <form id="profileUpdateForm" style="display:flex; flex-direction:column; gap:12px;">
+                <div>
+                    <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:4px; display:block;">Adınız Soyadınız</label>
+                    <input type="text" id="settingFullName" class="form-input" required>
+                </div>
+                <div>
+                    <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:4px; display:block;">Bölümünüz</label>
+                    <input type="text" id="settingDept" class="form-input" required>
+                </div>
+                <div>
+                    <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:4px; display:block;">Yeni Şifre (İsteğe Bağlı)</label>
+                    <input type="password" id="settingNewPass" class="form-input" placeholder="Değiştirmek istemiyorsanız boş bırakın">
+                </div>
+                <button type="submit" class="btn-primary" style="background:var(--primary); color:#fff; border:none; justify-content:center; margin-top:8px; cursor:pointer;">
+                    <i class="fa-solid fa-floppy-disk"></i> Değişiklikleri Kaydet
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- HERO KARŞILAMA -->
+    <section class="hero">
+        <div class="container">
+            <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Dokuz Eylül Üniversitesi • 1982</span>
+            <h1>Farkındalık Yaratıyor, Engelleri Birlikte Aşıyoruz</h1>
+            <p>Özel eğitim alanında bilimsel, sosyal ve gönüllülük temelli projeler üreten DEÜ'nün aktif öğrenci topluluğu platformu.</p>
+            
+            <div class="hero-actions">
+                <a href="#basvuru" class="btn-primary" id="heroApplyBtn">
+                    <i class="fa-solid fa-paper-plane"></i> Gönüllü Başvurusu
+                </a>
+                <a href="#" target="_blank" class="btn-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı
+                </a>
+                <a href="#mesaj" class="btn-secondary">
+                    <i class="fa-regular fa-envelope"></i> Mesaj Bırak
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- DİJİTAL SAAT -->
+    <section class="countdown-center-section">
+        <div class="container">
+            <div class="digital-event-card">
+                <span class="badge-digital"><i class="fa-solid fa-satellite-dish fa-fade"></i> YAKLAŞAN ETKİNLİK</span>
+                <h2>Güz Dönemi Tanışma & Çalışma Komisyonları Buluşması</h2>
+                <p class="event-meta"><i class="fa-regular fa-calendar-days"></i> 20 Kasım 2026 | Buca Eğitim Fakültesi Konferans Salonu</p>
+                
+                <div class="digital-clock">
+                    <div class="clock-segment"><div class="clock-screen" id="days">00</div><span>GÜN</span></div>
+                    <div class="clock-divider">:</div>
+                    <div class="clock-segment"><div class="clock-screen" id="hours">00</div><span>SAAT</span></div>
+                    <div class="clock-divider">:</div>
+                    <div class="clock-segment"><div class="clock-screen" id="minutes">00</div><span>DAKİKA</span></div>
+                    <div class="clock-divider">:</div>
+                    <div class="clock-segment"><div class="clock-screen" id="seconds">00</div><span>SANİYE</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HIZLI GEZİNME -->
+    <section class="container section">
+        <div class="section-header">
+            <span class="section-subtitle">HIZLI ERİŞİM</span>
+            <h2>Topluluğumuzu Keşfedin</h2>
+            <p>Aşağıdaki başlıklara tıklayarak ilgili detay sayfalarına doğrudan geçebilirsiniz.</p>
+        </div>
+
+        <div class="feature-grid">
+            <a href="./hakkimizda.html" style="text-decoration:none; color:inherit;">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-circle-info"></i></div>
+                    <h3>Hakkımızda & Misyon</h3>
+                    <p>Kuruluş amacımız, vizyonumuz ve toplumsal kapsayıcılık hedeflerimiz hakkında bilgi alın.</p>
+                </div>
+            </a>
+            <a href="./faaliyetler.html" style="text-decoration:none; color:inherit;">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-list-check"></i></div>
+                    <h3>Faaliyet Alanlarımız</h3>
+                    <p>RAM, STK iş birlikleri, mesleki atölyeler ve kampüs farkındalık kampanyalarımız.</p>
+                </div>
+            </a>
+            <a href="./etkinlikler.html" style="text-decoration:none; color:inherit;">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-calendar-days"></i></div>
+                    <h3>Etkinlik Arşivi & Galeri</h3>
+                    <p>Kategori filtreli etkinliklerimiz ve fotoğraf arşivini inceleyin.</p>
+                </div>
+            </a>
+            <a href="./ekip.html" style="text-decoration:none; color:inherit;">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+                    <h3>Yönetim & İş Bölümleri</h3>
+                    <p>Yönetim kurulumuz, komisyon koordinatörlükleri ve çalışma ekiplerimiz.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOTOĞRAF GALERİSİ -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">FOTOĞRAF GALERİSİ</span>
+                <h2>Etkinliklerimizden Kareler</h2>
+                <p>Topluluğumuzun son faaliyet ve konferanslarından anlar.</p>
+            </div>
+
+            <div class="insta-grid">
+                <div class="insta-item">
+                    <img src="./insta1.jpg" onerror="this.onerror=null; this.src='./insta1.jpeg';" alt="DEHB Konferansı">
+                    <div class="insta-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
+                <div class="insta-item">
+                    <img src="./insta2.jpg" onerror="this.onerror=null; this.src='./insta2.jpeg';" alt="DEÜ Özel Eğitim Buluşması">
+                    <div class="insta-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
+                <div class="insta-item">
+                    <img src="./insta3.jpg" onerror="this.onerror=null; this.src='./insta3.jpeg';" alt="Konferans Salonu Hatırası">
+                    <div class="insta-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
+                <div class="insta-item">
+                    <img src="./logo.png" alt="DEÜ Özel Eğitim Logosu" style="background:#0f172a; padding: 25px; object-fit: contain;">
+                    <div class="insta-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="imageModal" style="display:none; position:fixed; z-index:999999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); align-items:center; justify-content:center; backdrop-filter:blur(5px);">
+        <span id="closeModal" style="position:absolute; top:20px; right:30px; color:#fff; font-size:2.5rem; font-weight:bold; cursor:pointer;">&times;</span>
+        <img id="modalImg" style="max-width:90%; max-height:85%; border-radius:12px; box-shadow:0 0 30px rgba(0,0,0,0.7); object-fit:contain;">
+    </div>
+
+    <!-- İLETİŞİM & HARİTA -->
+    <section id="basvuru" class="container section">
+        <div class="section-header">
+            <span class="section-subtitle">İLETİŞİM & KATILIM</span>
+            <h2>Bize Ulaşın</h2>
+            <p>Gönüllü başvurusunda bulunun, doğrudan mesaj gönderin veya yerimizi haritada görün.</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-box" id="mesaj">
+                <h3>Doğrudan Mesaj Gönderin</h3>
+                <p>Sorularınız ve iş birliği talepleriniz doğrudan topluluk e-posta adresimize ulaşır.</p>
+                <form id="contactForm" style="margin-top: 20px; display: flex; flex-direction: column; gap: 14px;">
+                    <input type="text" id="senderName" placeholder="Adınız Soyadınız" required class="form-input">
+                    <input type="email" id="senderEmail" placeholder="E-Posta Adresiniz" required class="form-input">
+                    <textarea id="senderMsg" rows="4" placeholder="Mesajınız..." required class="form-input"></textarea>
+                    <button type="submit" class="btn-primary" style="justify-content: center; background: var(--primary); color: #fff; border: none; cursor: pointer;">
+                        <i class="fa-solid fa-paper-plane"></i> Mesajı İlet
+                    </button>
+                    <div id="formStatus" style="font-size: 0.9rem; font-weight: 600; display: none;"></div>
+                </form>
+            </div>
+
+            <div class="contact-box">
+                <h3>Resmi Üyelik & Başvuru</h3>
+                <p>Dönem içi komisyonlarda aktif rol almak için Google Forms başvuru belgemizi doldurun.</p>
+                <a href="https://forms.google.com" target="_blank" class="btn-primary" style="display:inline-flex; margin: 15px 0 25px; background: var(--primary); color: #fff;">
+                    <i class="fa-solid fa-pen-to-square"></i> Başvuru Formunu Aç (Google Forms)
+                </a>
+
+                <div class="map-box">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3126.335345638127!2d27.17290197654763!3d38.39906667702849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bbd89ab577cf1d%3A0xe541ea150c1f5407!2sDokuz%20Eyl%C3%BCl%20%C3%9cniversitesi%20Buca%20E%C4%9Fitim%20Fak%C3%BCltesi!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str" 
+                        width="100%" 
+                        height="200" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SADECE YÖNETİCİNİN AÇTIĞI PUAN PANELİ MODALI -->
+    <div id="adminModal" class="admin-modal-overlay">
+        <div class="admin-modal">
+            <div class="admin-modal-header">
+                <h3 style="font-size:1.1rem; color:#facc15;"><i class="fa-solid fa-bolt"></i> Öğrenci Puanlarını Güncelle</h3>
+                <button style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;" onclick="closeAdminModal()">&times;</button>
+            </div>
+            <div class="admin-modal-body" id="adminUserList"></div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="iletisim" class="footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                    <img src="./logo.png" alt="Logo" style="height: 40px; width: 40px; border-radius: 50%; object-fit: cover;">
+                    <h4 style="margin: 0; color: #fff;">DEÜ Özel Eğitim Öğrenci Topluluğu</h4>
+                </div>
+                <p>Dokuz Eylül Üniversitesi, Buca Eğitim Fakültesi / İzmir</p>
+                <p style="margin-top: 8px;">
+                    <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Topluluk%20İletişim" style="color: #38bdf8; text-decoration: none; font-weight: 600;">
+                        <i class="fa-regular fa-envelope"></i> ozelegitimtoplulukdeu@gmail.com
+                    </a>
+                </p>
+            </div>
+            <div class="social-links">
+                <a href="#" target="_blank" title="WhatsApp Kanalı" style="background: #25D366; color: #fff;"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://instagram.com" target="_blank" title="Instagram Hesabı" style="background: #E1306C; color: #fff;"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:ozelegitimtoplulukdeu@gmail.com?subject=DEÜ%20Topluluk%20İletişim" title="Doğrudan E-Posta Gönder"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- SAĞ ALT: FEHİM WIDGET -->
+    <div class="chat-widget-wrapper">
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="chat-avatar-mini">
+                        <div class="chat-avatar-eyes"><span></span><span></span></div>
+                        <div class="chat-avatar-mustache"><span></span><span></span></div>
+                        <div class="chat-online-dot"></div>
+                    </div>
+                    <div><h4>Fehim</h4><span>Özel Eğitim Asistanı • Çevrimiçi</span></div>
+                </div>
+                <button class="chat-close-btn" id="chatCloseBtn">&times;</button>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="chat-msg bot">
+                    Merhaba! Ben <strong>Fehim</strong>. DEÜ Özel Eğitim Topluluğu hakkında merak ettiğin her şeyi bana sorabilirsin.
+                </div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Fehim'e bir soru sor...">
+                <button id="chatSendBtn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <button class="robot-trigger-btn" id="chatBubbleBtn" aria-label="Fehim Asistanı Aç">
+            <div class="fehim-shadow"></div>
+            <div class="fehim-character-stage">
+                <div class="fehim-antenna"><div class="fehim-antenna-light"></div></div>
+                <div class="fehim-head">
+                    <div class="fehim-eyebrows-row"><div class="eyebrow-l"></div><div class="eyebrow-r"></div></div>
+                    <div class="fehim-eye-visor"><div class="fehim-eye-dot"></div><div class="fehim-eye-dot"></div></div>
+                    <div class="fehim-mustache-zone"><div class="m-wing-left"></div><div class="m-wing-right"></div></div>
+                </div>
+                <div class="fehim-torso-assembly">
+                    <div class="fehim-arm-l"></div>
+                    <div class="fehim-chest-body"><span class="fehim-name-tag">FEHİM</span><i class="fa-solid fa-heart fehim-chest-heart"></i></div>
+                    <div class="fehim-arm-r"></div>
+                    <div class="fehim-legs-row"><div class="fehim-leg"></div><div class="fehim-leg"></div></div>
+                </div>
+            </div>
+            <span class="chat-badge">1</span>
+        </button>
+    </div>
+
+    <!-- JAVASCRIPT: PROFİL KONTROLÜ, SAYAÇ & YÖNETİCİ PUANLAMA -->
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('fade-out');
+                setTimeout(() => preloader.style.display = 'none', 700);
+            }, 1800);
+        });
+
+        // Çekmece Menü
+        const toggleBtn = document.getElementById('menuToggle');
+        const closeBtn = document.getElementById('drawerClose');
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+
+        function closeDrawer() {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
+        closeBtn.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer);
+
+        // Tema
+        const rootElement = document.documentElement;
+        const themeBtn = document.getElementById('themeToggleNav');
+        function applyTheme(isDark) {
+            if (isDark) {
+                rootElement.classList.add('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                rootElement.classList.remove('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+        applyTheme(localStorage.getItem('site_theme') === 'dark');
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                const isDark = !rootElement.classList.contains('dark-theme');
+                applyTheme(isDark);
+                localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+            });
+        }
+
+        // KULLANICI GİRİŞ DURUMU (localStorage İLE SAYFALAR ARASI KALICI)
+        function checkUserAuth() {
+            const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
+            const navAuthBtn = document.getElementById('navAuthBtn');
+            const userAvatarBtn = document.getElementById('userAvatarBtn');
+            const navScoreChip = document.getElementById('navScoreChip');
+            const drawerProfileBox = document.getElementById('drawerProfileBox');
+            const drawerRegisterLink = document.getElementById('drawerRegisterLink');
+            const adminMenuItem = document.getElementById('adminScoreMenuItem');
+
+            if (!session) {
+                if (navAuthBtn) navAuthBtn.style.display = 'inline-flex';
+                if (userAvatarBtn) userAvatarBtn.style.display = 'none';
+                if (navScoreChip) navScoreChip.style.display = 'none';
+                if (drawerProfileBox) drawerProfileBox.style.display = 'none';
+                if (adminMenuItem) adminMenuItem.style.display = 'none';
+                if (drawerRegisterLink) drawerRegisterLink.style.display = 'flex';
+            } else {
+                // Bilgiyi iki depoya da sabitle
+                localStorage.setItem('active_session', JSON.stringify(session));
+
+                if (navAuthBtn) navAuthBtn.style.display = 'none';
+                if (userAvatarBtn) userAvatarBtn.style.display = 'flex';
+                if (drawerProfileBox) drawerProfileBox.style.display = 'flex';
+                if (drawerRegisterLink) drawerRegisterLink.style.display = 'none';
+
+                if (session.role === 'admin' || session.username === 'admin') {
+                    // YÖNETİCİ
+                    if (navScoreChip) navScoreChip.style.display = 'none';
+                    if (adminMenuItem) adminMenuItem.style.display = 'block';
+                    document.getElementById('drawerUserName').innerText = "Yönetici";
+                    document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
+                    document.getElementById('drawerScoreContainer').style.display = 'none';
                 } else {
-                    clearAvatarImage();
+                    // NORMAL ÖĞRENCİ
+                    if (adminMenuItem) adminMenuItem.style.display = 'none';
+                    const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+                    const me = users.find(u => u.username === session.username);
+                    if (me) {
+                        if (navScoreChip) {
+                            navScoreChip.style.display = 'inline-flex';
+                            document.getElementById('navScoreValue').innerText = `${me.points || me.score || 0} P`;
+                        }
+
+                        document.getElementById('drawerUserName').innerText = me.fullName || me.name;
+                        document.getElementById('drawerUserDept').innerText = me.dept || 'Özel Eğitim';
+                        document.getElementById('drawerScoreContainer').style.display = 'inline-flex';
+                        document.getElementById('drawerUserPoints').innerText = me.points || me.score || 0;
+
+                        if (me.avatar) {
+                            applyAvatarImage(me.avatar);
+                        } else {
+                            clearAvatarImage();
+                        }
+                    }
                 }
             }
         }
-    }
-}
 
-window.userLogout = function() {
-    localStorage.removeItem('active_session');
-    sessionStorage.removeItem('active_session');
-    window.location.reload();
-};
+        function applyAvatarImage(base64Url) {
+            const navImg = document.getElementById('navAvatarImg');
+            const navIcon = document.getElementById('navAvatarIcon');
+            const drawerImg = document.getElementById('drawerAvatarImg');
+            const drawerIcon = document.getElementById('drawerAvatarIcon');
+            const prevImg = document.getElementById('previewImg');
+            const prevIcon = document.getElementById('previewIcon');
 
-checkUserAuth();
+            [navImg, drawerImg, prevImg].forEach(img => { if (img) { img.src = base64Url; img.style.display = 'block'; } });
+            [navIcon, drawerIcon, prevIcon].forEach(icon => { if (icon) { icon.style.display = 'none'; } });
+        }
+
+        function clearAvatarImage() {
+            const navImg = document.getElementById('navAvatarImg');
+            const navIcon = document.getElementById('navAvatarIcon');
+            const drawerImg = document.getElementById('drawerAvatarImg');
+            const drawerIcon = document.getElementById('drawerAvatarIcon');
+            const prevImg = document.getElementById('previewImg');
+            const prevIcon = document.getElementById('previewIcon');
+
+            [navImg, drawerImg, prevImg].forEach(img => { if (img) { img.style.display = 'none'; } });
+            [navIcon, drawerIcon, prevIcon].forEach(icon => { if (icon) { icon.style.display = 'block'; } });
+        }
+
+        window.openProfileSettings = function() {
+            const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
+            if (!session) { window.location.href = './giris.html'; return; }
+            if (session.role === 'admin' || session.username === 'admin') { return; }
+
+            const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+            const me = users.find(u => u.username === session.username);
+            if (me) {
+                document.getElementById('settingFullName').value = me.fullName || me.name;
+                document.getElementById('settingDept').value = me.dept || '';
+                document.getElementById('settingNewPass').value = '';
+                document.getElementById('settingsModal').style.display = 'flex';
+                closeDrawer();
+            }
+        };
+
+        window.closeProfileSettings = function() {
+            document.getElementById('settingsModal').style.display = 'none';
+        };
+
+        // YÖNETİCİ PUAN DEĞİŞTİRME MODALI
+        function openAdminModal() {
+            closeDrawer();
+            document.getElementById('adminModal').classList.add('open');
+            renderAdminUserList();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('open');
+        }
+
+        function renderAdminUserList() {
+            const container = document.getElementById('adminUserList');
+            let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+
+            if (users.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı öğrenci bulunmuyor.</p>';
+                return;
+            }
+
+            container.innerHTML = users.map(u => {
+                let score = u.points !== undefined ? u.points : (u.score || 0);
+                return `
+                    <div class="score-manage-row">
+                        <div>
+                            <strong style="color:var(--text-main); font-size:0.95rem;">${u.fullName || u.name || u.username}</strong>
+                            <div style="font-size:0.8rem; color:var(--text-muted);">Mevcut: <span style="color:var(--primary); font-weight:bold;">${score} P</span></div>
+                        </div>
+                        <div style="display:flex; align-items:center;">
+                            <input type="number" id="inp_${u.username}" value="10">
+                            <button class="btn-score-act btn-score-add" onclick="modifyScore('${u.username}', true)">+ Ekle</button>
+                            <button class="btn-score-act btn-score-sub" onclick="modifyScore('${u.username}', false)">- Düş</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function modifyScore(username, isAdd) {
+            const inp = document.getElementById('inp_' + username);
+            const val = parseInt(inp.value, 10);
+            if (isNaN(val) || val <= 0) return alert('Geçerli bir miktar girin.');
+
+            let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+            const idx = users.findIndex(u => u.username === username);
+            if (idx !== -1) {
+                let current = users[idx].points !== undefined ? users[idx].points : (users[idx].score || 0);
+                users[idx].points = isAdd ? (current + val) : (current - val);
+                users[idx].score = users[idx].points;
+                localStorage.setItem('deu_members', JSON.stringify(users));
+                renderAdminUserList();
+                checkUserAuth();
+            }
+        }
+
+        window.userLogout = function() {
+            localStorage.removeItem('active_session');
+            sessionStorage.removeItem('active_session');
+            window.location.reload();
+        };
+
+        checkUserAuth();
+
+        // Geri Sayım
+        const targetDate = new Date("Nov 20, 2026 14:00:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            if (diff > 0) {
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+                document.getElementById("days").innerText = d < 10 ? "0" + d : d;
+                document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
+                document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
+                document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
+            }
+        }, 1000);
+
+        // FEHİM BOTU
+        const chatBubbleBtn = document.getElementById('chatBubbleBtn');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatCloseBtn = document.getElementById('chatCloseBtn');
+        const chatBody = document.getElementById('chatBody');
+        const chatInput = document.getElementById('chatInput');
+        const chatSendBtn = document.getElementById('chatSendBtn');
+
+        chatBubbleBtn.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+            const badge = chatBubbleBtn.querySelector('.chat-badge');
+            if (badge) badge.style.display = 'none';
+        });
+        chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('open'); });
+
+        function appendMessage(sender, text) {
+            const div = document.createElement('div');
+            div.className = `chat-msg ${sender}`;
+            div.innerHTML = text;
+            chatBody.appendChild(div);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function getBotResponse(input) {
+            const q = input.toLowerCase();
+            if (q.includes('puan') || q.includes('sıralama')) {
+                return 'Öğrenci puan sıralamasını 3 çizgili menüdeki "Puan Sıralaması" sekmesinden görebilirsin!';
+            } else if (q.includes('katıl') || q.includes('üye') || q.includes('giriş')) {
+                return 'Üst bardaki "Giriş / Üye Ol" butonuna tıklayarak doğrudan hesabını oluşturabilirsin!';
+            } else {
+                return 'Ben Fehim! DEÜ Özel Eğitim Topluluğu asistanıyım. Sorularını yanıtlamak için buradayım.';
+            }
+        }
+
+        function handleSend() {
+            const val = chatInput.value.trim();
+            if (!val) return;
+            appendMessage('user', val);
+            chatInput.value = '';
+            setTimeout(() => { appendMessage('bot', getBotResponse(val)); }, 450);
+        }
+
+        chatSendBtn.addEventListener('click', handleSend);
+        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
+    </script>
+</body>
+</html>
