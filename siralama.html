@@ -162,6 +162,7 @@
                 <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
             </a>
             <div class="nav-actions">
+                <!-- GİRİŞ YAPILINCA GİZLENİR -->
                 <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i> <span>Giriş / Üye Ol</span>
                 </a>
@@ -203,6 +204,7 @@
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
             <a href="./siralama.html" class="drawer-link active-link highlight"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
             
+            <!-- SADECE YÖNETİCİYE GÖRÜNEN BUTON -->
             <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:700;" onclick="openAdminModal()">
                 <i class="fa-solid fa-bolt"></i> Puan Yönetimi (Yönetici)
             </a>
@@ -216,7 +218,9 @@
             <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
             <a href="./index.html#basvuru" class="drawer-link drawer-btn-apply"><i class="fa-solid fa-user-plus"></i> Aramıza Katıl</a>
             <a href="#" target="_blank" class="drawer-link drawer-btn-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı</a>
-            <a href="javascript:void(0)" id="logoutLink" class="drawer-link" style="display:none; color:#f87171;" onclick="userLogout()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</a>
+            <a href="javascript:void(0)" id="logoutLink" class="drawer-link" style="display:none; color:#f87171; font-weight:700;" onclick="userLogout()">
+                <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
+            </a>
         </div>
     </div>
 
@@ -260,16 +264,9 @@
     </footer>
 
     <script>
-        // 1. ÖRNEK VERİ HAVUZU (Sayfa Asla Boş Kalmasın Diye)
-        const SEED_MEMBERS = [
-            { username: "elif_kaya", fullName: "Elif Kaya", dept: "Özel Eğitim Öğretmenliği", points: 85 },
-            { username: "can_demir", fullName: "Can Demir", dept: "Rehberlik ve Psikolojik Danışmanlık", points: 65 },
-            { username: "zeynep_yilmaz", fullName: "Zeynep Yılmaz", dept: "Okul Öncesi Öğretmenliği", points: 50 }
-        ];
-
-        // 2. OTURUM BİLGİSİ
         const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
         
+        // GİRİŞ/ÇIKIŞ DURUMUNU YÖNET
         if (session) {
             document.getElementById('navAuthBtn').style.display = 'none';
             document.getElementById('logoutLink').style.display = 'block';
@@ -284,6 +281,11 @@
                 document.getElementById('drawerUserName').innerText = session.fullName || session.username;
                 document.getElementById('drawerUserDept').innerText = session.dept || 'Özel Eğitim';
             }
+        } else {
+            document.getElementById('navAuthBtn').style.display = 'inline-flex';
+            document.getElementById('logoutLink').style.display = 'none';
+            document.getElementById('userAvatarBtn').style.display = 'none';
+            document.getElementById('drawerProfileBox').style.display = 'none';
         }
 
         function userLogout() {
@@ -292,18 +294,36 @@
             location.reload();
         }
 
-        // 3. EKRANA BASMA FONKSİYONU (Anında Çalışır)
+        // Firebase Bağlantısı
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBuhOWynw0fbuEP1EKSXHCWetRtqlR474",
+            authDomain: "deu-ozel-egitim.firebaseapp.com",
+            databaseURL: "https://deu-ozel-egitim-default-rtdb.firebaseio.com",
+            projectId: "deu-ozel-egitim",
+            storageBucket: "deu-ozel-egitim.firebasestorage.app",
+            messagingSenderId: "463233621727",
+            appId: "1:463233621727:web:4fcbfac218469b1e0e136a"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+
+        let globalUsers = [];
+
+        // Tabloyu Ekrana Bas
         function renderLeaderboardDOM(users) {
             const topList = document.getElementById('topThreeList');
             const myBox = document.getElementById('myRankBox');
 
-            // Büyükten küçüğe sırala
-            users.sort((a, b) => (Number(b.points) || 0) - (Number(a.points) || 0));
-
             if (!users || users.length === 0) {
-                topList.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Kayıtlı üye bulunamadı.</div>';
+                topList.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Henüz kayıtlı öğrenci bulunmuyor.</div>';
                 return;
             }
+
+            // Puana göre sırala (Büyükten küçüğe)
+            users.sort((a, b) => Number(b.points) - Number(a.points));
 
             // İlk 3 kişi
             const top3 = users.slice(0, 3);
@@ -316,11 +336,11 @@
                         <div style="display:flex; align-items:center; gap:14px;">
                             <div class="rank-badge ${badgeClass}">${rankText}</div>
                             <div>
-                                <h4 style="font-size:1rem; font-weight:800; color:var(--text-main); margin-bottom:2px;">${u.fullName || u.username}</h4>
-                                <span style="font-size:0.8rem; color:var(--text-muted);">${u.dept || 'Özel Eğitim'} • @${u.username}</span>
+                                <h4 style="font-size:1rem; font-weight:800; color:var(--text-main); margin-bottom:2px;">${u.fullName}</h4>
+                                <span style="font-size:0.8rem; color:var(--text-muted);">${u.dept} • @${u.username}</span>
                             </div>
                         </div>
-                        <div class="score-pill-badge">${u.points || 0} Puan</div>
+                        <div class="score-pill-badge">${u.points} Puan</div>
                     </div>
                 `;
             }).join('');
@@ -337,68 +357,37 @@
                                 <div class="rank-badge" style="background:var(--primary, #0284c7); color:#fff; border:none;">#${myIndex + 1}</div>
                                 <div>
                                     <span style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--primary, #0284c7);">Senin Başarın</span>
-                                    <h4 style="font-size:1.05rem; font-weight:800; color:var(--text-main);">${me.fullName || me.username}</h4>
+                                    <h4 style="font-size:1.05rem; font-weight:800; color:var(--text-main);">${me.fullName}</h4>
                                 </div>
                             </div>
-                            <div class="score-pill-badge" style="font-size:1rem;">${me.points || 0} Puan</div>
+                            <div class="score-pill-badge" style="font-size:1rem;">${me.points} Puan</div>
                         </div>
                     `;
                 }
             }
         }
 
-        // 4. BAŞLANGIÇTA YEREL VERİYİ ANINDA ÇALIŞTIR (0 GECİKME)
-        let currentUsers = JSON.parse(localStorage.getItem('deu_members') || '[]');
-        if (currentUsers.length === 0) {
-            currentUsers = [...SEED_MEMBERS];
-            localStorage.setItem('deu_members', JSON.stringify(currentUsers));
-        }
-        renderLeaderboardDOM(currentUsers);
-
-        // 5. FIREBASE CANLI VERİ SENKRONİZASYONU
-        let db = null;
-        try {
-            const firebaseConfig = {
-                apiKey: "AIzaSyDBuhOWynw0fbuEP1EKSXHCWetRtqlR474",
-                authDomain: "deu-ozel-egitim.firebaseapp.com",
-                databaseURL: "https://deu-ozel-egitim-default-rtdb.firebaseio.com",
-                projectId: "deu-ozel-egitim",
-                storageBucket: "deu-ozel-egitim.firebasestorage.app",
-                messagingSenderId: "463233621727",
-                appId: "1:463233621727:web:4fcbfac218469b1e0e136a"
-            };
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-            }
-            db = firebase.database();
-
-            // Buluttaki verileri dinle
-            db.ref("members").on("value", (snap) => {
-                if (snap.exists() && snap.numChildren() > 0) {
-                    const cloudUsers = [];
-                    snap.forEach((child) => {
+        // Firebase Canlı Dinleme
+        db.ref("members").on("value", (snap) => {
+            const cloudUsers = [];
+            if (snap.exists()) {
+                snap.forEach((child) => {
+                    const val = child.val();
+                    if (child.key !== "admin") {
                         cloudUsers.push({
                             username: child.key,
-                            ...child.val()
+                            fullName: val.fullName || val.name || child.key,
+                            dept: val.dept || "Özel Eğitim",
+                            points: Number(val.points !== undefined ? val.points : (val.score || 0)) || 0
                         });
-                    });
-                    currentUsers = cloudUsers;
-                    localStorage.setItem('deu_members', JSON.stringify(cloudUsers));
-                    renderLeaderboardDOM(currentUsers);
-                } else {
-                    // Bulut boşsa yereldeki mevcut kullanıcıları buluta yedekle
-                    currentUsers.forEach(u => {
-                        db.ref("members/" + u.username).set(u);
-                    });
-                }
-            }, (err) => {
-                console.log("Firebase okuma uyarısı, yerel veriyle devam ediliyor.");
-            });
-        } catch (e) {
-            console.log("Firebase bağlantı hatası, yerel bellek aktif.");
-        }
+                    }
+                });
+            }
+            globalUsers = cloudUsers;
+            renderLeaderboardDOM(globalUsers);
+        });
 
-        // 6. YÖNETİCİ PUAN MODALI İŞLEMLERİ
+        // Yönetici Puan Değiştirme Modalı
         function openAdminModal() {
             drawer.classList.remove('active');
             overlay.classList.remove('active');
@@ -412,16 +401,16 @@
 
         function renderAdminUserList() {
             const container = document.getElementById('adminUserList');
-            if (!currentUsers || currentUsers.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı üye yok.</p>';
+            if (!globalUsers || globalUsers.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı öğrenci yok.</p>';
                 return;
             }
 
-            container.innerHTML = currentUsers.map(u => `
+            container.innerHTML = globalUsers.map(u => `
                 <div class="score-manage-row">
                     <div>
-                        <strong style="color:var(--text-main); font-size:0.95rem;">${u.fullName || u.username}</strong>
-                        <div style="font-size:0.8rem; color:var(--text-muted);">Mevcut: <span style="color:var(--primary, #0284c7); font-weight:bold;">${u.points || 0} P</span> (@${u.username})</div>
+                        <strong style="color:var(--text-main); font-size:0.95rem;">${u.fullName}</strong>
+                        <div style="font-size:0.8rem; color:var(--text-muted);">Mevcut: <span id="pts_view_${u.username}" style="color:var(--primary, #0284c7); font-weight:bold;">${u.points} P</span> (@${u.username})</div>
                     </div>
                     <div style="display:flex; align-items:center;">
                         <input type="number" id="pts_${u.username}" value="10">
@@ -432,28 +421,23 @@
             `).join('');
         }
 
-        function modifyStudentScore(username, isAdd) {
+        window.modifyStudentScore = function(username, isAdd) {
             const inp = document.getElementById('pts_' + username);
             const val = parseInt(inp.value, 10);
             if (isNaN(val) || val <= 0) return alert('Geçerli bir miktar girin.');
 
-            const userIdx = currentUsers.findIndex(u => u.username === username);
-            if (userIdx !== -1) {
-                const cur = Number(currentUsers[userIdx].points) || 0;
-                const newScore = isAdd ? (cur + val) : (cur - val);
-                currentUsers[userIdx].points = newScore;
+            const user = globalUsers.find(u => u.username === username);
+            if (user) {
+                const current = Number(user.points) || 0;
+                const newScore = isAdd ? (current + val) : (current - val);
 
-                // Hem yerele yaz
-                localStorage.setItem('deu_members', JSON.stringify(currentUsers));
-                renderLeaderboardDOM(currentUsers);
-                renderAdminUserList();
-
-                // Hem buluta yaz
-                if (db) {
-                    db.ref("members/" + username).update({ points: newScore });
-                }
+                db.ref("members/" + username).update({ points: newScore }).then(() => {
+                    user.points = newScore;
+                    const view = document.getElementById("pts_view_" + username);
+                    if (view) view.innerText = `${newScore} P`;
+                });
             }
-        }
+        };
 
         // Menü Aç/Kapat
         const toggleBtn = document.getElementById('menuToggle');
