@@ -35,7 +35,6 @@
             cursor: pointer;
         }
 
-        /* Sıralama Satırları */
         .leaderboard-row {
             display: flex;
             align-items: center;
@@ -77,7 +76,6 @@
             border-radius: 20px;
         }
 
-        /* Giriş Yapan Öğrencinin Özel Durum Kartı */
         .my-rank-card {
             background: rgba(2, 132, 199, 0.08);
             border: 2px solid var(--primary, #0284c7);
@@ -90,7 +88,6 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
-        /* Yönetici Puan Düzenleme Modalı */
         .admin-modal-overlay {
             display: none;
             position: fixed;
@@ -150,6 +147,10 @@
         .btn-score-add { background: #0284c7; color: #fff; }
         .btn-score-sub { background: #475569; color: #fff; margin-left: 4px; }
     </style>
+
+    <!-- Ortak Canlı Bulut Altyapısı -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
@@ -235,7 +236,7 @@
             <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);">🏆 Zirvedeki İlk 3 Öğrenci</h3>
             
             <div id="topThreeList">
-                <!-- JS ile ilk 3 basılacak -->
+                <div style="text-align:center; padding:30px; color:var(--text-muted);">Yükleniyor...</div>
             </div>
 
             <!-- Giriş Yapan Öğrencinin Kendi Sırası -->
@@ -262,14 +263,26 @@
     </footer>
 
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBuhOWynw0fbuEP1EKSXHCWetRtqlR474",
+            authDomain: "deu-ozel-egitim.firebaseapp.com",
+            databaseURL: "https://deu-ozel-egitim-default-rtdb.firebaseio.com",
+            projectId: "deu-ozel-egitim",
+            storageBucket: "deu-ozel-egitim.firebasestorage.app",
+            messagingSenderId: "463233621727",
+            appId: "1:463233621727:web:4fcbfac218469b1e0e136a"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
         // Menü Aç/Kapat
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
         const drawer = document.getElementById('mobileDrawer');
         const overlay = document.getElementById('mobileOverlay');
         toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
-        closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
-        overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+        closeBtn.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer);
 
         // Tema
         const rootElement = document.documentElement;
@@ -304,20 +317,8 @@
                 document.getElementById('drawerUserName').innerText = "Yönetici";
                 document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
             } else {
-                const members = JSON.parse(localStorage.getItem('deu_members') || '[]');
-                const me = members.find(m => m.username === session.username);
-                if (me) {
-                    document.getElementById('drawerUserName').innerText = me.fullName || me.name || me.username;
-                    document.getElementById('drawerUserDept').innerText = me.dept || 'Özel Eğitim';
-                    if (me.avatar) {
-                        const navImg = document.getElementById('navAvatarImg');
-                        const navIcon = document.getElementById('navAvatarIcon');
-                        const drImg = document.getElementById('drawerAvatarImg');
-                        const drIcon = document.getElementById('drawerAvatarIcon');
-                        if (navImg && navIcon) { navImg.src = me.avatar; navImg.style.display = 'block'; navIcon.style.display = 'none'; }
-                        if (drImg && drIcon) { drImg.src = me.avatar; drImg.style.display = 'block'; drIcon.style.display = 'none'; }
-                    }
-                }
+                document.getElementById('drawerUserName').innerText = session.fullName || session.username;
+                document.getElementById('drawerUserDept').innerText = session.dept || 'Özel Eğitim';
             }
         }
 
@@ -327,66 +328,72 @@
             location.reload();
         }
 
-        // LİDERLİK TABLOSU: YALNIZCA İLK 3 KİŞİ + KENDİ SIRALAMAN
-        function loadLeaderboard() {
-            const topList = document.getElementById('topThreeList');
-            const myBox = document.getElementById('myRankBox');
-            let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+        // LİDERLİK TABLOSUNU BULUTTAN CANLI DİNLE (İLK 3 KİŞİ + SENİN BAŞARIN)
+        function listenLeaderboard() {
+            db.ref("members").on("value", (snap) => {
+                const topList = document.getElementById('topThreeList');
+                const myBox = document.getElementById('myRankBox');
+                const users = [];
 
-            // Puana göre büyükten küçüğe sırala
-            users.sort((a, b) => (b.points !== undefined ? b.points : (b.score || 0)) - (a.points !== undefined ? a.points : (a.score || 0)));
+                snap.forEach((child) => {
+                    users.push({
+                        username: child.key,
+                        ...child.val()
+                    });
+                });
 
-            if (users.length === 0) {
-                topList.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Henüz kayıtlı öğrenci bulunmuyor.</div>';
-                return;
-            }
+                // Puana göre sırala (Büyükten küçüğe)
+                users.sort((a, b) => (b.points || 0) - (a.points || 0));
 
-            // 1. ZİRVEDEKİ İLK 3 KİŞİYİ LİSTELE
-            const top3 = users.slice(0, 3);
-            topList.innerHTML = top3.map((u, index) => {
-                let badgeClass = index === 0 ? 'rank-1' : (index === 1 ? 'rank-2' : 'rank-3');
-                let rankText = index === 0 ? '<i class="fa-solid fa-crown"></i> 1' : (index + 1);
-                let score = u.points !== undefined ? u.points : (u.score || 0);
+                if (users.length === 0) {
+                    topList.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Henüz kayıtlı öğrenci bulunmuyor.</div>';
+                    return;
+                }
 
-                return `
-                    <div class="leaderboard-row">
-                        <div style="display:flex; align-items:center; gap:14px;">
-                            <div class="rank-badge ${badgeClass}">${rankText}</div>
-                            <div>
-                                <h4 style="font-size:1rem; font-weight:800; color:var(--text-main); margin-bottom:2px;">${u.fullName || u.name || u.username}</h4>
-                                <span style="font-size:0.8rem; color:var(--text-muted);">${u.dept || 'Özel Eğitim'} • @${u.username}</span>
-                            </div>
-                        </div>
-                        <div class="score-pill-badge">${score} Puan</div>
-                    </div>
-                `;
-            }).join('');
+                // 1. ZİRVEDEKİ İLK 3 KİŞİ
+                const top3 = users.slice(0, 3);
+                topList.innerHTML = top3.map((u, index) => {
+                    let badgeClass = index === 0 ? 'rank-1' : (index === 1 ? 'rank-2' : 'rank-3');
+                    let rankText = index === 0 ? '<i class="fa-solid fa-crown"></i> 1' : (index + 1);
 
-            // 2. OTURUM AÇAN ÖĞRENCİNİN KENDİ DERECESİ
-            if (session && session.role !== 'admin') {
-                const myIndex = users.findIndex(u => u.username === session.username);
-                if (myIndex !== -1) {
-                    const me = users[myIndex];
-                    const myScore = me.points !== undefined ? me.points : (me.score || 0);
-
-                    myBox.style.display = 'block';
-                    myBox.innerHTML = `
-                        <div class="my-rank-card">
+                    return `
+                        <div class="leaderboard-row">
                             <div style="display:flex; align-items:center; gap:14px;">
-                                <div class="rank-badge" style="background:var(--primary, #0284c7); color:#fff; border:none;">#${myIndex + 1}</div>
+                                <div class="rank-badge ${badgeClass}">${rankText}</div>
                                 <div>
-                                    <span style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--primary, #0284c7);">Senin Başarın</span>
-                                    <h4 style="font-size:1.05rem; font-weight:800; color:var(--text-main);">${me.fullName || me.name || me.username}</h4>
+                                    <h4 style="font-size:1rem; font-weight:800; color:var(--text-main); margin-bottom:2px;">${u.fullName || u.username}</h4>
+                                    <span style="font-size:0.8rem; color:var(--text-muted);">${u.dept || 'Özel Eğitim'} • @${u.username}</span>
                                 </div>
                             </div>
-                            <div class="score-pill-badge" style="font-size:1rem;">${myScore} Puan</div>
+                            <div class="score-pill-badge">${u.points || 0} Puan</div>
                         </div>
                     `;
+                }).join('');
+
+                // 2. OTURUM AÇAN ÖĞRENCİNİN KENDİ DERECESİ
+                if (session && session.role !== 'admin') {
+                    const myIndex = users.findIndex(u => u.username === session.username);
+                    if (myIndex !== -1) {
+                        const me = users[myIndex];
+                        myBox.style.display = 'block';
+                        myBox.innerHTML = `
+                            <div class="my-rank-card">
+                                <div style="display:flex; align-items:center; gap:14px;">
+                                    <div class="rank-badge" style="background:var(--primary, #0284c7); color:#fff; border:none;">#${myIndex + 1}</div>
+                                    <div>
+                                        <span style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--primary, #0284c7);">Senin Başarın</span>
+                                        <h4 style="font-size:1.05rem; font-weight:800; color:var(--text-main);">${me.fullName || me.username}</h4>
+                                    </div>
+                                </div>
+                                <div class="score-pill-badge" style="font-size:1rem;">${me.points || 0} Puan</div>
+                            </div>
+                        `;
+                    }
                 }
-            }
+            });
         }
 
-        // YÖNETİCİ PUAN MODALI İŞLEMLERİ
+        // YÖNETİCİ PUAN MODALI İŞLEMLERİ (BULUTTA TÜM ÜYELERİ LİSTELE)
         function openAdminModal() {
             drawer.classList.remove('active');
             overlay.classList.remove('active');
@@ -400,50 +407,47 @@
 
         function renderAdminUserList() {
             const container = document.getElementById('adminUserList');
-            let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
+            db.ref("members").once("value", (snap) => {
+                if (!snap.exists()) {
+                    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı öğrenci bulunmuyor.</p>';
+                    return;
+                }
 
-            if (users.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">Henüz kayıtlı öğrenci bulunmuyor.</p>';
-                return;
-            }
-
-            container.innerHTML = users.map(u => {
-                let score = u.points !== undefined ? u.points : (u.score || 0);
-                return `
-                    <div class="score-manage-row">
-                        <div>
-                            <strong style="color:var(--text-main); font-size:0.95rem;">${u.fullName || u.name || u.username}</strong>
-                            <div style="font-size:0.8rem; color:var(--text-muted);">Mevcut: <span style="color:var(--primary, #0284c7); font-weight:bold;">${score} P</span></div>
+                let html = "";
+                snap.forEach((child) => {
+                    const u = child.val();
+                    const uname = child.key;
+                    html += `
+                        <div class="score-manage-row">
+                            <div>
+                                <strong style="color:var(--text-main); font-size:0.95rem;">${u.fullName || uname}</strong>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">Mevcut: <span style="color:var(--primary, #0284c7); font-weight:bold;">${u.points || 0} P</span> (@${uname})</div>
+                            </div>
+                            <div style="display:flex; align-items:center;">
+                                <input type="number" id="pts_${uname}" value="10">
+                                <button class="btn-score-act btn-score-add" onclick="modifyStudentScore('${uname}', ${u.points || 0}, true)">+ Ekle</button>
+                                <button class="btn-score-act btn-score-sub" onclick="modifyStudentScore('${uname}', ${u.points || 0}, false)">- Düş</button>
+                            </div>
                         </div>
-                        <div style="display:flex; align-items:center;">
-                            <input type="number" id="pts_${u.username}" value="10">
-                            <button class="btn-score-act btn-score-add" onclick="modifyStudentScore('${u.username}', true)">+ Ekle</button>
-                            <button class="btn-score-act btn-score-sub" onclick="modifyStudentScore('${u.username}', false)">- Düş</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                    `;
+                });
+                container.innerHTML = html;
+            });
         }
 
-        function modifyStudentScore(username, isAdd) {
+        function modifyStudentScore(username, currentPoints, isAdd) {
             const inp = document.getElementById('pts_' + username);
             const val = parseInt(inp.value, 10);
             if (isNaN(val) || val <= 0) return alert('Geçerli bir miktar girin.');
 
-            let users = JSON.parse(localStorage.getItem('deu_members') || '[]');
-            const idx = users.findIndex(u => u.username === username);
-            if (idx !== -1) {
-                let current = users[idx].points !== undefined ? users[idx].points : (users[idx].score || 0);
-                users[idx].points = isAdd ? (current + val) : (current - val);
-                users[idx].score = users[idx].points;
+            const newScore = isAdd ? (currentPoints + val) : (currentPoints - val);
 
-                localStorage.setItem('deu_members', JSON.stringify(users));
+            db.ref("members/" + username).update({ points: newScore }).then(() => {
                 renderAdminUserList();
-                loadLeaderboard();
-            }
+            });
         }
 
-        loadLeaderboard();
+        listenLeaderboard();
     </script>
 </body>
 </html>
