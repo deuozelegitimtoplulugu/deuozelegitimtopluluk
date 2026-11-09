@@ -21,7 +21,6 @@
     .msg.success { color: #4ade80; }
   </style>
 
-  <!-- Firebase v8 CDN (HTML için en kararlı sürüm) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
@@ -33,7 +32,7 @@
 
     <div class="form-group">
       <label for="username">Kullanıcı Adı</label>
-      <input type="text" id="username" placeholder="ornek: ahmetcan">
+      <input type="text" id="username" placeholder="ornek: admin veya ahmet">
     </div>
 
     <div class="form-group">
@@ -46,12 +45,11 @@
       <input type="password" id="password" placeholder="••••••••">
     </div>
 
-    <button id="btnAction" onclick="handleAuth()">Giriş Yap / Kaydol</button>
+    <button onclick="handleAuth()">Giriş Yap / Kaydol</button>
     <div id="statusMsg" class="msg"></div>
   </div>
 
   <script>
-    // Firebase Yapılandırması
     const firebaseConfig = {
       apiKey: "AIzaSyDBuhOWynw0fbuEP1EKSXHCWetRtqlR474",
       authDomain: "deu-ozel-egitim.firebaseapp.com",
@@ -81,39 +79,55 @@
         return;
       }
 
-      showMsg("Bağlanıyor...");
+      showMsg("Kontrol ediliyor...");
 
       const userRef = db.ref("users/" + username);
       const snapshot = await userRef.once("value");
 
       if (snapshot.exists()) {
-        // Kullanıcı var -> Giriş kontrolü
         const data = snapshot.val();
         if (data.password === password) {
-          showMsg("Giriş başarılı! Yönlendiriliyorsunuz...");
-          localStorage.setItem("deu_user", JSON.stringify({ username, name: data.name, score: data.score || 0 }));
-          setTimeout(() => { window.location.href = "index.html"; }, 1000);
+          const role = data.role || "member";
+          localStorage.setItem("deu_user", JSON.stringify({
+            username: username,
+            name: data.name,
+            score: data.score || 0,
+            role: role
+          }));
+
+          if (role === "admin") {
+            showMsg("Yönetici girişi başarılı! Yönlendiriliyorsunuz...");
+            setTimeout(() => { window.location.href = "yonetici.html"; }, 800);
+          } else {
+            showMsg("Giriş başarılı! Yönlendiriliyorsunuz...");
+            setTimeout(() => { window.location.href = "index.html"; }, 800);
+          }
         } else {
           showMsg("Hatalı şifre girdiniz.", true);
         }
       } else {
-        // Kullanıcı yok -> Yeni kayıt oluştur
         if (!fullname) {
-          showMsg("Yeni üyelik için lütfen Ad Soyad girin.", true);
+          showMsg("Yeni kayıt için Ad Soyad giriniz.", true);
           return;
         }
 
         const newUser = {
           name: fullname,
           password: password,
-          score: 10, // Başlangıç puanı
+          score: 10,
+          role: "member",
           createdAt: new Date().toISOString()
         };
 
         await userRef.set(newUser);
-        showMsg("Kaydınız oluşturuldu! Yönlendiriliyorsunuz...");
-        localStorage.setItem("deu_user", JSON.stringify({ username, name: fullname, score: 10 }));
-        setTimeout(() => { window.location.href = "index.html"; }, 1000);
+        localStorage.setItem("deu_user", JSON.stringify({
+          username: username,
+          name: fullname,
+          score: 10,
+          role: "member"
+        }));
+        showMsg("Kaydınız yapıldı! Giriş yapılıyor...");
+        setTimeout(() => { window.location.href = "index.html"; }, 800);
       }
     }
   </script>
