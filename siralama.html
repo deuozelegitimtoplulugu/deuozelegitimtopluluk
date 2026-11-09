@@ -3,26 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEÜ Özel Eğitim - Liderlik Sıralaması</title>
+  <title>DEÜ Özel Eğitim - Topluluk Sıralaması</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 32px 16px; display: flex; flex-direction: column; align-items: center; }
-    .container { width: 100%; max-width: 700px; background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 16px; }
-    h2 { color: #38bdf8; font-size: 22px; }
-    a.btn-back { color: #94a3b8; text-decoration: none; font-size: 14px; border: 1px solid #475569; padding: 6px 12px; border-radius: 6px; }
-    a.btn-back:hover { color: #fff; border-color: #94a3b8; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { text-align: left; padding: 12px 14px; }
-    th { color: #94a3b8; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #334155; }
-    tr:not(:last-child) td { border-bottom: 1px solid #334155; }
-    tr:hover td { background: #243247; }
-    .rank { font-weight: bold; width: 40px; color: #cbd5e1; }
-    .rank-1 { color: #facc15; }
-    .rank-2 { color: #cbd5e1; }
-    .rank-3 { color: #f97316; }
-    .score-badge { background: #0369a1; color: #e0f2fe; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 13px; }
-    .loading { text-align: center; color: #94a3b8; padding: 24px; font-size: 15px; }
+    body { background: #0f172a; color: #f8fafc; min-height: 100vh; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; }
+    .container { width: 100%; max-width: 600px; }
+    
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .header h2 { color: #38bdf8; font-size: 22px; }
+    .btn-back { color: #94a3b8; text-decoration: none; font-size: 14px; border: 1px solid #334155; padding: 6px 12px; border-radius: 6px; }
+
+    /* İlk 3 Kürsüsü (Podium) */
+    .podium { display: flex; justify-content: center; align-items: flex-end; gap: 12px; margin: 30px 0 40px; }
+    .podium-box { flex: 1; background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px 8px; text-align: center; }
+    .podium-1 { order: 2; border-color: #facc15; transform: translateY(-15px); }
+    .podium-2 { order: 1; border-color: #94a3b8; }
+    .podium-3 { order: 3; border-color: #f97316; }
+    
+    .medal { font-size: 28px; margin-bottom: 6px; }
+    .p-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; word-break: break-word; }
+    .p-score { font-size: 13px; color: #38bdf8; font-weight: bold; }
+
+    /* Kendi Sıralaman Kartı */
+    .my-rank-card { background: #1e293b; border: 2px solid #0284c7; border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+    .my-rank-left { display: flex; align-items: center; gap: 14px; }
+    .rank-circle { width: 44px; height: 44px; border-radius: 50%; background: #0284c7; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; }
+    .my-score-badge { background: #0369a1; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; color: #e0f2fe; }
+
+    .guest-warn { text-align: center; color: #94a3b8; font-size: 14px; margin-top: 20px; }
+    .guest-warn a { color: #38bdf8; text-decoration: none; }
   </style>
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -36,18 +45,42 @@
       <a href="index.html" class="btn-back">Ana Sayfa</a>
     </div>
 
-    <div id="loader" class="loading">Veriler yükleniyor...</div>
+    <!-- İlk 3 Kişinin Kürsüsü -->
+    <div class="podium" id="podiumArea">
+      <div class="podium-box podium-2">
+        <div class="medal">🥈</div>
+        <div class="p-name" id="name-2">-</div>
+        <div class="p-score" id="score-2">- Puan</div>
+      </div>
+      <div class="podium-box podium-1">
+        <div class="medal">🥇</div>
+        <div class="p-name" id="name-1">-</div>
+        <div class="p-score" id="score-1">- Puan</div>
+      </div>
+      <div class="podium-box podium-3">
+        <div class="medal">🥉</div>
+        <div class="p-name" id="name-3">-</div>
+        <div class="p-score" id="score-3">- Puan</div>
+      </div>
+    </div>
 
-    <table id="rankTable" style="display: none;">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Üye</th>
-          <th>Puan</th>
-        </tr>
-      </thead>
-      <tbody id="rankBody"></tbody>
-    </table>
+    <!-- Giriş Yapan Üyenin Kendi Derecesi -->
+    <div id="myRankSection">
+      <div class="my-rank-card">
+        <div class="my-rank-left">
+          <div class="rank-circle" id="myPosition">?</div>
+          <div>
+            <div style="font-size: 12px; color: #94a3b8;">SENİN DURUMUN</div>
+            <div style="font-weight: bold; font-size: 16px;" id="myName">-</div>
+          </div>
+        </div>
+        <div class="my-score-badge" id="myScore">- Puan</div>
+      </div>
+    </div>
+
+    <div id="guestMsg" class="guest-warn" style="display: none;">
+      Kendi sıralamanı ve puanını görmek için lütfen <a href="giris.html">Giriş Yap</a>.
+    </div>
   </div>
 
   <script>
@@ -64,36 +97,49 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Veriler değiştikçe otomatik tetiklenir (Real-time listener)
-    db.ref("users").on("value", (snapshot) => {
-      const tbody = document.getElementById("rankBody");
-      tbody.innerHTML = "";
+    const currentUser = JSON.parse(localStorage.getItem("deu_user") || "null");
 
+    if (!currentUser) {
+      document.getElementById("myRankSection").style.display = "none";
+      document.getElementById("guestMsg").style.display = "block";
+    }
+
+    db.ref("users").on("value", (snap) => {
       const users = [];
-      snapshot.forEach((child) => {
+      snap.forEach((child) => {
         users.push({
           username: child.key,
           ...child.val()
         });
       });
 
-      // Puanlara göre yüksekten düşüğe sırala
+      // Puana göre sırala (Büyükten küçüğe)
       users.sort((a, b) => (b.score || 0) - (a.score || 0));
 
-      users.forEach((u, index) => {
-        const row = document.createElement("tr");
-        const rankClass = index === 0 ? "rank-1" : (index === 1 ? "rank-2" : (index === 2 ? "rank-3" : ""));
-        
-        row.innerHTML = `
-          <td class="rank ${rankClass}">${index + 1}</td>
-          <td><strong>${u.name || u.username}</strong></td>
-          <td><span class="score-badge">${u.score || 0} Puan</span></td>
-        `;
-        tbody.appendChild(row);
-      });
+      // 1. Kürsüyü Doldur (İlk 3)
+      if (users[0]) {
+        document.getElementById("name-1").textContent = users[0].name || users[0].username;
+        document.getElementById("score-1").textContent = (users[0].score || 0) + " P";
+      }
+      if (users[1]) {
+        document.getElementById("name-2").textContent = users[1].name || users[1].username;
+        document.getElementById("score-2").textContent = (users[1].score || 0) + " P";
+      }
+      if (users[2]) {
+        document.getElementById("name-3").textContent = users[2].name || users[2].username;
+        document.getElementById("score-3").textContent = (users[2].score || 0) + " P";
+      }
 
-      document.getElementById("loader").style.display = "none";
-      document.getElementById("rankTable").style.display = "table";
+      // 2. Giriş Yapan Kişinin Sırasını Bul
+      if (currentUser) {
+        const myIndex = users.findIndex(u => u.username === currentUser.username);
+        if (myIndex !== -1) {
+          const myData = users[myIndex];
+          document.getElementById("myPosition").textContent = (myIndex + 1) + ".";
+          document.getElementById("myName").textContent = myData.name || myData.username;
+          document.getElementById("myScore").textContent = (myData.score || 0) + " Puan";
+        }
+      }
     });
   </script>
 </body>
