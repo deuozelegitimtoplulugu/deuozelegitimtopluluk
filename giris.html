@@ -87,35 +87,39 @@
       if (snapshot.exists()) {
         const data = snapshot.val();
         if (data.password === password) {
-          const role = data.role || "member";
+          // Kullanıcı adı admin ise veya veritabanında role: admin ise yetkilendir
+          const role = (username === "admin" || data.role === "admin") ? "admin" : "member";
+
           localStorage.setItem("deu_user", JSON.stringify({
             username: username,
-            name: data.name,
+            name: data.name || username,
             score: data.score || 0,
             role: role
           }));
 
-          if (role === "admin") {
-            showMsg("Yönetici girişi başarılı! Yönlendiriliyorsunuz...");
-            setTimeout(() => { window.location.href = "yonetici.html"; }, 800);
-          } else {
-            showMsg("Giriş başarılı! Yönlendiriliyorsunuz...");
-            setTimeout(() => { window.location.href = "index.html"; }, 800);
-          }
+          showMsg("Giriş başarılı! Yönlendiriliyorsunuz...");
+          setTimeout(() => {
+            if (role === "admin") {
+              window.location.href = "yonetici.html";
+            } else {
+              window.location.href = "index.html";
+            }
+          }, 600);
         } else {
           showMsg("Hatalı şifre girdiniz.", true);
         }
       } else {
         if (!fullname) {
-          showMsg("Yeni kayıt için Ad Soyad giriniz.", true);
+          showMsg("Yeni üyelik için lütfen Ad Soyad girin.", true);
           return;
         }
 
+        const role = (username === "admin") ? "admin" : "member";
         const newUser = {
           name: fullname,
           password: password,
           score: 10,
-          role: "member",
+          role: role,
           createdAt: new Date().toISOString()
         };
 
@@ -124,10 +128,17 @@
           username: username,
           name: fullname,
           score: 10,
-          role: "member"
+          role: role
         }));
-        showMsg("Kaydınız yapıldı! Giriş yapılıyor...");
-        setTimeout(() => { window.location.href = "index.html"; }, 800);
+
+        showMsg("Hesap oluşturuldu! Yönlendiriliyorsunuz...");
+        setTimeout(() => {
+          if (role === "admin") {
+            window.location.href = "yonetici.html";
+          } else {
+            window.location.href = "index.html";
+          }
+        }, 600);
       }
     }
   </script>
