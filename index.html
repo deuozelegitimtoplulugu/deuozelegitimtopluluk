@@ -3,104 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dokuz Eylül Üniversitesi - Özel Eğitim Topluluğu</title>
+  <title>DEÜ Özel Eğitim Topluluğu</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: #0b1329; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; scroll-behavior: smooth; }
 
-    /* Navbar */
-    .navbar { background: #111e38; border-bottom: 1px solid #1e293b; padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #38bdf8; font-weight: 700; font-size: 18px; }
-    .nav-links { display: flex; align-items: center; gap: 20px; }
+    /* Üst Menü (Navbar) */
+    .navbar { background: #111e38; border-bottom: 1px solid #1e293b; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #38bdf8; font-weight: 700; font-size: 20px; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
     .nav-item { color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; }
-    .nav-item:hover { color: #f8fafc; }
+    .nav-item:hover { color: #38bdf8; }
+    .btn-join { background: #0284c7; color: #fff; text-decoration: none; padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 14px; transition: 0.2s; }
+    .btn-join:hover { background: #0369a1; }
 
-    /* Auth & 3 Nokta */
-    .btn-login { background: #0284c7; color: #fff; text-decoration: none; padding: 8px 18px; border-radius: 8px; font-weight: 600; font-size: 14px; transition: 0.2s; }
-    .btn-login:hover { background: #0369a1; }
-    .user-pill { display: flex; align-items: center; background: #1e293b; border: 1px solid #334155; padding: 6px 14px; border-radius: 20px; gap: 10px; }
-    .user-name { font-size: 14px; font-weight: 600; color: #f8fafc; }
-    .user-role-badge { font-size: 11px; background: #854d0e; color: #fef08a; padding: 2px 7px; border-radius: 10px; font-weight: 700; }
-    .dots-btn { background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; padding: 0 4px; line-height: 1; }
-    .dots-btn:hover { color: #fff; }
-
-    .dropdown { display: none; position: absolute; right: 28px; top: 65px; width: 220px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.6); z-index: 200; }
-    .dropdown.show { display: block; }
-    .dropdown a, .dropdown button { display: block; width: 100%; text-align: left; padding: 10px 12px; font-size: 13px; color: #cbd5e1; text-decoration: none; background: none; border: none; border-radius: 4px; cursor: pointer; }
-    .dropdown a:hover, .dropdown button:hover { background: #334155; color: #fff; }
-    .admin-action { color: #facc15 !important; font-weight: 700; border-bottom: 1px solid #334155; margin-bottom: 4px; }
-    .btn-logout { color: #f87171 !important; border-top: 1px solid #334155; margin-top: 4px; }
-
-    /* Hero */
-    .hero { text-align: center; padding: 75px 20px 45px; max-width: 900px; margin: 0 auto; }
-    .badge-tag { display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 18px; }
-    .hero h1 { font-size: 40px; font-weight: 800; line-height: 1.25; margin-bottom: 16px; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .hero p { font-size: 16px; color: #94a3b8; line-height: 1.6; margin-bottom: 28px; }
-    .hero-buttons { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
-    .btn-primary { background: #0284c7; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 15px; }
+    /* Hero Alanı */
+    .hero { text-align: center; padding: 80px 20px 50px; max-width: 900px; margin: 0 auto; }
+    .badge-tag { display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+    .hero h1 { font-size: 42px; font-weight: 800; line-height: 1.25; margin-bottom: 18px; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 16px; color: #94a3b8; line-height: 1.6; margin-bottom: 30px; }
+    .hero-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .btn-primary { background: #0284c7; color: #fff; text-decoration: none; padding: 12px 26px; border-radius: 8px; font-weight: 600; font-size: 15px; transition: 0.2s; }
     .btn-primary:hover { background: #0369a1; }
-    .btn-secondary { background: #1e293b; border: 1px solid #334155; color: #f8fafc; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 15px; }
+    .btn-secondary { background: #1e293b; border: 1px solid #334155; color: #f8fafc; text-decoration: none; padding: 12px 26px; border-radius: 8px; font-weight: 600; font-size: 15px; transition: 0.2s; }
+    .btn-secondary:hover { background: #334155; }
 
-    /* Sections */
+    /* Bölüm Genel */
     .section { max-width: 1100px; margin: 50px auto; padding: 0 20px; width: 100%; }
-    .section-title { font-size: 24px; font-weight: 700; color: #f8fafc; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-    .section-desc { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
+    .section-title { font-size: 26px; font-weight: 700; color: #f8fafc; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .section-desc { color: #94a3b8; font-size: 15px; margin-bottom: 28px; }
 
-    /* Fotoğraf Galerisi */
-    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
-    .photo-card { background: #111e38; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; transition: 0.2s; }
-    .photo-card:hover { transform: translateY(-4px); border-color: #38bdf8; }
-    .photo-placeholder { height: 170px; background: linear-gradient(135deg, #1e293b, #0f172a); display: flex; align-items: center; justify-content: center; font-size: 40px; color: #38bdf8; }
-    .photo-info { padding: 16px; }
-    .photo-info h4 { font-size: 15px; margin-bottom: 4px; color: #f8fafc; }
-    .photo-info p { font-size: 13px; color: #94a3b8; }
+    /* Etkinlikler & Fotoğraf Galerisi */
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
+    .photo-card { background: #111e38; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; transition: 0.3s; }
+    .photo-card:hover { transform: translateY(-5px); border-color: #38bdf8; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+    .photo-box { height: 190px; background: #1e293b; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-placeholder-icon { font-size: 44px; color: #38bdf8; }
+    .photo-info { padding: 18px; }
+    .photo-info h4 { font-size: 17px; margin-bottom: 6px; color: #f8fafc; }
+    .photo-info p { font-size: 13.5px; color: #94a3b8; line-height: 1.5; }
+    .photo-date { display: inline-block; font-size: 12px; color: #38bdf8; margin-top: 8px; font-weight: 600; }
 
-    /* Fehim AI Asistanı Kartı */
-    .fehim-card { background: linear-gradient(135deg, #111e38, #1e293b); border: 1px solid #38bdf8; border-radius: 16px; padding: 28px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
-    .fehim-avatar { width: 70px; height: 70px; border-radius: 50%; background: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); flex-shrink: 0; }
-    .fehim-text { flex: 1; min-width: 260px; }
-    .fehim-text h3 { color: #38bdf8; font-size: 20px; margin-bottom: 6px; }
-    .fehim-text p { color: #cbd5e1; font-size: 14px; line-height: 1.5; margin-bottom: 14px; }
-    .fehim-input-group { display: flex; gap: 8px; max-width: 500px; }
-    .fehim-inp { flex: 1; padding: 10px 14px; background: #0b1329; border: 1px solid #334155; border-radius: 6px; color: #fff; font-size: 14px; outline: none; }
-    .fehim-inp:focus { border-color: #38bdf8; }
-    .fehim-btn { background: #0284c7; color: #fff; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; }
-    .fehim-response { margin-top: 12px; font-size: 13px; color: #38bdf8; display: none; }
+    /* Fehim Yapay Zekâ Asistanı */
+    .fehim-card { background: linear-gradient(135deg, #111e38, #1e293b); border: 1px solid #38bdf8; border-radius: 16px; padding: 32px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1); }
+    .fehim-avatar { width: 75px; height: 75px; border-radius: 50%; background: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 34px; box-shadow: 0 0 25px rgba(56, 189, 248, 0.5); flex-shrink: 0; }
+    .fehim-content { flex: 1; min-width: 280px; }
+    .fehim-content h3 { color: #38bdf8; font-size: 21px; margin-bottom: 6px; }
+    .fehim-content p { color: #cbd5e1; font-size: 14.5px; line-height: 1.5; margin-bottom: 16px; }
+    .fehim-input-group { display: flex; gap: 10px; max-width: 520px; }
+    .fehim-input { flex: 1; padding: 12px 16px; background: #0b1329; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
+    .fehim-input:focus { border-color: #38bdf8; }
+    .fehim-btn { background: #0284c7; color: #fff; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s; }
+    .fehim-btn:hover { background: #0369a1; }
+    .fehim-box-response { margin-top: 14px; padding: 14px; background: rgba(15, 23, 42, 0.8); border-left: 3px solid #38bdf8; border-radius: 6px; font-size: 14px; color: #e2e8f0; display: none; }
 
     /* Yönetim Kurulu Kadrosu */
-    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
-    .team-card { background: #111e38; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; text-align: center; }
-    .team-avatar { width: 64px; height: 64px; border-radius: 50%; background: #1e293b; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; border: 2px solid #38bdf8; }
-    .team-card h4 { font-size: 16px; color: #f8fafc; margin-bottom: 4px; }
-    .team-card .role { font-size: 12px; color: #38bdf8; font-weight: 600; text-transform: uppercase; margin-bottom: 6px; }
-    .team-card p { font-size: 12px; color: #94a3b8; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .team-card { background: #111e38; border: 1px solid #1e293b; border-radius: 12px; padding: 24px; text-align: center; transition: 0.2s; }
+    .team-card:hover { border-color: #38bdf8; transform: translateY(-4px); }
+    .team-avatar { width: 70px; height: 70px; border-radius: 50%; background: #1e293b; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; border: 2px solid #38bdf8; color: #38bdf8; }
+    .team-card h4 { font-size: 17px; color: #f8fafc; margin-bottom: 4px; }
+    .team-card .role { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 8px; }
+    .team-card p { font-size: 13px; color: #94a3b8; line-height: 1.4; }
 
     /* Footer */
-    footer { margin-top: auto; background: #080d1c; border-top: 1px solid #1e293b; padding: 24px; text-align: center; font-size: 13px; color: #64748b; }
-
-    /* Yönetici Puan Modalı */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
-    .modal-overlay.open { display: flex; }
-    .modal-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; width: 100%; max-width: 650px; max-height: 85vh; display: flex; flex-direction: column; }
-    .modal-header { padding: 16px 20px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
-    .modal-header h3 { color: #facc15; font-size: 18px; }
-    .modal-close { background: none; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; }
-    .modal-body { padding: 16px 20px; overflow-y: auto; }
-    .score-table { width: 100%; border-collapse: collapse; }
-    .score-table th, .score-table td { padding: 10px; text-align: left; border-bottom: 1px solid #334155; font-size: 13px; }
-    .score-table th { color: #94a3b8; text-transform: uppercase; font-size: 11px; }
-    .score-inp { width: 60px; padding: 5px; background: #0f172a; border: 1px solid #475569; border-radius: 4px; color: #fff; text-align: center; }
-    .btn-mod { border: none; padding: 5px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; }
-    .btn-add { background: #0284c7; color: #fff; }
-    .btn-sub { background: #475569; color: #fff; }
+    footer { margin-top: auto; background: #080d1c; border-top: 1px solid #1e293b; padding: 30px 20px; text-align: center; font-size: 13.5px; color: #64748b; }
+    footer a { color: #38bdf8; text-decoration: none; }
   </style>
-
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
-  <!-- Üst Bar -->
+  <!-- Navbar -->
   <header class="navbar">
     <a href="index.html" class="brand">
       <span>🎓</span> DEÜ Özel Eğitim Topluluğu
@@ -109,50 +84,60 @@
       <a href="#etkinlikler" class="nav-item">Fotoğraflar</a>
       <a href="#fehim" class="nav-item">Fehim AI</a>
       <a href="#yonetim" class="nav-item">Yönetim</a>
-      <div id="navAuthArea"></div>
+      <a href="#iletisim" class="btn-join">Aramıza Katıl</a>
     </div>
   </header>
 
-  <!-- 3 Nokta Açılır Menüsü -->
-  <div id="userMenu" class="dropdown"></div>
-
-  <!-- Hero Karşılama -->
+  <!-- Hero Tanıtım -->
   <section class="hero">
     <div class="badge-tag">Dokuz Eylül Üniversitesi</div>
     <h1>Özel Eğitim Topluluğu Portalı</h1>
-    <p>Farkındalık yaratan projelerimiz, saha atölyelerimiz ve etkinliklerimizle bir aradayız. Görevleri tamamlayarak puan kazanın ve topluluk sıralamasında yerinizi alın.</p>
+    <p>Engelleri birlikte aşıyor, farkındalık yaratan saha projeleri ve atölyelerle eğitimde eşitliği destekliyoruz. Topluluğumuzun geçmiş etkinliklerine göz atabilir, projelerimize dahil olabilirsiniz.</p>
     <div class="hero-buttons">
-      <a href="siralama.html" class="btn-primary">🏆 Sıralamayı Gör</a>
-      <a href="giris.html" class="btn-secondary" id="heroAuthBtn">Üye Girişi / Kayıt</a>
+      <a href="#etkinlikler" class="btn-primary">Etkinlikleri Keşfet</a>
+      <a href="#fehim" class="btn-secondary">Fehim'e Soru Sor</a>
     </div>
   </section>
 
-  <!-- Fotoğraflar & Etkinlikler -->
+  <!-- Fotoğraf Galerisi & Etkinlikler -->
   <section class="section" id="etkinlikler">
     <div class="section-title">📸 Etkinliklerimizden Kareler</div>
-    <div class="section-desc">Özel eğitim öğrencileri ve topluluk üyelerimizle gerçekleştirdiğimiz son buluşmalar.</div>
+    <div class="section-desc">Kampüste ve sahada özel gereksinimli bireylerle gerçekleştirdiğimiz güncel çalışmalarımız.</div>
     <div class="gallery-grid">
+      
       <div class="photo-card">
-        <div class="photo-placeholder">🎨</div>
+        <div class="photo-box">
+          <i class="fa-solid fa-palette photo-placeholder-icon"></i>
+        </div>
         <div class="photo-info">
-          <h4>Duyusal Sanat Atölyesi</h4>
-          <p>Özel gereksinimli bireylerle renk ve doku çalışması.</p>
+          <h4>Duyusal Sanat ve Renk Atölyesi</h4>
+          <p>Özel eğitim sınıflarındaki öğrencilerle dokunsal ve görsel duyuları geliştiren boyama etkinliği gerçekleştirdik.</p>
+          <span class="photo-date">Buca Eğitim Fakültesi</span>
         </div>
       </div>
+
       <div class="photo-card">
-        <div class="photo-placeholder">🎭</div>
+        <div class="photo-box">
+          <i class="fa-solid fa-masks-theater photo-placeholder-icon"></i>
+        </div>
         <div class="photo-info">
-          <h4>Farkındalık Tiyatrosu</h4>
-          <p>Kampüs içi empati ve kaynaştırma sahne gösterisi.</p>
+          <h4>Farkındalık ve Empati Sahnesi</h4>
+          <p>Üniversite genelinde özel eğitime yönelik kapsayıcı tutumları güçlendiren drama ve sahne performansı.</p>
+          <span class="photo-date">DEÜ Konferans Salonu</span>
         </div>
       </div>
+
       <div class="photo-card">
-        <div class="photo-placeholder">⚽</div>
+        <div class="photo-box">
+          <i class="fa-solid fa-futbol photo-placeholder-icon"></i>
+        </div>
         <div class="photo-info">
-          <h4>Birlikte Spor Günü</h4>
-          <p>Tınaztepe kampüsünde uyarlanmış beden eğitimi etkinlikleri.</p>
+          <h4>Birlikte Hareket: Uyumlu Spor Günü</h4>
+          <p>Beden eğitimi ve spor aktivitelerini herkes için erişilebilir kılarak kaynaşmayı destekledik.</p>
+          <span class="photo-date">Tınaztepe Yerleşkesi</span>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -160,14 +145,14 @@
   <section class="section" id="fehim">
     <div class="fehim-card">
       <div class="fehim-avatar">🤖</div>
-      <div class="fehim-text">
-        <h3>Fehim: Topluluk Yapay Zekâ Asistanı</h3>
-        <p>Topluluk etkinlikleri, başvuru süreçleri veya özel eğitim materyalleri hakkında merak ettiğin soruyu Fehim'e sorabilirsin.</p>
+      <div class="fehim-content">
+        <h3>Fehim: Topluluk Yapay Zekâ Danışmanı</h3>
+        <p>Topluluk üyelikleri, aktif projelerimiz veya özel eğitim alanındaki temel kavramlar hakkında merak ettiğin her şeyi Fehim'e sorabilirsin.</p>
         <div class="fehim-input-group">
-          <input type="text" id="fehimInput" class="fehim-inp" placeholder="Fehim'e bir soru sor...">
-          <button class="fehim-btn" onclick="askFehim()">Gönder</button>
+          <input type="text" id="fehimInput" class="fehim-input" placeholder="Örn: Topluluğa nasıl katılabilirim?">
+          <button class="fehim-btn" onclick="askFehim()">Fehim'e Sor</button>
         </div>
-        <div id="fehimResponse" class="fehim-response"></div>
+        <div id="fehimResponse" class="fehim-box-response"></div>
       </div>
     </div>
   </section>
@@ -175,174 +160,70 @@
   <!-- Yönetim Ekibi -->
   <section class="section" id="yonetim">
     <div class="section-title">👥 Yönetim Kurulu</div>
-    <div class="section-desc">DEÜ Özel Eğitim Topluluğu'na yön veren liderlerimiz ve koordinatörlerimiz.</div>
+    <div class="section-desc">Topluluğumuzun vizyonunu sahaya taşıyan yönetim kadromuz.</div>
     <div class="team-grid">
+      
       <div class="team-card">
-        <div class="team-avatar">👑</div>
+        <div class="team-avatar"><i class="fa-solid fa-user-tie"></i></div>
         <h4>Muhammed Emin Uyanık</h4>
         <div class="role">Topluluk Başkanı</div>
-        <p>Genel koordinasyon, resmi ilişkiler ve proje yönetimi.</p>
+        <p>Genel koordinasyon, resmi temsil ve topluluk vizyonunun yürütülmesi.</p>
       </div>
+
       <div class="team-card">
-        <div class="team-avatar">📋</div>
-        <h4>Yönetim Ekibi</h4>
-        <div class="role">Organizasyon & Etkinlik</div>
-        <p>Saha atölyeleri, seminerler ve üye koordinasyonu.</p>
+        <div class="team-avatar"><i class="fa-solid fa-calendar-check"></i></div>
+        <h4>Etkinlik & Saha Ekibi</h4>
+        <div class="role">Organizasyon Koordinatörlüğü</div>
+        <p>Okul ziyaretleri, atölye planlamaları ve gönüllü yönlendirmeleri.</p>
       </div>
+
       <div class="team-card">
-        <div class="team-avatar">💻</div>
-        <h4>Yazılım & Medya</h4>
-        <div class="role">Teknik Koordinasyon</div>
-        <p>Portal geliştirme, puanlama altyapısı ve sosyal medya.</p>
+        <div class="team-avatar"><i class="fa-solid fa-code"></i></div>
+        <h4>Medya & Bilişim</h4>
+        <div class="role">Teknik Koordinatörlük</div>
+        <p>Web portalı yönetimi, dijital içerikler ve topluluk arşivi.</p>
       </div>
+
     </div>
   </section>
 
-  <!-- Yönetici Puan Modalı -->
-  <div id="scoreModal" class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3>⚡ Üye Puanlarını Güncelle</h3>
-        <button class="modal-close" onclick="closeScoreModal()">&times;</button>
-      </div>
-      <div class="modal-body">
-        <table class="score-table">
-          <thead>
-            <tr>
-              <th>Üye Adı</th>
-              <th>Mevcut Puan</th>
-              <th>Puan Değiştir</th>
-            </tr>
-          </thead>
-          <tbody id="modalUserList"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  <!-- İletişim / Katılım -->
+  <section class="section" id="iletisim" style="text-align: center; margin-bottom: 70px;">
+    <div class="section-title" style="justify-content: center;">📬 Bize Ulaşın</div>
+    <p style="color: #94a3b8; max-width: 600px; margin: 0 auto 20px;">Topluluk etkinliklerine gönüllü olarak katılmak veya ortak proje geliştirmek için bizimle iletişime geçebilirsiniz.</p>
+    <a href="https://instagram.com" target="_blank" class="btn-primary" style="display: inline-block;">Topluluk Duyuru Grupları & Sosyal Medya</a>
+  </section>
 
+  <!-- Alt Bilgi -->
   <footer>
     Dokuz Eylül Üniversitesi Özel Eğitim Topluluğu © 2026 • Tüm Hakları Saklıdır.
   </footer>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDBuhOWynw0fbuEP1EKSXHCWetRtqlR474",
-      authDomain: "deu-ozel-egitim.firebaseapp.com",
-      databaseURL: "https://deu-ozel-egitim-default-rtdb.firebaseio.com",
-      projectId: "deu-ozel-egitim",
-      storageBucket: "deu-ozel-egitim.firebasestorage.app",
-      messagingSenderId: "463233621727",
-      appId: "1:463233621727:web:4fcbfac218469b1e0e136a"
-    };
+    function askFehim() {
+      const input = document.getElementById("fehimInput");
+      const resBox = document.getElementById("fehimResponse");
+      const question = input.value.trim().toLowerCase();
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    function setupNav() {
-      const navAuth = document.getElementById("navAuthArea");
-      const userMenu = document.getElementById("userMenu");
-      const heroBtn = document.getElementById("heroAuthBtn");
-      const userStr = localStorage.getItem("deu_user");
-
-      if (!userStr) {
-        navAuth.innerHTML = `<a href="giris.html" class="btn-login">Giriş Yap</a>`;
+      if (!question) {
+        alert("Lütfen bir soru yazın.");
         return;
       }
 
-      const user = JSON.parse(userStr);
-      const isAdmin = (user.role === "admin" || user.username === "admin");
+      resBox.style.display = "block";
 
-      if (heroBtn) {
-        heroBtn.style.display = "none";
+      if (question.includes("katıl") || question.includes("üye") || question.includes("başvuru")) {
+        resBox.innerHTML = "<strong>Fehim:</strong> DEÜ Özel Eğitim Topluluğu'na katılmak için dönem başındaki stantlarımıza uğrayabilir veya sayfanın altındaki katılım butonundan duyuru gruplarımıza dahil olabilirsin!";
+      } else if (question.includes("başkan") || question.includes("emin") || question.includes("yönetim")) {
+        resBox.innerHTML = "<strong>Fehim:</strong> Topluluk başkanımız Muhammed Emin Uyanık'tır. Yönetim ekibimizle birlikte yıl boyunca sahada özel eğitim atölyeleri düzenlemekteyiz.";
+      } else if (question.includes("etkinlik") || question.includes("atölye")) {
+        resBox.innerHTML = "<strong>Fehim:</strong> Duyusal sanat atölyeleri, farkındalık tiyatrosu ve uyarlanmış spor günleri gibi düzenli saha etkinlikleri yapıyoruz. Fotoğraflar bölümünden kareleri inceleyebilirsin.";
+      } else {
+        resBox.innerHTML = "<strong>Fehim:</strong> Merhaba! Ben DEÜ Özel Eğitim Topluluğu asistanıyım. Etkinliklerimiz, yönetim kurulumuz veya topluluğa nasıl dahil olabileceğin hakkında her zaman danışabilirsin.";
       }
 
-      navAuth.innerHTML = `
-        <div class="user-pill">
-          <span class="user-name">${user.name || user.username}</span>
-          ${isAdmin ? '<span class="user-role-badge">YÖNETİCİ</span>' : ''}
-          <button class="dots-btn" onclick="toggleMenu(event)">⋮</button>
-        </div>
-      `;
-
-      userMenu.innerHTML = `
-        <a href="siralama.html">🏆 Sıralama</a>
-        ${isAdmin ? '<button class="admin-action" onclick="openScoreModal()">⚡ Puan Ekle / Çıkart</button>' : ''}
-        <button class="btn-logout" onclick="logout()">Çıkış Yap</button>
-      `;
+      input.value = "";
     }
-
-    function toggleMenu(e) {
-      e.stopPropagation();
-      document.getElementById("userMenu").classList.toggle("show");
-    }
-
-    window.addEventListener("click", () => {
-      const m = document.getElementById("userMenu");
-      if (m) m.classList.remove("show");
-    });
-
-    function logout() {
-      localStorage.removeItem("deu_user");
-      window.location.reload();
-    }
-
-    // Fehim AI Cevap Sistemi
-    function askFehim() {
-      const q = document.getElementById("fehimInput").value.trim();
-      const res = document.getElementById("fehimResponse");
-      if (!q) return;
-
-      res.style.display = "block";
-      res.textContent = "Fehim yanıtlıyor: Merhaba! Topluluğumuz özel eğitim farkındalığı yaratmak için düzenli buluşmalar organize etmektedir. Sıralamadaki yerini almak için etkinliklerimize katılmayı unutma!";
-    }
-
-    // Yönetici Puan Modalı
-    function openScoreModal() {
-      document.getElementById("scoreModal").classList.add("open");
-      loadUsers();
-    }
-
-    function closeScoreModal() {
-      document.getElementById("scoreModal").classList.remove("open");
-    }
-
-    function loadUsers() {
-      db.ref("users").on("value", (snap) => {
-        const tbody = document.getElementById("modalUserList");
-        tbody.innerHTML = "";
-
-        snap.forEach((child) => {
-          const u = child.val();
-          const uname = child.key;
-          const score = u.score || 0;
-
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td><strong>${u.name || uname}</strong><br><small style="color:#64748b">@${uname}</small></td>
-            <td style="color:#38bdf8; font-weight:bold;">${score} P</td>
-            <td>
-              <div style="display:flex; gap:6px; align-items:center;">
-                <input type="number" id="inp_${uname}" class="score-inp" value="10">
-                <button class="btn-mod btn-add" onclick="modifyPoint('${uname}', ${score}, true)">+ Ekle</button>
-                <button class="btn-mod btn-sub" onclick="modifyPoint('${uname}', ${score}, false)">- Düş</button>
-              </div>
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
-      });
-    }
-
-    function modifyPoint(username, currentScore, isAdd) {
-      const inp = document.getElementById("mod_" + username);
-      const val = parseInt(inp.value, 10);
-      if (isNaN(val) || val <= 0) return alert("Geçerli bir sayı girin.");
-
-      const newScore = isAdd ? (currentScore + val) : (currentScore - val);
-      db.ref("users/" + username).update({ score: newScore });
-    }
-
-    document.addEventListener("DOMContentLoaded", setupNav);
   </script>
 </body>
 </html>
