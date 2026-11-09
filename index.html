@@ -37,7 +37,13 @@
             text-decoration: none;
         }
 
-        /* Yönetici Puan Modal Penceresi */
+        .drawer-link.highlight {
+            color: var(--primary, #0284c7) !important;
+            font-weight: 800 !important;
+            background: rgba(2, 132, 199, 0.1) !important;
+            border-radius: 8px;
+        }
+
         .admin-modal-overlay {
             display: none;
             position: fixed;
@@ -99,8 +105,8 @@
 </head>
 <body>
 
-    <!-- SİNEMATİK GİRİŞ AÇILIŞ EKRANI -->
-    <div id="preloader">
+    <!-- SADECE İLK AÇILIŞTA GÖRÜNEN PRELOADER -->
+    <div id="preloader" style="display:none;">
         <div class="intro-stage">
             <div class="intro-ring"></div>
             <img src="./logo.png" alt="DEÜ Logo" class="intro-logo">
@@ -123,13 +129,11 @@
                     <span>Giriş / Üye Ol</span>
                 </a>
 
-                <!-- KULLANICININ YANINDAKİ PUANI (SADECE KENDİ PUANI GÖRÜNÜR) -->
                 <a href="./siralama.html" class="nav-score-chip" id="navScoreChip" title="Puan Sıralamasına Git">
                     <i class="fa-solid fa-star fa-fade"></i>
                     <span id="navScoreValue">0 P</span>
                 </a>
 
-                <!-- Profil Butonu -->
                 <button class="user-avatar-btn" id="userAvatarBtn" onclick="openProfileSettings()" title="Profil Ayarları">
                     <i class="fa-solid fa-user" id="navAvatarIcon"></i>
                     <img id="navAvatarImg" style="display:none;" alt="Profil">
@@ -155,7 +159,6 @@
             <button class="drawer-close" id="drawerClose">&times;</button>
         </div>
 
-        <!-- Profil Kartı -->
         <div class="drawer-profile-card" id="drawerProfileBox" style="display:none;">
             <div class="drawer-profile-top">
                 <div class="drawer-profile-avatar" onclick="openProfileSettings()" title="Fotoğraf Yükle/Değiştir">
@@ -177,12 +180,10 @@
             </div>
         </div>
 
-        <div class="drawer-links">
+        <div class="drawer-links" id="drawerNavLinks">
             <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
-            <!-- 3 ÇİZGİ İÇİNDEKİ PUAN SIRALAMASI SEKME LİNKİ -->
-            <a href="./siralama.html" class="drawer-link highlight" style="color:var(--primary); font-weight:800;"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
+            <a href="./siralama.html" class="drawer-link"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
             
-            <!-- SADECE YÖNETİCİYE GÖRÜNEN PUAN YÖNETİMİ BUTONU -->
             <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:800;" onclick="openAdminModal()">
                 <i class="fa-solid fa-bolt"></i> Puan Yönetimi (Yönetici)
             </a>
@@ -487,15 +488,33 @@
         </button>
     </div>
 
-    <!-- JAVASCRIPT: PROFİL KONTROLÜ, SAYAÇ & YÖNETİCİ PUANLAMA -->
+    <!-- JAVASCRIPT: AKTİF LİNK, KALICI PROFİL, PRELOADER KONTROLÜ -->
     <script>
-        window.addEventListener('load', () => {
+        // Sadece ilk açılışta preloader göster, geçişlerde çalıştırma
+        if (!sessionStorage.getItem('site_visited')) {
             const preloader = document.getElementById('preloader');
-            setTimeout(() => {
-                preloader.classList.add('fade-out');
-                setTimeout(() => preloader.style.display = 'none', 700);
-            }, 1800);
-        });
+            if (preloader) {
+                preloader.style.display = 'flex';
+                setTimeout(() => {
+                    preloader.classList.add('fade-out');
+                    setTimeout(() => preloader.style.display = 'none', 600);
+                }, 1500);
+            }
+            sessionStorage.setItem('site_visited', 'true');
+        }
+
+        // Menüdeki aktif linki (mavi olanı) bulunulan sayfaya göre dinamik yakalama
+        (function setActiveMenuLink() {
+            const path = window.location.pathname.split("/").pop() || "index.html";
+            const links = document.querySelectorAll("#drawerNavLinks .drawer-link");
+            links.forEach(l => {
+                l.classList.remove("highlight");
+                const href = l.getAttribute("href");
+                if (href && (href === `./${path}` || href === path || (path === "" && href.includes("index.html")))) {
+                    l.classList.add("highlight");
+                }
+            });
+        })();
 
         // Çekmece Menü
         const toggleBtn = document.getElementById('menuToggle');
@@ -533,7 +552,7 @@
             });
         }
 
-        // KULLANICI GİRİŞ DURUMU (localStorage İLE SAYFALAR ARASI KALICI)
+        // KULLANICI GİRİŞ DURUMU
         function checkUserAuth() {
             const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
             const navAuthBtn = document.getElementById('navAuthBtn');
@@ -551,7 +570,6 @@
                 if (adminMenuItem) adminMenuItem.style.display = 'none';
                 if (drawerRegisterLink) drawerRegisterLink.style.display = 'flex';
             } else {
-                // Bilgiyi iki depoya da sabitle
                 localStorage.setItem('active_session', JSON.stringify(session));
 
                 if (navAuthBtn) navAuthBtn.style.display = 'none';
@@ -560,14 +578,12 @@
                 if (drawerRegisterLink) drawerRegisterLink.style.display = 'none';
 
                 if (session.role === 'admin' || session.username === 'admin') {
-                    // YÖNETİCİ
                     if (navScoreChip) navScoreChip.style.display = 'none';
                     if (adminMenuItem) adminMenuItem.style.display = 'block';
                     document.getElementById('drawerUserName').innerText = "Yönetici";
                     document.getElementById('drawerUserDept').innerText = "Sistem Kontrol";
                     document.getElementById('drawerScoreContainer').style.display = 'none';
                 } else {
-                    // NORMAL ÖĞRENCİ
                     if (adminMenuItem) adminMenuItem.style.display = 'none';
                     const users = JSON.parse(localStorage.getItem('deu_members') || '[]');
                     const me = users.find(u => u.username === session.username);
@@ -612,7 +628,7 @@
             const prevImg = document.getElementById('previewImg');
             const prevIcon = document.getElementById('previewIcon');
 
-            [navImg, drawerImg, prevImg].forEach(img => { if (img) { img.style.display = 'none'; } });
+            [navImg, drawerImg, prevImg].forEach(img => { if (img) { img.src = base64Url; img.style.display = 'none'; } });
             [navIcon, drawerIcon, prevIcon].forEach(icon => { if (icon) { icon.style.display = 'block'; } });
         }
 
