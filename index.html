@@ -216,34 +216,33 @@
                 <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> <span data-tr="Çıkış" data-en="Logout">Çıkış</span></button>
             </div>
         </div>
-
-        <div class="drawer-links" id="drawerNavLinks">
-            <a href="./index.html" class="drawer-link active-link highlight"><i class="fa-solid fa-house"></i> <span data-tr="Ana Sayfa" data-en="Home">Ana Sayfa</span></a>
-            <a href="./siralama.html" class="drawer-link"><i class="fa-solid fa-ranking-star"></i> <span data-tr="Puan Sıralaması" data-en="Leaderboard">Puan Sıralaması</span></a>
+<div class="drawer-links" id="drawerNavLinks">
+            <a href="./index.html" class="drawer-link active-link highlight" data-tr="Ana Sayfa" data-en="Home"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+            <a href="./siralama.html" class="drawer-link" data-tr="Puan Sıralaması" data-en="Leaderboard"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
             
-            <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:800;" onclick="openAdminModal()">
-                <i class="fa-solid fa-bolt"></i> <span data-tr="Puan Yönetimi (Yönetici)" data-en="Points Management (Admin)">Puan Yönetimi (Yönetici)</span>
+            <!-- SADECE YÖNETİCİYE GÖRÜNEN BUTON -->
+            <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:800;" onclick="openAdminModal()" data-tr="Puan Yönetimi (Yönetici)" data-en="Points Management (Admin)">
+                <i class="fa-solid fa-bolt"></i> Puan Yönetimi (Yönetici)
             </a>
 
-            <a href="./duyurular.html" class="drawer-link"><i class="fa-solid fa-bullhorn"></i> <span data-tr="Duyurular" data-en="Announcements">Duyurular</span></a>
-            <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> <span data-tr="Hakkımızda" data-en="About Us">Hakkımızda</span></a>
-            <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> <span data-tr="Faaliyetlerimiz" data-en="Activities">Faaliyetlerimiz</span></a>
-            <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> <span data-tr="Etkinlikler" data-en="Events">Etkinlikler</span></a>
-            <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> <span data-tr="Ekibimiz" data-en="Our Team">Ekibimiz</span></a>
-            <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> <span data-tr="Dökümanlar & Kaynaklar" data-en="Documents & Resources">Dökümanlar & Kaynaklar</span></a>
-            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> <span data-tr="Sıkça Sorulan Sorular" data-en="FAQ">Sıkça Sorulan Sorular</span></a>
+            <a href="./duyurular.html" class="drawer-link" data-tr="Duyurular" data-en="Announcements"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
+            <a href="./hakkimizda.html" class="drawer-link" data-tr="Hakkımızda" data-en="About Us"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
+            <a href="./faaliyetler.html" class="drawer-link" data-tr="Faaliyetlerimiz" data-en="Activities"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
+            <a href="./etkinlikler.html" class="drawer-link" data-tr="Etkinlikler" data-en="Events"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
+            <a href="./ekip.html" class="drawer-link" data-tr="Ekibimiz" data-en="Our Team"><i class="fa-solid fa-users"></i> Ekibimiz</a>
+            <a href="./dokumanlar.html" class="drawer-link" data-tr="Dökümanlar & Kaynaklar" data-en="Documents & Resources"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
+            <a href="./sss.html" class="drawer-link" data-tr="Sıkça Sorulan Sorular" data-en="FAQ"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
             
-            <a href="#basvuru" class="drawer-link drawer-btn-apply" id="drawerRegisterLink">
-                <i class="fa-solid fa-user-plus"></i> <span data-tr="Aramıza Katıl" data-en="Join Us">Aramıza Katıl</span>
+            <a href="#basvuru" class="drawer-link drawer-btn-apply" id="drawerRegisterLink" data-tr="Aramıza Katıl" data-en="Join Us">
+                <i class="fa-solid fa-user-plus"></i> Aramıza Katıl
             </a>
-            <a href="#" target="_blank" class="drawer-link drawer-btn-wa">
-                <i class="fa-brands fa-whatsapp"></i> <span data-tr="WhatsApp Kanalı" data-en="WhatsApp Channel">WhatsApp Kanalı</span>
+            <a href="#" target="_blank" class="drawer-link drawer-btn-wa" data-tr="WhatsApp Kanalı" data-en="WhatsApp Channel">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı
             </a>
-            <a href="javascript:void(0)" id="drawerLogoutLink" class="drawer-link" style="display:none; color:#f87171; font-weight:700;" onclick="userLogout()">
-                <i class="fa-solid fa-right-from-bracket"></i> <span data-tr="Çıkış Yap" data-en="Logout">Çıkış Yap</span>
+            <a href="javascript:void(0)" id="drawerLogoutLink" class="drawer-link" style="display:none; color:#f87171; font-weight:700;" onclick="userLogout()" data-tr="Çıkış Yap" data-en="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
             </a>
         </div>
-    </div>
 
     <!-- HERO KARŞILAMA -->
     <section class="hero">
