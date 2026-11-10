@@ -1,24 +1,35 @@
-// Ortak Dil Yönetimi
 function applySiteLang(lang) {
-    // data-tr ve data-en etiketine sahip tüm öğeleri güncelle
     const elements = document.querySelectorAll('[data-tr][data-en]');
     elements.forEach(el => {
-        const val = el.getAttribute(`data-${lang}`);
-        if (val) {
-            el.innerHTML = val;
+        const text = el.getAttribute(`data-${lang}`);
+        if (!text) return;
+
+        // Eğer içinde ikon varsa sadece yazı kısmını güncelle, ikonu koru
+        const icon = el.querySelector('i');
+        if (icon) {
+            el.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+                    node.textContent = ' ' + text;
+                }
+            });
+        } else {
+            el.innerHTML = text;
         }
     });
 
-    // Sayfa başlığını güncelle (Varsa)
     const titleEl = document.querySelector('title');
     if (titleEl && titleEl.getAttribute(`data-${lang}`)) {
         document.title = titleEl.getAttribute(`data-${lang}`);
     }
 
-    // Buton metnini güncelle (Varsa)
-    const btnText = document.getElementById('langBtnText');
-    if (btnText) {
-        btnText.innerText = (lang === 'tr') ? 'EN' : 'TR';
+    const btnTexts = document.querySelectorAll('.lang-btn-text, #langBtnText');
+    btnTexts.forEach(btn => {
+        btn.innerText = (lang === 'tr') ? 'EN' : 'TR';
+    });
+
+    const inpChat = document.getElementById('chatInput');
+    if (inpChat) {
+        inpChat.placeholder = (lang === 'en') ? "Ask Fehim a question..." : "Fehim'e bir soru sor...";
     }
 
     document.documentElement.lang = lang;
@@ -31,7 +42,6 @@ window.toggleSiteLang = function() {
     applySiteLang(next);
 };
 
-// Sayfa ilk yüklendiğinde hafızadaki dili uygula
 document.addEventListener('DOMContentLoaded', () => {
     const savedLang = localStorage.getItem('site_lang') || 'tr';
     if (savedLang === 'en') {
