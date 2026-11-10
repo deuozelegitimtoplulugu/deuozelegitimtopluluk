@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Puan Sıralaması - DEÜ Özel Eğitim Topluluğu</title>
+    <title data-tr="Puan Sıralaması - DEÜ Özel Eğitim Topluluğu" data-en="Leaderboard - DEU Special Education Community">Puan Sıralaması - DEÜ Özel Eğitim Topluluğu</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230284c7'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.35em' font-family='sans-serif' font-size='32' font-weight='800' fill='%23ffffff'%3EDEÜ%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,6 +33,25 @@
             color: #fff;
             border: none;
             cursor: pointer;
+        }
+
+        .lang-switch-btn {
+            background: transparent;
+            border: 1px solid var(--border, #334155);
+            color: var(--text-main, #0f172a);
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+        .lang-switch-btn:hover {
+            border-color: #0284c7;
+            color: #0284c7;
         }
 
         .leaderboard-row {
@@ -159,17 +178,22 @@
         <div class="container nav-content">
             <a href="./index.html" class="logo">
                 <img src="./logo.png" alt="DEÜ Logo" class="nav-logo-img">
-                <span class="logo-text">DEÜ Özel Eğitim Topluluğu</span>
+                <span class="logo-text" data-tr="DEÜ Özel Eğitim Topluluğu" data-en="DEU Special Education Community">DEÜ Özel Eğitim Topluluğu</span>
             </a>
             <div class="nav-actions">
-                <!-- GİRİŞ YAPILINCA GİZLENİR -->
                 <a href="./giris.html" class="nav-auth-btn" id="navAuthBtn">
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i> <span>Giriş / Üye Ol</span>
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> <span data-tr="Giriş / Üye Ol" data-en="Login / Sign Up">Giriş / Üye Ol</span>
                 </a>
                 <button class="user-avatar-btn" id="userAvatarBtn" onclick="location.href='./index.html'" title="Profil">
                     <i class="fa-solid fa-user" id="navAvatarIcon"></i>
                     <img id="navAvatarImg" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" alt="Profil">
                 </button>
+
+                <!-- DİL BUTONU -->
+                <button class="lang-switch-btn" id="langSwitchBtn" onclick="toggleSiteLang()" title="Language / Dil">
+                    <i class="fa-solid fa-globe"></i> <span class="lang-btn-text">EN</span>
+                </button>
+
                 <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod"><i class="fa-solid fa-moon"></i></button>
                 <button class="menu-toggle" id="menuToggle" aria-label="Menü"><span></span><span></span><span></span></button>
             </div>
@@ -180,7 +204,7 @@
     <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-header">
-            <span class="drawer-title">MENÜ</span>
+            <span class="drawer-title" data-tr="MENÜ" data-en="MENU">MENÜ</span>
             <button class="drawer-close" id="drawerClose">&times;</button>
         </div>
 
@@ -196,30 +220,29 @@
                 </div>
             </div>
             <div class="drawer-profile-actions">
-                <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> Çıkış</button>
+                <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> <span data-tr="Çıkış" data-en="Logout">Çıkış</span></button>
             </div>
         </div>
 
         <div class="drawer-links" id="drawerNavLinks">
-            <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
-            <a href="./siralama.html" class="drawer-link active-link highlight"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
+            <a href="./index.html" class="drawer-link"><i class="fa-solid fa-house"></i> <span data-tr="Ana Sayfa" data-en="Home">Ana Sayfa</span></a>
+            <a href="./siralama.html" class="drawer-link active-link highlight"><i class="fa-solid fa-ranking-star"></i> <span data-tr="Puan Sıralaması" data-en="Leaderboard">Puan Sıralaması</span></a>
             
-            <!-- SADECE YÖNETİCİYE GÖRÜNEN BUTON -->
             <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:700;" onclick="openAdminModal()">
-                <i class="fa-solid fa-bolt"></i> Puan Yönetimi (Yönetici)
+                <i class="fa-solid fa-bolt"></i> <span data-tr="Puan Yönetimi (Yönetici)" data-en="Points Management (Admin)">Puan Yönetimi (Yönetici)</span>
             </a>
 
-            <a href="./duyurular.html" class="drawer-link"><i class="fa-solid fa-bullhorn"></i> Duyurular</a>
-            <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
-            <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> Faaliyetlerimiz</a>
-            <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> Etkinlikler</a>
-            <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> Ekibimiz</a>
-            <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> Dökümanlar & Kaynaklar</a>
-            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> Sıkça Sorulan Sorular</a>
-            <a href="./index.html#basvuru" class="drawer-link drawer-btn-apply"><i class="fa-solid fa-user-plus"></i> Aramıza Katıl</a>
-            <a href="#" target="_blank" class="drawer-link drawer-btn-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp Kanalı</a>
+            <a href="./duyurular.html" class="drawer-link"><i class="fa-solid fa-bullhorn"></i> <span data-tr="Duyurular" data-en="Announcements">Duyurular</span></a>
+            <a href="./hakkimizda.html" class="drawer-link"><i class="fa-solid fa-circle-info"></i> <span data-tr="Hakkımızda" data-en="About Us">Hakkımızda</span></a>
+            <a href="./faaliyetler.html" class="drawer-link"><i class="fa-solid fa-list-check"></i> <span data-tr="Faaliyetlerimiz" data-en="Activities">Faaliyetlerimiz</span></a>
+            <a href="./etkinlikler.html" class="drawer-link"><i class="fa-solid fa-calendar-days"></i> <span data-tr="Etkinlikler" data-en="Events">Etkinlikler</span></a>
+            <a href="./ekip.html" class="drawer-link"><i class="fa-solid fa-users"></i> <span data-tr="Ekibimiz" data-en="Our Team">Ekibimiz</span></a>
+            <a href="./dokumanlar.html" class="drawer-link"><i class="fa-solid fa-file-pdf"></i> <span data-tr="Dökümanlar & Kaynaklar" data-en="Documents & Resources">Dökümanlar & Kaynaklar</span></a>
+            <a href="./sss.html" class="drawer-link"><i class="fa-solid fa-circle-question"></i> <span data-tr="Sıkça Sorulan Sorular" data-en="FAQ">Sıkça Sorulan Sorular</span></a>
+            <a href="./index.html#basvuru" class="drawer-link drawer-btn-apply"><i class="fa-solid fa-user-plus"></i> <span data-tr="Aramıza Katıl" data-en="Join Us">Aramıza Katıl</span></a>
+            <a href="#" target="_blank" class="drawer-link drawer-btn-wa"><i class="fa-brands fa-whatsapp"></i> <span data-tr="WhatsApp Kanalı" data-en="WhatsApp Channel">WhatsApp Kanalı</span></a>
             <a href="javascript:void(0)" id="logoutLink" class="drawer-link" style="display:none; color:#f87171; font-weight:700;" onclick="userLogout()">
-                <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
+                <i class="fa-solid fa-right-from-bracket"></i> <span data-tr="Çıkış Yap" data-en="Logout">Çıkış Yap</span>
             </a>
         </div>
     </div>
@@ -227,16 +250,16 @@
     <!-- HERO -->
     <section class="hero" style="padding: 65px 0 60px;">
         <div class="container">
-            <span class="hero-tag"><i class="fa-solid fa-trophy"></i> Liderlik Tablosu</span>
-            <h1>Öğrenci Puan Sıralaması</h1>
-            <p>Topluluğumuzun zirvedeki ilk 3 öğrencisi ve kendi güncel başarı durumun.</p>
+            <span class="hero-tag"><i class="fa-solid fa-trophy"></i> <span data-tr="Liderlik Tablosu" data-en="Leaderboard">Liderlik Tablosu</span></span>
+            <h1 data-tr="Öğrenci Puan Sıralaması" data-en="Student Leaderboard">Öğrenci Puan Sıralaması</h1>
+            <p data-tr="Topluluğumuzun zirvedeki ilk 3 öğrencisi ve kendi güncel başarı durumun." data-en="Top 3 students of our community and your own current achievement status.">Topluluğumuzun zirvedeki ilk 3 öğrencisi ve kendi güncel başarı durumun.</p>
         </div>
     </section>
 
     <!-- SIRALAMA LİSTESİ ALANI -->
     <section class="container section">
         <div style="max-width: 800px; margin: 0 auto;">
-            <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);">🏆 Zirvedeki İlk 3 Öğrenci</h3>
+            <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 16px; color: var(--text-main);" data-tr="🏆 Zirvedeki İlk 3 Öğrenci" data-en="🏆 Top 3 Students">🏆 Zirvedeki İlk 3 Öğrenci</h3>
             
             <div id="topThreeList"></div>
 
@@ -249,7 +272,7 @@
     <div id="adminModal" class="admin-modal-overlay">
         <div class="admin-modal">
             <div class="admin-modal-header">
-                <h3 style="font-size:1.1rem; color:#facc15;"><i class="fa-solid fa-bolt"></i> Öğrenci Puanlarını Güncelle</h3>
+                <h3 style="font-size:1.1rem; color:#facc15;"><i class="fa-solid fa-bolt"></i> <span data-tr="Öğrenci Puanlarını Güncelle" data-en="Update Student Points">Öğrenci Puanlarını Güncelle</span></h3>
                 <button style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;" onclick="closeAdminModal()">&times;</button>
             </div>
             <div class="admin-modal-body" id="adminUserList"></div>
@@ -259,14 +282,13 @@
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container footer-bottom">
-            <p>© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
+            <p data-tr="© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır." data-en="© 2026 DEU Special Education Student Community. All rights reserved.">© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
         </div>
     </footer>
 
     <script>
         const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
         
-        // GİRİŞ/ÇIKIŞ DURUMUNU YÖNET
         if (session) {
             document.getElementById('navAuthBtn').style.display = 'none';
             document.getElementById('logoutLink').style.display = 'block';
@@ -294,7 +316,6 @@
             location.reload();
         }
 
-        // Firebase Bağlantısı
         const firebaseConfig = {
             apiKey: "AIzaSyDBuhOWynw0fbuEP1EKSXHCWetRtqlR474",
             authDomain: "deu-ozel-egitim.firebaseapp.com",
@@ -312,24 +333,23 @@
 
         let globalUsers = [];
 
-        // Tabloyu Ekrana Bas
         function renderLeaderboardDOM(users) {
             const topList = document.getElementById('topThreeList');
             const myBox = document.getElementById('myRankBox');
+            const isEn = (localStorage.getItem('site_lang') === 'en');
 
             if (!users || users.length === 0) {
-                topList.innerHTML = '<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">Henüz kayıtlı öğrenci bulunmuyor.</div>';
+                topList.innerHTML = `<div style="text-align:center; padding:35px; color:var(--text-muted); background:var(--card-bg); border-radius:14px; border:1px solid var(--border);">${isEn ? 'No registered students yet.' : 'Henüz kayıtlı öğrenci bulunmuyor.'}</div>`;
                 return;
             }
 
-            // Puana göre sırala (Büyükten küçüğe)
             users.sort((a, b) => Number(b.points) - Number(a.points));
 
-            // İlk 3 kişi
             const top3 = users.slice(0, 3);
             topList.innerHTML = top3.map((u, index) => {
                 let badgeClass = index === 0 ? 'rank-1' : (index === 1 ? 'rank-2' : 'rank-3');
                 let rankText = index === 0 ? '<i class="fa-solid fa-crown"></i> 1' : (index + 1);
+                let ptsText = isEn ? 'Points' : 'Puan';
 
                 return `
                     <div class="leaderboard-row">
@@ -340,34 +360,35 @@
                                 <span style="font-size:0.8rem; color:var(--text-muted);">${u.dept} • @${u.username}</span>
                             </div>
                         </div>
-                        <div class="score-pill-badge">${u.points} Puan</div>
+                        <div class="score-pill-badge">${u.points} ${ptsText}</div>
                     </div>
                 `;
             }).join('');
 
-            // Giriş yapan öğrencinin kendi derecesi
             if (session && session.role !== 'admin') {
                 const myIndex = users.findIndex(u => u.username === session.username);
                 if (myIndex !== -1) {
                     const me = users[myIndex];
+                    const ptsText = isEn ? 'Points' : 'Puan';
+                    const achievementText = isEn ? 'Your Achievement' : 'Senin Başarın';
+
                     myBox.style.display = 'block';
                     myBox.innerHTML = `
                         <div class="my-rank-card">
                             <div style="display:flex; align-items:center; gap:14px;">
                                 <div class="rank-badge" style="background:var(--primary, #0284c7); color:#fff; border:none;">#${myIndex + 1}</div>
                                 <div>
-                                    <span style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--primary, #0284c7);">Senin Başarın</span>
+                                    <span style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--primary, #0284c7);">${achievementText}</span>
                                     <h4 style="font-size:1.05rem; font-weight:800; color:var(--text-main);">${me.fullName}</h4>
                                 </div>
                             </div>
-                            <div class="score-pill-badge" style="font-size:1rem;">${me.points} Puan</div>
+                            <div class="score-pill-badge" style="font-size:1rem;">${me.points} ${ptsText}</div>
                         </div>
                     `;
                 }
             }
         }
 
-        // Firebase Canlı Dinleme
         db.ref("members").on("value", (snap) => {
             const cloudUsers = [];
             if (snap.exists()) {
@@ -387,7 +408,6 @@
             renderLeaderboardDOM(globalUsers);
         });
 
-        // Yönetici Puan Değiştirme Modalı
         function openAdminModal() {
             drawer.classList.remove('active');
             overlay.classList.remove('active');
@@ -439,7 +459,6 @@
             }
         };
 
-        // Menü Aç/Kapat
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
         const drawer = document.getElementById('mobileDrawer');
@@ -448,7 +467,6 @@
         closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
         overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
 
-        // Tema
         const rootElement = document.documentElement;
         const themeBtn = document.getElementById('themeToggleNav');
         function applyTheme(isDark) {
@@ -467,5 +485,6 @@
             localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
         });
     </script>
+    <script src="./lang.js"></script>
 </body>
 </html>
