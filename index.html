@@ -174,7 +174,7 @@
 
                 <!-- DİL BUTONU -->
                 <button class="lang-switch-btn" id="langSwitchBtn" onclick="toggleSiteLang()" title="Language / Dil">
-                    <i class="fa-solid fa-globe"></i> <span class="lang-btn-text">EN</span>
+                    <i class="fa-solid fa-globe"></i> <span id="langBtnText">EN</span>
                 </button>
 
                 <button class="theme-toggle" id="themeToggleNav" aria-label="Karanlık Mod Değiştirici">
@@ -216,11 +216,11 @@
                 <button class="profile-action-btn logout" onclick="userLogout()"><i class="fa-solid fa-power-off"></i> <span data-tr="Çıkış" data-en="Logout">Çıkış</span></button>
             </div>
         </div>
-<div class="drawer-links" id="drawerNavLinks">
+
+        <div class="drawer-links" id="drawerNavLinks">
             <a href="./index.html" class="drawer-link active-link highlight" data-tr="Ana Sayfa" data-en="Home"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
             <a href="./siralama.html" class="drawer-link" data-tr="Puan Sıralaması" data-en="Leaderboard"><i class="fa-solid fa-ranking-star"></i> Puan Sıralaması</a>
             
-            <!-- SADECE YÖNETİCİYE GÖRÜNEN BUTON -->
             <a href="javascript:void(0)" id="adminScoreMenuItem" class="drawer-link" style="display:none; color:#facc15; font-weight:800;" onclick="openAdminModal()" data-tr="Puan Yönetimi (Yönetici)" data-en="Points Management (Admin)">
                 <i class="fa-solid fa-bolt"></i> Puan Yönetimi (Yönetici)
             </a>
@@ -243,6 +243,7 @@
                 <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
             </a>
         </div>
+    </div>
 
     <!-- HERO KARŞILAMA -->
     <section class="hero">
@@ -482,8 +483,57 @@
         </button>
     </div>
 
-    <!-- JAVASCRIPT: FIREBASE, PROFİL VE PUAN YÖNETİMİ -->
+    <!-- JAVASCRIPT MOTORU: FIREBASE, DİL, MENÜ VE TEMA -->
     <script>
+        // DİL YÖNETİMİ
+        function applySiteLang(lang) {
+            const elements = document.querySelectorAll('[data-tr][data-en]');
+            elements.forEach(el => {
+                const text = el.getAttribute('data-' + lang);
+                if (!text) return;
+                const icon = el.querySelector('i');
+                if (icon) {
+                    el.childNodes.forEach(node => {
+                        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+                            node.textContent = ' ' + text;
+                        }
+                    });
+                } else {
+                    el.innerHTML = text;
+                }
+            });
+
+            const titleEl = document.querySelector('title');
+            if (titleEl && titleEl.getAttribute('data-' + lang)) {
+                document.title = titleEl.getAttribute('data-' + lang);
+            }
+
+            const btnText = document.getElementById('langBtnText');
+            if (btnText) {
+                btnText.innerText = (lang === 'tr') ? 'EN' : 'TR';
+            }
+
+            const inpChat = document.getElementById('chatInput');
+            if (inpChat) {
+                inpChat.placeholder = (lang === 'en') ? "Ask Fehim a question..." : "Fehim'e bir soru sor...";
+            }
+
+            document.documentElement.lang = lang;
+            localStorage.setItem('site_lang', lang);
+        }
+
+        window.toggleSiteLang = function() {
+            const current = localStorage.getItem('site_lang') || 'tr';
+            const next = (current === 'tr') ? 'en' : 'tr';
+            applySiteLang(next);
+        };
+
+        const savedLang = localStorage.getItem('site_lang') || 'tr';
+        if (savedLang === 'en') {
+            applySiteLang('en');
+        }
+
+        // FIREBASE BAĞLANTISI
         const firebaseConfig = {
             apiKey: "AIzaSyDBuhOWynw0fbuEP1EKSXHCWetRtqlR474",
             authDomain: "deu-ozel-egitim.firebaseapp.com",
@@ -626,20 +676,27 @@
             }
         };
 
+        // MENÜ AÇ/KAPAT
         const toggleBtn = document.getElementById('menuToggle');
         const closeBtn = document.getElementById('drawerClose');
         const drawer = document.getElementById('mobileDrawer');
         const overlay = document.getElementById('mobileOverlay');
+
+        function openDrawer() {
+            drawer.classList.add('active');
+            overlay.classList.add('active');
+        }
 
         function closeDrawer() {
             drawer.classList.remove('active');
             overlay.classList.remove('active');
         }
 
-        toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
-        closeBtn.addEventListener('click', closeDrawer);
-        overlay.addEventListener('click', closeDrawer);
+        if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
+        if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+        if (overlay) overlay.addEventListener('click', closeDrawer);
 
+        // TEMA
         const rootElement = document.documentElement;
         const themeBtn = document.getElementById('themeToggleNav');
         function applyTheme(isDark) {
@@ -660,6 +717,7 @@
             });
         }
 
+        // GERİ SAYIM
         const targetDate = new Date("Nov 20, 2026 14:00:00").getTime();
         setInterval(function() {
             const now = new Date().getTime();
@@ -669,13 +727,18 @@
                 const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((diff % (1000 * 60)) / 1000);
-                document.getElementById("days").innerText = d < 10 ? "0" + d : d;
-                document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
-                document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
-                document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
+                const dEl = document.getElementById("days");
+                const hEl = document.getElementById("hours");
+                const mEl = document.getElementById("minutes");
+                const sEl = document.getElementById("seconds");
+                if (dEl) dEl.innerText = d < 10 ? "0" + d : d;
+                if (hEl) hEl.innerText = h < 10 ? "0" + h : h;
+                if (mEl) mEl.innerText = m < 10 ? "0" + m : m;
+                if (sEl) sEl.innerText = s < 10 ? "0" + s : s;
             }
         }, 1000);
 
+        // FEHİM BOTU
         const chatBubbleBtn = document.getElementById('chatBubbleBtn');
         const chatWindow = document.getElementById('chatWindow');
         const chatCloseBtn = document.getElementById('chatCloseBtn');
@@ -683,12 +746,14 @@
         const chatInput = document.getElementById('chatInput');
         const chatSendBtn = document.getElementById('chatSendBtn');
 
-        chatBubbleBtn.addEventListener('click', () => {
-            chatWindow.classList.toggle('open');
-            const badge = chatBubbleBtn.querySelector('.chat-badge');
-            if (badge) badge.style.display = 'none';
-        });
-        chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('open'); });
+        if (chatBubbleBtn) {
+            chatBubbleBtn.addEventListener('click', () => {
+                chatWindow.classList.toggle('open');
+                const badge = chatBubbleBtn.querySelector('.chat-badge');
+                if (badge) badge.style.display = 'none';
+            });
+        }
+        if (chatCloseBtn) chatCloseBtn.addEventListener('click', () => { chatWindow.classList.remove('open'); });
 
         function appendMessage(sender, text) {
             const div = document.createElement('div');
@@ -724,9 +789,8 @@
             setTimeout(() => { appendMessage('bot', getBotResponse(val)); }, 450);
         }
 
-        chatSendBtn.addEventListener('click', handleSend);
-        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
+        if (chatSendBtn) chatSendBtn.addEventListener('click', handleSend);
+        if (chatInput) chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
     </script>
-
 </body>
 </html>
