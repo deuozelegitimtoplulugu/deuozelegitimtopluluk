@@ -188,4 +188,68 @@
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container footer-bottom">
-            <p data-tr="© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır." data-en="© 2
+            <p data-tr="© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır." data-en="© 2026 DEU Special Education Student Community. All rights reserved.">© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script>
+        const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
+        if (session) {
+            document.getElementById('navAuthBtn').style.display = 'none';
+            document.getElementById('logoutLink').style.display = 'block';
+            document.getElementById('userAvatarBtn').style.display = 'inline-flex';
+            document.getElementById('drawerProfileBox').style.display = 'flex';
+            document.getElementById('drawerUserName').innerText = session.fullName || session.username;
+            document.getElementById('drawerUserDept').innerText = session.dept || 'Özel Eğitim';
+        }
+
+        function userLogout() {
+            localStorage.removeItem('active_session');
+            sessionStorage.removeItem('active_session');
+            location.reload();
+        }
+
+        // MENÜ AÇMA / KAPAMA İŞLEMLERİ (3 ÇİZGİ DÜZELTİLDİ)
+        const toggleBtn = document.getElementById('menuToggle');
+        const closeBtn = document.getElementById('drawerClose');
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+
+        function openMenu() {
+            drawer.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        function closeMenu() {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // Tema
+        const rootElement = document.documentElement;
+        const themeBtn = document.getElementById('themeToggleNav');
+        function applyTheme(isDark) {
+            if (isDark) {
+                rootElement.classList.add('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                rootElement.classList.remove('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+        applyTheme(localStorage.getItem('site_theme') === 'dark');
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                const isDark = !rootElement.classList.contains('dark-theme');
+                applyTheme(isDark);
+                localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+            });
+        }
+    </script>
+    <script src="./lang.js"></script>
+</body>
+</html>
