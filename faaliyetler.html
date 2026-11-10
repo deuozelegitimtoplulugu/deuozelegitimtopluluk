@@ -142,3 +142,73 @@
             <div class="feature-card">
                 <div class="feature-icon"><i class="fa-solid fa-school"></i></div>
                 <h3 data-tr="RAM & Kurum İş Birlikleri" data-en="Counseling Centers & NGO Partnerships">RAM & Kurum İş Birlikleri</h3>
+                <p data-tr="İzmir genelindeki Rehberlik ve Araştırma Merkezleri (RAM), özel eğitim uygulama okulları ve rehabilitasyon merkezleriyle ortak saha projeleri." data-en="Joint field initiatives with Guidance and Research Centers (RAM), special education schools, and rehabilitation centers in Izmir.">İzmir genelindeki Rehberlik ve Araştırma Merkezleri (RAM), özel eğitim uygulama okulları ve rehabilitasyon merkezleriyle ortak saha projeleri.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-universal-access"></i></div>
+                <h3 data-tr="Erişilebilirlik Savunuculuğu" data-en="Accessibility Advocacy">Erişilebilirlik Savunuculuğu</h3>
+                <p data-tr="Üniversite kampüsü genelinde fiziksel ve dijital erişilebilirlik standartlarının iyileştirilmesi için farkındalık kampanyaları ve raporlamalar." data-en="Campaigns and assessments aimed at improving physical and digital accessibility standards across our university campus.">Üniversite kampüsü genelinde fiziksel ve dijital erişilebilirlik standartlarının iyileştirilmesi için farkındalık kampanyaları ve raporlamalar.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-people-roof"></i></div>
+                <h3 data-tr="Aile & Toplum Dayanışması" data-en="Family & Community Solidarity">Aile & Toplum Dayanışması</h3>
+                <p data-tr="Özel gereksinimli bireylerin aileleriyle rehberlik buluşmaları, sosyal entegrasyon etkinlikleri ve çocuklara yönelik eğlenceli atölyeler." data-en="Guidance sessions with families of individuals with special needs, social integration programs, and engaging workshops for children.">Özel gereksinimli bireylerin aileleriyle rehberlik buluşmaları, sosyal entegrasyon etkinlikleri ve çocuklara yönelik eğlenceli atölyeler.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-bottom">
+            <p data-tr="© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır." data-en="© 2026 DEU Special Education Student Community. All rights reserved.">© 2026 DEÜ Özel Eğitim Öğrenci Topluluğu. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script>
+        const session = JSON.parse(localStorage.getItem('active_session') || sessionStorage.getItem('active_session') || 'null');
+        if (session) {
+            document.getElementById('navAuthBtn').style.display = 'none';
+            document.getElementById('logoutLink').style.display = 'block';
+            document.getElementById('userAvatarBtn').style.display = 'inline-flex';
+            document.getElementById('drawerProfileBox').style.display = 'flex';
+            document.getElementById('drawerUserName').innerText = session.fullName || session.username;
+            document.getElementById('drawerUserDept').innerText = session.dept || 'Özel Eğitim';
+        }
+
+        function userLogout() {
+            localStorage.removeItem('active_session');
+            sessionStorage.removeItem('active_session');
+            location.reload();
+        }
+
+        const toggleBtn = document.getElementById('menuToggle');
+        const closeBtn = document.getElementById('drawerClose');
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+        toggleBtn.addEventListener('click', () => { drawer.classList.add('active'); overlay.classList.add('active'); });
+        closeBtn.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+        overlay.addEventListener('click', () => { drawer.classList.remove('active'); overlay.classList.remove('active'); });
+
+        const rootElement = document.documentElement;
+        const themeBtn = document.getElementById('themeToggleNav');
+        function applyTheme(isDark) {
+            if (isDark) {
+                rootElement.classList.add('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                rootElement.classList.remove('dark-theme');
+                if (themeBtn) themeBtn.querySelector('i')?.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+        applyTheme(localStorage.getItem('site_theme') === 'dark');
+        themeBtn.addEventListener('click', () => {
+            const isDark = !rootElement.classList.contains('dark-theme');
+            applyTheme(isDark);
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+        });
+    </script>
+    <script src="./lang.js"></script>
+</body>
+</html>
